@@ -11,17 +11,17 @@
   },
   "private": true,
   "scripts": {
-    "postinstall": "npm-run-all -p install:react-app install:express-app",
+    "postinstall": "npm-run-all -p install:react-app install:express-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier:watch": "onchange \"**/*.ts*\" \"**/*.md*\" \"**/*.css*\" -- prettier --write {{changed}}",
     "prettier": "prettier --config ./.prettierrc --write  \"{core,parse-server,react-app}/**/*.{ts*,md,css}\"",
     "install:react-app": "cd ./react-app && yarn install",
     "clean:react-app": "remove-node-modules ./react-app/node_modules/",
     "start:react-app": "cd ./react-app && yarn start",
-    "install:express-app": "cd ./express-app && yarn install",
-    "clean:express-app": "remove-node-modules ./express-app/node_modules/",
-    "start:express-app": "cd ./express-app && yarn start",
-    "start": "npm-run-all -p start:react-app start:express-app prettier:watch"
+    "install:express-server": "cd ./express-server && yarn install",
+    "clean:express-server": "remove-node-modules ./express-server/node_modules/",
+    "start:express-server": "cd ./express-server && yarn start",
+    "start": "npm-run-all -p start:react-app start:express-server prettier:watch"
   },
   "author": "",
   "license": "ISC"
