@@ -8,7 +8,11 @@ import { Card } from '@core/index';
 class App extends React.Component {
   render() {
     const card: Card = {
-      title: 'sample card title'
+      title: 'sample card title',
+      frontPage: {
+        texts: [],
+        images: []
+      }
     };
     return (
       <div className="App">
