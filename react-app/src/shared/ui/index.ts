@@ -1,0 +1,1 @@
+export { WwcAppBar } from './WwcAppBar';

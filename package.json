@@ -1,0 +1,28 @@
+{
+  "name": "@wwc/dev",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "npm-run-all": "^4.1.2",
+    "onchange": "^3.3.0",
+    "prettier": "^1.11.1",
+    "remove-node-modules": "^1.7.2"
+  },
+  "private": true,
+  "scripts": {
+    "postinstall": "npm-run-all -p install:react-app install:express-app",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier:watch": "onchange \"**/*.ts*\" \"**/*.md*\" \"**/*.css*\" -- prettier --write {{changed}}",
+    "prettier": "prettier --config ./.prettierrc --write  \"{core,parse-server,react-app}/**/*.{ts*,md,css}\"",
+    "install:react-app": "cd ./react-app && yarn install",
+    "clean:react-app": "remove-node-modules ./react-app/node_modules/",
+    "start:react-app": "cd ./react-app && yarn start",
+    "install:express-app": "cd ./express-app && yarn install",
+    "clean:express-app": "remove-node-modules ./express-app/node_modules/",
+    "start:express-app": "cd ./express-app && yarn start",
+    "start": "npm-run-all -p start:react-app start:express-app prettier:watch"
+  },
+  "author": "",
+  "license": "ISC"
+}
