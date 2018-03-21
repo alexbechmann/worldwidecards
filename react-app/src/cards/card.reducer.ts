@@ -5,7 +5,26 @@ const defaultState: CardState = {
   activeCard: {
     title: 'sample card title 1',
     frontPage: {
-      texts: [],
+      texts: [
+        {
+          text: 'Test',
+          position: {
+            x: 15,
+            y: 15
+          },
+          font: '',
+          fontSize: 32
+        },
+        {
+          text: 'Test',
+          position: {
+            x: 200,
+            y: 15
+          },
+          font: '',
+          fontSize: 32
+        }
+      ],
       images: []
     }
   }

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './App.css';
-import { Grid } from 'material-ui';
 import { AppMenuBar } from 'src/menu';
 import { CardEditorContainer } from 'src/cards';
 import { Provider } from 'react-redux';
@@ -11,13 +10,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <AppMenuBar isLoggedIn={false} logout={() => null} />
-        <Grid container={true}>
-          <Grid item={true}>
-            <Provider store={store}>
-              <CardEditorContainer />
-            </Provider>
-          </Grid>
-        </Grid>
+        <Provider store={store}>
+          <CardEditorContainer />
+        </Provider>
       </div>
     );
   }

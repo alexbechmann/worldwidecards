@@ -4,4 +4,5 @@ export interface Text {
   position: Position;
   font: string;
   fontSize: number;
+  text: string;
 }

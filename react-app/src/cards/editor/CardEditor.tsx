@@ -1,67 +1,75 @@
 import * as React from 'react';
-import { Paper, Grid } from 'material-ui';
-import { Stage, Layer, Text, Rect } from 'react-konva';
-import * as Konva from 'konva';
+import { Paper, Grid, Stepper, Step, StepButton, WithStyles } from 'material-ui';
+import { Stage, Layer, Text } from 'react-konva';
 import { CardEditorProps } from './card-editor.props';
+import { ColoredRect } from './ColoredRect';
+import { CardEditorClassNames } from './card-editor.styles';
 
-class ColoredRect extends React.Component {
-  state = {
-    color: 'green',
-    x: 0,
-    y: 0
-  };
-  handleClick = () => {
-    this.setState({
-      color: Konva.Util.getRandomColor()
-    });
-  };
-  handleDragEnd = (e: any) => {
-    console.log(e);
-    const mouseEvent: MouseEvent = e.evt;
-    this.setState({
-      x: mouseEvent.layerX,
-      y: mouseEvent.layerY
-    });
-  };
+interface Props extends CardEditorProps, WithStyles<CardEditorClassNames> {}
+
+export class CardEditor extends React.Component<Props> {
   render() {
     return (
-      <Rect
-        x={this.state.x}
-        y={this.state.y}
-        width={50}
-        height={50}
-        fill={this.state.color}
-        shadowBlur={5}
-        onClick={this.handleClick}
-        draggable={true}
-        onDragEnd={this.handleDragEnd}
-      />
-    );
-  }
-}
-
-export class CardEditor extends React.Component<CardEditorProps> {
-  render() {
-    return (
-      <Grid container={true}>
-        <Grid item={true}>
-          <Paper>
+      <div className={this.props.classes.root}>
+        <Grid container={true}>
+          <Grid item={true} xs={12}>
             {this.props.card.title}
+            {this.renderStepper()}
             {this.renderCanvas()}
-          </Paper>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     );
   }
 
   renderCanvas() {
     return (
-      <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          <Text text="Try click on rect" />
-          <ColoredRect />
-        </Layer>
-      </Stage>
+      <Paper
+        style={{
+          width: 300,
+          height: 500
+        }}
+      >
+        <Stage width={300} height={500}>
+          <Layer>
+            {this.renderTexts()}
+            <ColoredRect />
+          </Layer>
+        </Stage>
+      </Paper>
+    );
+  }
+
+  renderTexts() {
+    return this.props.card.frontPage.texts.map((text, index) => {
+      return (
+        <Text
+          x={text.position.x}
+          y={text.position.y}
+          key={index}
+          width={250}
+          fontSize={text.fontSize}
+          draggable={true}
+          text={text.text}
+        />
+      );
+    });
+  }
+
+  renderStepper() {
+    const steps = ['Front page', 'Inner right', 'Inner left', 'Back'];
+    return (
+      <Stepper nonLinear={true} activeStep={0}>
+        {steps.map((label, index) => {
+          return (
+            <Step key={label}>
+              <StepButton onClick={() => null} completed={false}>
+                {label}
+              </StepButton>
+            </Step>
+          );
+        })}
+      </Stepper>
     );
   }
 }
