@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import { Grid } from 'material-ui';
-import { WwcAppBar } from 'src/shared/ui';
+import { AppMenuBar } from 'src/menu';
 import { CardEditor } from 'src/cards';
 import { Card } from '@core/index';
 
@@ -16,7 +16,7 @@ class App extends React.Component {
     };
     return (
       <div className="App">
-        <WwcAppBar />
+        <AppMenuBar isLoggedIn={false} logout={() => null} />
         <Grid container={true}>
           <Grid item={true}>
             <CardEditor card={card} />
