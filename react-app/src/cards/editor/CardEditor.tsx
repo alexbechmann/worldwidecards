@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Card } from '@core/index';
 import { Paper, Grid } from 'material-ui';
 import { Stage, Layer, Text, Rect } from 'react-konva';
 import * as Konva from 'konva';
+import { CardEditorProps } from './card-editor.props';
 
 class ColoredRect extends React.Component {
   state = {
@@ -38,10 +38,6 @@ class ColoredRect extends React.Component {
       />
     );
   }
-}
-
-export interface CardEditorProps {
-  card: Card;
 }
 
 export class CardEditor extends React.Component<CardEditorProps> {
