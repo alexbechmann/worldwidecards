@@ -1,13 +1,28 @@
 import * as React from 'react';
-import { Paper, Grid, Stepper, Step, StepButton, WithStyles } from 'material-ui';
+import { Paper, Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
 import { Stage, Layer, Text } from 'react-konva';
-import { CardEditorProps } from './card-editor.props';
+import { Card } from '@core/index';
 import { ColoredRect } from './ColoredRect';
-import { CardEditorClassNames } from './card-editor.styles';
 
-interface Props extends CardEditorProps, WithStyles<CardEditorClassNames> {}
+type StyleClassNames = 'root';
 
-export class CardEditor extends React.Component<Props> {
+const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
+  root: {
+    margin: theme.spacing.unit * 2
+  }
+});
+
+export interface CardEditorProps {
+  card: Card;
+}
+
+export interface CardEditorDispatchProps {}
+
+interface Props extends CardEditorProps, CardEditorDispatchProps {}
+
+interface StyledProps extends Props, WithStyles<StyleClassNames> {}
+
+class CardEditorComponent extends React.Component<StyledProps> {
   render() {
     return (
       <div className={this.props.classes.root}>
@@ -73,3 +88,5 @@ export class CardEditor extends React.Component<Props> {
     );
   }
 }
+
+export const CardEditor: React.ComponentType<Props> = withStyles(styles, { withTheme: true })(CardEditorComponent);
