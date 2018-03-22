@@ -28,7 +28,7 @@ export class ColoredRect extends React.Component {
         width={50}
         height={50}
         fill={this.state.color}
-        shadowBlur={5}
+        shadowBlur={0}
         onClick={this.handleClick}
         draggable={true}
         onDragEnd={this.handleDragEnd}

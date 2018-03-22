@@ -16,10 +16,10 @@ const defaultState: CardState = {
           fontSize: 32
         },
         {
-          text: 'Test',
+          text: 'A longer bit of text goes here that fits on more than one line',
           position: {
-            x: 200,
-            y: 15
+            x: 15,
+            y: 80
           },
           font: '',
           fontSize: 32

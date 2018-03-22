@@ -3,6 +3,7 @@ import { Paper, Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, with
 import { Stage, Layer, Text } from 'react-konva';
 import { Card } from '@core/index';
 import { ColoredRect } from './ColoredRect';
+import { YodaImage } from 'src/shared/ui/konva/ImageRect';
 
 type StyleClassNames = 'root';
 
@@ -49,6 +50,7 @@ class CardEditorComponent extends React.Component<StyledProps> {
           <Layer>
             {this.renderTexts()}
             <ColoredRect />
+            <YodaImage x={15} y={230} width={270} height={250} />
           </Layer>
         </Stage>
       </Paper>
@@ -66,6 +68,7 @@ class CardEditorComponent extends React.Component<StyledProps> {
           fontSize={text.fontSize}
           draggable={true}
           text={text.text}
+          align={'center'}
         />
       );
     });
