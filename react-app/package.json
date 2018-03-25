@@ -17,9 +17,9 @@
     "redux-promise": "^0.5.3"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
+    "start": "react-app-rewired start --scripts-version react-scripts-ts",
+    "build": "react-app-rewired build --scripts-version react-scripts-ts",
+    "test": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
@@ -30,6 +30,16 @@
     "@types/react-redux": "^5.0.15",
     "@types/react-router": "^4.0.23",
     "@types/react-router-dom": "^4.2.5",
+    "react-app-rewired": "^1.5.0",
     "typescript": "^2.7.2"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "src/(.*)": "<rootDir>/src/$1"
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
   }
 }
