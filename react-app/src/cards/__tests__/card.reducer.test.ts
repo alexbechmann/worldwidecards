@@ -22,6 +22,15 @@ it('Add text', () => {
             y: 400
           })
         ]
+      },
+      innerLeftPage: {
+        shapes: []
+      },
+      innerRightPage: {
+        shapes: []
+      },
+      backPage: {
+        shapes: []
       }
     }
   };
@@ -50,6 +59,15 @@ it('Update shape position', () => {
             y: 400
           })
         ]
+      },
+      innerLeftPage: {
+        shapes: []
+      },
+      innerRightPage: {
+        shapes: []
+      },
+      backPage: {
+        shapes: []
       }
     }
   };

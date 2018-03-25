@@ -31,7 +31,14 @@ class CardEditorComponent extends React.Component<StyledProps> {
           <Grid item={true} xs={12}>
             {this.props.card.title}
             {this.renderStepper()}
+          </Grid>
+        </Grid>
+        <Grid container={true}>
+          <Grid item={true} sm={4}>
             <CardPageContainer pageName={nameof<Card>('frontPage')} page={this.props.card.frontPage} />
+          </Grid>
+          <Grid item={true} sm={4}>
+            <CardPageContainer pageName={nameof<Card>('innerLeftPage')} page={this.props.card.innerLeftPage} />
           </Grid>
         </Grid>
       </div>

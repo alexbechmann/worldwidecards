@@ -19,12 +19,7 @@ interface Props extends CardPageProps, CardPageDispatchProps {}
 export class CardPage extends React.Component<Props> {
   render() {
     return (
-      <Paper
-        style={{
-          width: 300,
-          height: 500
-        }}
-      >
+      <Paper style={{ width: 300, height: 500 }}>
         <Stage width={300} height={500}>
           <Layer>{this.renderShapes()}</Layer>
         </Stage>

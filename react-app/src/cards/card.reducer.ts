@@ -21,6 +21,15 @@ const defaultState: CardState = {
           y: 400
         })
       ]
+    },
+    innerLeftPage: {
+      shapes: []
+    },
+    innerRightPage: {
+      shapes: []
+    },
+    backPage: {
+      shapes: []
     }
   }
 };
