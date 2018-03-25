@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { Paper, Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
-import { Stage, Layer, Text } from 'react-konva';
-import { Card, TextShape, ImageShape, Shape } from '@wwc/core';
-import { ColoredRect } from './ColoredRect';
-import { ImageRect } from './ImageRect';
+import { Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
+import { Card, nameof } from '@wwc/core';
+import { CardPageContainer } from '../pages/CardPageContainer';
 
 type StyleClassNames = 'root';
 
@@ -31,48 +29,11 @@ class CardEditorComponent extends React.Component<StyledProps> {
           <Grid item={true} xs={12}>
             {this.props.card.title}
             {this.renderStepper()}
-            {this.renderCanvas()}
+            <CardPageContainer pageName={nameof<Card>('frontPage')} page={this.props.card.frontPage} />
           </Grid>
         </Grid>
       </div>
     );
-  }
-
-  renderCanvas() {
-    return (
-      <Paper
-        style={{
-          width: 300,
-          height: 500
-        }}
-      >
-        <Stage width={300} height={500}>
-          <Layer>
-            {this.renderShapes()}
-            <ColoredRect />    
-          </Layer>
-        </Stage>
-      </Paper>
-    );
-  }
-
-  renderShapes() {
-    this.props.card.frontPage.shapes.map((shape: Shape, index: number) => {
-      if(shape instanceof ImageShape) {
-        return <ImageRect href={shape.href} x={shape.position.x} y={shape.position.y} width={270} height={250} />
-      }
-      else if(shape instanceof TextShape) {
-        return <Text x={shape.position.x}
-        y={shape.position.y}
-        key={index}
-        width={250}
-        fontSize={shape.fontSize}
-        draggable={true}
-        text={shape.text}
-        align={'center'} />
-      }
-      return null;
-    });
   }
 
   renderStepper() {

@@ -1,6 +1,7 @@
 import { CardState } from './card.state';
 import { AnyAction } from 'redux';
-import { TextShape, ImageShape } from '@wwc/core';
+import { TextShape, ImageShape, Position, Page } from '@wwc/core';
+import { UPDATE_FRONT_PAGE_SHAPE_POSITION } from './card.actions';
 
 const defaultState: CardState = {
   activeCard: {
@@ -22,6 +23,13 @@ const defaultState: CardState = {
 
 export function cardReducer(state: CardState = defaultState, action: AnyAction) {
   switch (action.type) {
+    case UPDATE_FRONT_PAGE_SHAPE_POSITION: {
+      const payload: { pageName: string; shapeIndex: number; position: Position } = action.payload;
+      const newState = Object.assign({}, state) as CardState;
+      const page: Page = newState.activeCard[payload.pageName];
+      page.shapes[payload.shapeIndex].position = payload.position;
+      return newState;
+    }
     default: {
       return state;
     }

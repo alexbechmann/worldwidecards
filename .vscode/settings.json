@@ -13,6 +13,7 @@
     "**/*.d.ts": {
         "when": "$(basename).ts"
     },
+    "**/dist/**": true
   },
   "editor.tabSize": 2
 }

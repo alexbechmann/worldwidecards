@@ -6,7 +6,7 @@ interface State {
   image?: HTMLImageElement;
 }
 
-interface Props extends Partial<ImageConfig> {
+interface Props extends Partial<ImageConfig>, ReactKonva.KonvaNodeProps {
   href: string;
 }
 

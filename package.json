@@ -21,7 +21,12 @@
     "install:express-server": "cd ./express-server && npm install",
     "clean:express-server": "remove-node-modules ./express-server/node_modules/",
     "start:express-server": "cd ./express-server && npm start",
-    "start": "npm-run-all -p start:react-app start:express-server prettier:watch"
+    "install:core": "cd ./core && npm install",
+    "clean:core": "remove-node-modules ./core/node_modules/",
+    "start:core": "cd ./core && npm start",
+    "build:core": "cd ./core && npm run build",
+    "start": "npm run build:core && npm-run-all -p start:core start:react-app start:express-server prettier:watch",
+    "clean": "npm-run-all -p clean:core clean:react-app clean:express-server"
   },
   "author": "",
   "license": "ISC"
