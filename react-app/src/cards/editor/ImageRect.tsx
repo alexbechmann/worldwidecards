@@ -6,15 +6,17 @@ interface State {
   image?: HTMLImageElement;
 }
 
-interface Props extends Partial<ImageConfig> {}
+interface Props extends Partial<ImageConfig> {
+  href: string;
+}
 
-export class YodaImage extends React.Component<Props, State> {
+export class ImageRect extends React.Component<Props, State> {
   state: State = {
     image: undefined
   };
   componentDidMount() {
     const image = new Image();
-    image.src = 'http://konvajs.github.io/assets/yoda.jpg';
+    image.src = this.props.href;
     image.onload = () => {
       this.setState({
         image: image

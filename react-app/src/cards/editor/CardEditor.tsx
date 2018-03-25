@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Paper, Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
 import { Stage, Layer, Text } from 'react-konva';
-import { Card } from '@core/index';
+import { Card, TextShape } from '@core/index';
 import { ColoredRect } from './ColoredRect';
-import { YodaImage } from 'src/shared/ui/konva/ImageRect';
+import { ImageRect } from './ImageRect';
 
 type StyleClassNames = 'root';
 
@@ -48,17 +48,30 @@ class CardEditorComponent extends React.Component<StyledProps> {
       >
         <Stage width={300} height={500}>
           <Layer>
+            {this.renderShapes()}
             {this.renderTexts()}
             <ColoredRect />
-            <YodaImage x={15} y={230} width={270} height={250} />
+            <ImageRect x={15} y={230} width={270} height={250} />
           </Layer>
         </Stage>
       </Paper>
     );
   }
 
+  renderShapes() {
+    this.props.card.frontPage.shapes.map(shape => {
+      switch (shape.type) {
+        case TextShape:
+          break;
+
+        default:
+          break;
+      }
+    });
+  }
+
   renderTexts() {
-    return this.props.card.frontPage.texts.map((text, index) => {
+    return this.props.card.frontPage.shapes.map((shape, index) => {
       return (
         <Text
           x={text.position.x}
