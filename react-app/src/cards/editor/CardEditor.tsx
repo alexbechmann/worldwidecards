@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Paper, Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
 import { Stage, Layer, Text } from 'react-konva';
-import { Card, TextShape } from '@core/index';
+import { Card, TextShape, ImageShape, Shape } from '@wwc/core';
 import { ColoredRect } from './ColoredRect';
 import { ImageRect } from './ImageRect';
 
@@ -49,9 +49,7 @@ class CardEditorComponent extends React.Component<StyledProps> {
         <Stage width={300} height={500}>
           <Layer>
             {this.renderShapes()}
-            {this.renderTexts()}
-            <ColoredRect />
-            <ImageRect x={15} y={230} width={270} height={250} />
+            <ColoredRect />    
           </Layer>
         </Stage>
       </Paper>
@@ -59,31 +57,21 @@ class CardEditorComponent extends React.Component<StyledProps> {
   }
 
   renderShapes() {
-    this.props.card.frontPage.shapes.map(shape => {
-      switch (shape.type) {
-        case TextShape:
-          break;
-
-        default:
-          break;
+    this.props.card.frontPage.shapes.map((shape: Shape, index: number) => {
+      if(shape instanceof ImageShape) {
+        return <ImageRect href={shape.href} x={shape.position.x} y={shape.position.y} width={270} height={250} />
       }
-    });
-  }
-
-  renderTexts() {
-    return this.props.card.frontPage.shapes.map((shape, index) => {
-      return (
-        <Text
-          x={text.position.x}
-          y={text.position.y}
-          key={index}
-          width={250}
-          fontSize={text.fontSize}
-          draggable={true}
-          text={text.text}
-          align={'center'}
-        />
-      );
+      else if(shape instanceof TextShape) {
+        return <Text x={shape.position.x}
+        y={shape.position.y}
+        key={index}
+        width={250}
+        fontSize={shape.fontSize}
+        draggable={true}
+        text={shape.text}
+        align={'center'} />
+      }
+      return null;
     });
   }
 

@@ -12,5 +12,10 @@ export class TextShape implements Shape {
     font: string,
     fontSize: number,
     position: Position
-  ) {}
+  ) {
+    this.text = text;
+    this.font = font;
+    this.fontSize = fontSize;
+    this.position = position;
+  }
 }

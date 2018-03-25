@@ -1,6 +1,6 @@
 import { CardState } from './card.state';
 import { AnyAction } from 'redux';
-import { TextShape, ImageShape } from '@core/index';
+import { TextShape, ImageShape } from '@wwc/core';
 
 const defaultState: CardState = {
   activeCard: {
