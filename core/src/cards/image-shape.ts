@@ -1,5 +1,5 @@
-import { Position } from "./position";
-import { Shape } from "./shape";
+import { Position } from './position';
+import { Shape } from './shape';
 
 export class ImageShape implements Shape {
   position: Position;

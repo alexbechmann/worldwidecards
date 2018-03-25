@@ -1,4 +1,4 @@
-import { FrontPage } from "./front-page";
+import { FrontPage } from './front-page';
 
 export interface Card {
   title: string;

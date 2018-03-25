@@ -1,5 +1,5 @@
-import { Position } from "./position";
-import { Shape } from "./shape";
+import { Position } from './position';
+import { Shape } from './shape';
 
 export class TextShape implements Shape {
   position: Position;
@@ -7,12 +7,7 @@ export class TextShape implements Shape {
   fontSize: number;
   text: string;
 
-  constructor(
-    text: string,
-    font: string,
-    fontSize: number,
-    position: Position
-  ) {
+  constructor(text: string, font: string, fontSize: number, position: Position) {
     this.text = text;
     this.font = font;
     this.fontSize = fontSize;
