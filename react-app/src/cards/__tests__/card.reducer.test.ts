@@ -3,7 +3,7 @@ import { addTextShape, updateShapePosition } from '../card.actions';
 import { nameof, Card, TextShape, ImageShape } from '@wwc/core';
 import { CardState } from '../';
 
-it('Updating shape', () => {
+it('Add text', () => {
   const defaultState: CardState = {
     activeCard: {
       title: 'sample card title 1',
@@ -31,7 +31,7 @@ it('Updating shape', () => {
   expect((state.activeCard.frontPage.shapes[3] as TextShape).text).toEqual('test1');
 });
 
-it('Updating shape', () => {
+it('Update shape position', () => {
   const defaultState: CardState = {
     activeCard: {
       title: 'sample card title 1',
