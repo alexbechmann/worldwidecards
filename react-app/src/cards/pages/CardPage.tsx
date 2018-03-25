@@ -6,7 +6,7 @@ import { ImageRect } from '../shapes/ImageRect';
 import { Position } from '@wwc/core';
 
 export interface CardPageDispatchProps {
-  updateFrontPageShapePosition: (pageName: string, shapeIndex: number, position: Position) => any;
+  updateShapePosition: (pageName: string, shapeIndex: number, position: Position) => any;
 }
 
 export interface CardPageProps {
@@ -67,7 +67,7 @@ export class CardPage extends React.Component<Props> {
 
   handleDragEnd = (e: any, index: number) => {
     const rect: any = e.target;
-    this.props.updateFrontPageShapePosition(this.props.pageName, index, {
+    this.props.updateShapePosition(this.props.pageName, index, {
       x: rect.attrs.x,
       y: rect.attrs.y
     });

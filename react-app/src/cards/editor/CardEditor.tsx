@@ -15,7 +15,9 @@ export interface CardEditorProps {
   card: Card;
 }
 
-export interface CardEditorDispatchProps {}
+export interface CardEditorDispatchProps {
+  addTextShape: (pageName: string, text: string) => any;
+}
 
 interface Props extends CardEditorProps, CardEditorDispatchProps {}
 

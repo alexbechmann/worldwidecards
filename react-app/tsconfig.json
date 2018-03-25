@@ -16,9 +16,6 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "rootDirs": [
-      "../core"
-    ],
     "baseUrl": "./",
     "paths": {
     }
