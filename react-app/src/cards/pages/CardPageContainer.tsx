@@ -1,7 +1,6 @@
 import { AppState } from 'src/shared/state';
 import { CardPage, CardPageProps, CardPageDispatchProps } from './CardPage';
 import { connect } from 'react-redux';
-import { updateShapePosition } from '../card.actions';
 import { Page } from '@wwc/core';
 
 interface CardPageContainerProps {
@@ -17,6 +16,6 @@ function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): Car
   };
 }
 
-const mapDispatchToProps: CardPageDispatchProps = { updateShapePosition };
+const mapDispatchToProps: CardPageDispatchProps = {};
 
 export const CardPageContainer = connect(mapStateToProps, mapDispatchToProps)(CardPage);

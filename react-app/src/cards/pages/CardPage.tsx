@@ -3,11 +3,8 @@ import { Paper } from 'material-ui';
 import { Stage, Layer, Text } from 'react-konva';
 import { TextShape, ImageShape, Shape, Page, constants } from '@wwc/core';
 import { ImageRect } from '../shapes/ImageRect';
-import { Position } from '@wwc/core';
 
-export interface CardPageDispatchProps {
-  updateShapePosition: (pageIndex: number, shapeIndex: number, position: Position) => any;
-}
+export interface CardPageDispatchProps {}
 
 export interface CardPageProps {
   page: Page;
@@ -31,15 +28,16 @@ export class CardPage extends React.Component<Props> {
     return this.props.page.shapes.map((shape: Shape, index: number) => {
       if (shape instanceof ImageShape) {
         return (
-          <ImageRect key={index} href={shape.href} x={shape.position.x} y={shape.position.y} width={270} height={250} />
+          <ImageRect key={index} href={shape.href} x={shape.x} y={shape.y} width={shape.width} height={shape.height} />
         );
       } else if (shape instanceof TextShape) {
         return (
           <Text
-            x={shape.position.x}
-            y={shape.position.y}
+            x={shape.x}
+            y={shape.y}
             key={index}
-            width={250}
+            width={shape.width}
+            height={shape.height}
             fontSize={shape.fontSize}
             text={shape.text}
             align={'center'}

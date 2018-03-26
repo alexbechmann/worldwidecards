@@ -2,20 +2,22 @@ import * as React from 'react';
 import { AppMenuBar } from 'src/menu';
 import { CardEditorContainer } from 'src/cards';
 import { LoginContainer } from 'src/auth';
+import { CircularProgress } from 'material-ui';
 
 export interface AppProps {
   isLoggedIn: boolean;
+  initialized: boolean;
 }
 
 export interface AppDispatchProps {
-  checkForCurrentUser: () => any;
+  initAuth: () => any;
 }
 
 interface Props extends AppProps, AppDispatchProps {}
 
 class App extends React.Component<Props> {
   componentDidMount() {
-    this.props.checkForCurrentUser();
+    this.props.initAuth();
   }
 
   render() {
@@ -28,10 +30,12 @@ class App extends React.Component<Props> {
   }
 
   renderApp() {
-    if (this.props.isLoggedIn) {
+    if (this.props.isLoggedIn && this.props.initialized) {
       return <CardEditorContainer />;
-    } else {
+    } else if (!this.props.isLoggedIn && this.props.initialized) {
       return <LoginContainer />;
+    } else {
+      return <CircularProgress />;
     }
   }
 }

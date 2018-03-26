@@ -1,12 +1,17 @@
-import { Position } from './position';
 import { Shape } from './shape';
 
-export class ImageShape implements Shape {
-  position: Position;
+export class ImageShape extends Shape {
   href: string;
-
-  constructor(href: string, position: Position) {
-    this.href = href;
-    this.position = position;
+  constructor(fields?: {
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    href?: string;
+  }){
+    super();
+    if (fields) {
+      Object.assign(this, fields);
+    }
   }
 }

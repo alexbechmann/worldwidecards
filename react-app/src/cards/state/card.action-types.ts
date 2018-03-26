@@ -1,0 +1,1 @@
+export const ADD_TEXT_SHAPE = 'WWC/ADD_TEXT_SHAPE';

@@ -1,5 +1,6 @@
-import { Position } from './position';
-
-export interface Shape {
-  position: Position;
+export class Shape {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
 }

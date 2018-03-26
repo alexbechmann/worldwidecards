@@ -4,6 +4,6 @@ import { cardReducer } from 'src/cards';
 import { authReducer } from 'src/auth';
 
 export const rootReducer: Reducer<AppState> = combineReducers({
-  auth: authReducer,
-  card: cardReducer
+  card: cardReducer,
+  auth: authReducer
 });
