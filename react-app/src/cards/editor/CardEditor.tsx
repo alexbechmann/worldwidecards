@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
-import { Card, nameof } from '@wwc/core';
+import { Card } from '@wwc/core';
 import { CardPageContainer } from '../pages/CardPageContainer';
 
 type StyleClassNames = 'root';
@@ -15,9 +15,7 @@ export interface CardEditorProps {
   card: Card;
 }
 
-export interface CardEditorDispatchProps {
-  addTextShape: (pageName: string, text: string) => any;
-}
+export interface CardEditorDispatchProps {}
 
 interface Props extends CardEditorProps, CardEditorDispatchProps {}
 
@@ -35,10 +33,10 @@ class CardEditorComponent extends React.Component<StyledProps> {
         </Grid>
         <Grid container={true}>
           <Grid item={true} sm={4}>
-            <CardPageContainer pageName={nameof<Card>('frontPage')} page={this.props.card.frontPage} />
+            <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
           </Grid>
           <Grid item={true} sm={4}>
-            <CardPageContainer pageName={nameof<Card>('innerLeftPage')} page={this.props.card.innerLeftPage} />
+            <CardPageContainer pageIndex={Card.innerLeftPageIndex()} page={this.props.card.innerLeftPage()} />
           </Grid>
         </Grid>
       </div>

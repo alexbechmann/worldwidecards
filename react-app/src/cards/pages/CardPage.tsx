@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { Paper } from 'material-ui';
 import { Stage, Layer, Text } from 'react-konva';
-import { TextShape, ImageShape, Shape, Page } from '@wwc/core';
+import { TextShape, ImageShape, Shape, Page, constants } from '@wwc/core';
 import { ImageRect } from '../shapes/ImageRect';
 import { Position } from '@wwc/core';
 
 export interface CardPageDispatchProps {
-  updateShapePosition: (pageName: string, shapeIndex: number, position: Position) => any;
+  updateShapePosition: (pageIndex: number, shapeIndex: number, position: Position) => any;
 }
 
 export interface CardPageProps {
   page: Page;
-  pageName: string;
+  pageIndex: number;
 }
 
 interface Props extends CardPageProps, CardPageDispatchProps {}
@@ -19,8 +19,10 @@ interface Props extends CardPageProps, CardPageDispatchProps {}
 export class CardPage extends React.Component<Props> {
   render() {
     return (
-      <Paper style={{ width: 300, height: 500 }}>
-        <Stage width={300} height={500}>
+      <Paper
+        style={{ width: constants.card.dimensions.portrait.width, height: constants.card.dimensions.portrait.height }}
+      >
+        <Stage width={constants.card.dimensions.portrait.width} height={constants.card.dimensions.portrait.height}>
           <Layer>{this.renderShapes()}</Layer>
         </Stage>
       </Paper>
@@ -62,7 +64,7 @@ export class CardPage extends React.Component<Props> {
 
   handleDragEnd = (e: any, index: number) => {
     const rect: any = e.target;
-    this.props.updateShapePosition(this.props.pageName, index, {
+    this.props.updateShapePosition(this.props.pageIndex, index, {
       x: rect.attrs.x,
       y: rect.attrs.y
     });

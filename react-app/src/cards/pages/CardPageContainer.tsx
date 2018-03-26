@@ -6,14 +6,14 @@ import { Page } from '@wwc/core';
 
 interface CardPageContainerProps {
   page: Page;
-  pageName: string;
+  pageIndex: number;
 }
 
 function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): CardPageProps {
-  const { page, pageName } = ownProps;
+  const { page, pageIndex } = ownProps;
   return {
     page,
-    pageName
+    pageIndex
   };
 }
 

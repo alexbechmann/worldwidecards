@@ -5,3 +5,4 @@ export { Shape } from './cards/shape';
 export { Page } from './cards/page';
 export { Position } from './cards/position';
 export { nameof } from './shared/tools/nameof';
+export { constants } from './shared/contants';

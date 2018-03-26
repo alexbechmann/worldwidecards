@@ -1,6 +1,67 @@
 import { FrontPage } from './front-page';
+import { Page } from '..';
 
-export interface Card {
+export class Card {
   title: string;
-  frontPage: FrontPage;
+  pages: Page[];
+  constructor(pages: Page[]) {
+    this.pages = pages || [
+      {
+        shapes: []
+      }, 
+      {
+        shapes: []
+      },
+      {
+        shapes: []
+      },
+      {
+        shapes: []
+      }
+    ] 
+
+    this.ensureFourPages();
+  }
+
+  private ensureFourPages() {
+    for (let index = 0; index < 4; index++) {
+      if (!this.pages[index]) {
+        this.pages[index] = {
+          shapes: []
+        }
+      }
+    }
+  }
+
+  frontPage() {
+    return this.pages[Card.frontPageIndex()];
+  }
+
+  static frontPageIndex() {
+    return 0;
+  }
+
+  innerLeftPage() {
+    return this.pages[Card.innerLeftPageIndex()];
+  }
+
+  static innerLeftPageIndex() {
+    return 1;
+  }
+
+  innerRightPage() {
+    return this.pages[Card.innerRightPageIndex()];
+  }
+
+  static innerRightPageIndex() {
+    return 2;
+  }
+
+  backPage() {
+    return this.pages[Card.backPageIndex()];
+  }
+
+  static backPageIndex() {
+    return 3;
+  }
 }

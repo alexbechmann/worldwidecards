@@ -1,13 +1,12 @@
 import { cardReducer } from '../card.reducer';
 import { addTextShape, updateShapePosition } from '../card.actions';
-import { nameof, Card, TextShape, ImageShape } from '@wwc/core';
+import { Card, TextShape, ImageShape } from '@wwc/core';
 import { CardState } from '../';
 
 it('Add text', () => {
   const defaultState: CardState = {
-    activeCard: {
-      title: 'sample card title 1',
-      frontPage: {
+    activeCard: new Card([
+      {
         shapes: [
           new TextShape('Test text', '', 24, {
             x: 25,
@@ -22,29 +21,19 @@ it('Add text', () => {
             y: 400
           })
         ]
-      },
-      innerLeftPage: {
-        shapes: []
-      },
-      innerRightPage: {
-        shapes: []
-      },
-      backPage: {
-        shapes: []
       }
-    }
+    ])
   };
 
-  const action = addTextShape(nameof<Card>('frontPage'), 'test1');
+  const action = addTextShape(Card.frontPageIndex(), 'test1');
   const state = cardReducer(defaultState, action);
-  expect((state.activeCard.frontPage.shapes[3] as TextShape).text).toEqual('test1');
+  expect((state.activeCard.pages[0].shapes[3] as TextShape).text).toEqual('test1');
 });
 
 it('Update shape position', () => {
   const defaultState: CardState = {
-    activeCard: {
-      title: 'sample card title 1',
-      frontPage: {
+    activeCard: new Card([
+      {
         shapes: [
           new TextShape('Test text', '', 24, {
             x: 25,
@@ -59,24 +48,15 @@ it('Update shape position', () => {
             y: 400
           })
         ]
-      },
-      innerLeftPage: {
-        shapes: []
-      },
-      innerRightPage: {
-        shapes: []
-      },
-      backPage: {
-        shapes: []
       }
-    }
+    ])
   };
 
-  const action = updateShapePosition(nameof<Card>('frontPage'), 1, {
+  const action = updateShapePosition(Card.frontPageIndex(), 1, {
     x: 49,
     y: 33
   });
   const state = cardReducer(defaultState, action);
-  expect(state.activeCard.frontPage.shapes[1].position.x).toEqual(49);
-  expect(state.activeCard.frontPage.shapes[1].position.y).toEqual(33);
+  expect(state.activeCard.pages[0].shapes[1].position.x).toEqual(49);
+  expect(state.activeCard.pages[0].shapes[1].position.y).toEqual(33);
 });
