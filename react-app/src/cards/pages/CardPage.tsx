@@ -19,9 +19,7 @@ interface Props extends CardPageProps, CardPageDispatchProps {}
 export class CardPage extends React.Component<Props> {
   render() {
     return (
-      <Paper
-        style={{ width: constants.card.dimensions.portrait.width, height: constants.card.dimensions.portrait.height }}
-      >
+      <Paper>
         <Stage width={constants.card.dimensions.portrait.width} height={constants.card.dimensions.portrait.height}>
           <Layer>{this.renderShapes()}</Layer>
         </Stage>
@@ -33,15 +31,7 @@ export class CardPage extends React.Component<Props> {
     return this.props.page.shapes.map((shape: Shape, index: number) => {
       if (shape instanceof ImageShape) {
         return (
-          <ImageRect
-            key={index}
-            href={shape.href}
-            x={shape.position.x}
-            y={shape.position.y}
-            width={270}
-            height={250}
-            onDragEnd={e => this.handleDragEnd(e, index)}
-          />
+          <ImageRect key={index} href={shape.href} x={shape.position.x} y={shape.position.y} width={270} height={250} />
         );
       } else if (shape instanceof TextShape) {
         return (
@@ -51,22 +41,12 @@ export class CardPage extends React.Component<Props> {
             key={index}
             width={250}
             fontSize={shape.fontSize}
-            draggable={true}
             text={shape.text}
             align={'center'}
-            onDragEnd={e => this.handleDragEnd(e, index)}
           />
         );
       }
       return null;
     });
   }
-
-  handleDragEnd = (e: any, index: number) => {
-    const rect: any = e.target;
-    this.props.updateShapePosition(this.props.pageIndex, index, {
-      x: rect.attrs.x,
-      y: rect.attrs.y
-    });
-  };
 }

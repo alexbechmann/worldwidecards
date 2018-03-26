@@ -12,7 +12,7 @@
   },
   "private": true,
   "scripts": {
-    "postinstall": "npm-run-all -p install:react-app install:functions",
+    "postinstall": "npm-run-all -p install:react-app install:functions install:core",
     "test": "npm run prettier:test",
     "prettier:test": "prettier --config ./.prettierrc --list-different \"{core,parse-server,react-app}/**/*.{ts*,md,css}\"",
     "prettier:watch": "onchange \"**/*.ts*\" \"**/*.md*\" \"**/*.css*\" -- prettier --write {{changed}}",

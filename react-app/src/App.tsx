@@ -1,20 +1,38 @@
 import * as React from 'react';
-import './App.css';
 import { AppMenuBar } from 'src/menu';
 import { CardEditorContainer } from 'src/cards';
-import { Provider } from 'react-redux';
-import { store } from 'src/shared/state';
+import { LoginContainer } from 'src/auth';
 
-class App extends React.Component {
+export interface AppProps {
+  isLoggedIn: boolean;
+}
+
+export interface AppDispatchProps {
+  checkForCurrentUser: () => any;
+}
+
+interface Props extends AppProps, AppDispatchProps {}
+
+class App extends React.Component<Props> {
+  componentDidMount() {
+    this.props.checkForCurrentUser();
+  }
+
   render() {
     return (
       <div className="App">
-        <AppMenuBar isLoggedIn={false} logout={() => null} />
-        <Provider store={store}>
-          <CardEditorContainer />
-        </Provider>
+        <AppMenuBar isLoggedIn={this.props.isLoggedIn} logout={() => null} />
+        {this.renderApp()}
       </div>
     );
+  }
+
+  renderApp() {
+    if (this.props.isLoggedIn) {
+      return <CardEditorContainer />;
+    } else {
+      return <LoginContainer />;
+    }
   }
 }
 
