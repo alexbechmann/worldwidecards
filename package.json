@@ -4,6 +4,7 @@
   "description": "",
   "dependencies": {},
   "devDependencies": {
+    "firebase-tools": "^3.17.7",
     "npm-run-all": "^4.1.2",
     "onchange": "^3.3.0",
     "prettier": "^1.11.1",
@@ -11,7 +12,7 @@
   },
   "private": true,
   "scripts": {
-    "postinstall": "npm-run-all -p install:react-app install:express-server",
+    "postinstall": "npm-run-all -p install:react-app install:functions",
     "test": "npm run prettier:test",
     "prettier:test": "prettier --config ./.prettierrc --list-different \"{core,parse-server,react-app}/**/*.{ts*,md,css}\"",
     "prettier:watch": "onchange \"**/*.ts*\" \"**/*.md*\" \"**/*.css*\" -- prettier --write {{changed}}",
@@ -20,15 +21,15 @@
     "clean:react-app": "remove-node-modules ./react-app/node_modules/",
     "start:react-app": "cd ./react-app && npm start",
     "test:react-app": "cd ./react-app && npm test",
-    "install:express-server": "cd ./express-server && npm install",
-    "clean:express-server": "remove-node-modules ./express-server/node_modules/",
-    "start:express-server": "cd ./express-server && npm start",
+    "install:functions": "cd ./functions && npm install",
+    "clean:functions": "remove-node-modules ./functions/node_modules/",
+    "start:functions": "firebase serve --only functions",
     "install:core": "cd ./core && npm install",
     "clean:core": "remove-node-modules ./core/node_modules/",
     "start:core": "cd ./core && npm start",
     "build:core": "cd ./core && npm run build",
-    "start": "npm run build:core && npm-run-all -p start:core start:react-app start:express-server prettier:watch",
-    "clean": "npm-run-all -p clean:core clean:react-app clean:express-server"
+    "start": "npm run build:core && npm-run-all -p start:core start:react-app start:functions prettier:watch",
+    "clean": "npm-run-all -p clean:core clean:react-app clean:functions"
   },
   "author": "",
   "license": "ISC"

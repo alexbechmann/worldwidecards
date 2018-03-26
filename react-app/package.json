@@ -5,6 +5,7 @@
   "dependencies": {
     "@wwc/core": "file:../core",
     "deep-freeze": "0.0.1",
+    "firebase": "^4.12.0",
     "konva": "^2.0.2",
     "material-ui": "^1.0.0-beta.38",
     "material-ui-icons": "^1.0.0-beta.36",
