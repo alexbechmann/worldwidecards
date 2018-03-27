@@ -3,7 +3,7 @@ import * as deepFreeze from 'deep-freeze';
 const a4 = {
   width: 595,
   height: 842
-}
+};
 
 export const constants = deepFreeze({
   card: {
@@ -14,4 +14,4 @@ export const constants = deepFreeze({
       }
     }
   }
-})
+});

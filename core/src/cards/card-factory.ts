@@ -13,8 +13,9 @@ export class CardFactory {
           new TextShape({
             x: 25,
             y: 25,
-            text: 'Test text',
-            fontSize: 24
+            text: 'Test text alskdjf lkasjdf lkasjdf lkajsdf klasjdf klajskldf jaskldf jaklsfd ',
+            fontSize: 24,
+            width: 300
           }),
           new ImageShape({
             href: 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/182198.jpg',

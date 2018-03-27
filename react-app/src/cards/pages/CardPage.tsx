@@ -59,15 +59,11 @@ export class CardPage extends React.Component<Props, State> {
   }
 
   calculateScaleX(): number {
-    const a = this.props.page.width!;
-    const b = this.state.bounds.width!;
-    return b / a;
+    return this.state.bounds.width! / this.props.page.width!;
   }
 
   calculateScaleY(): number {
-    const a = this.props.page.height!;
-    const b = this.state.bounds.height!;
-    return b / a;
+    return this.state.bounds.height! / this.props.page.height!;
   }
 
   calculateWidth(): number {
@@ -75,7 +71,14 @@ export class CardPage extends React.Component<Props, State> {
   }
 
   calculateHeight(): number {
-    return this.calculateWidth() * 1.414;
+    const percentageBetweenWidthAndHeight = this.getPercentageChange(this.props.page.width, this.props.page.height);
+    const ratio = 1 + -percentageBetweenWidthAndHeight / 100;
+    return this.calculateWidth() * ratio;
+  }
+
+  getPercentageChange(oldNumber: number, newNumber: number) {
+    var decreaseValue = oldNumber - newNumber;
+    return decreaseValue / oldNumber * 100;
   }
 
   renderShapes() {
@@ -105,6 +108,7 @@ export class CardPage extends React.Component<Props, State> {
             text={shape.text}
             align={'center'}
             draggable={true}
+            fill={'yellow'}
           />
         );
       }
