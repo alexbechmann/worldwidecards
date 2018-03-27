@@ -5,3 +5,4 @@ export { Shape } from './cards/shape';
 export { Page } from './cards/page';
 export { nameof } from './shared/tools/nameof';
 export { constants } from './shared/contants'; 
+export { cardFactory } from './cards/card-factory';

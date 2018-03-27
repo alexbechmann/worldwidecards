@@ -21,6 +21,10 @@ export function initAuth(): AnyAction {
     });
   });
   return {
-    type: INIT_AUTH
+    type: INIT_AUTH,
+    payload: new Promise((resolve, reject) => {
+      // To give the onAuthStateChanged a chance to emit currentUser.
+      setTimeout(() => resolve(), 500);
+    })
   };
 }

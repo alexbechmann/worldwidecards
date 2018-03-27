@@ -35,6 +35,11 @@ class CardEditorComponent extends React.Component<StyledProps> {
           <Grid item={true} sm={4}>
             <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
           </Grid>
+          <Grid item={true} sm={1}>
+            <div className="card-preview">
+              <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
+            </div>
+          </Grid>
           <Grid item={true} sm={4}>
             <CardPageContainer pageIndex={Card.innerLeftPageIndex()} page={this.props.card.innerLeftPage()} />
           </Grid>

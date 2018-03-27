@@ -5,32 +5,7 @@ export class Card {
   title: string;
   pages: Page[];
   constructor(pages: Page[]) {
-    this.pages = pages || [
-      {
-        shapes: []
-      }, 
-      {
-        shapes: []
-      },
-      {
-        shapes: []
-      },
-      {
-        shapes: []
-      }
-    ] 
-
-    this.ensureFourPages();
-  }
-
-  private ensureFourPages() {
-    for (let index = 0; index < 4; index++) {
-      if (!this.pages[index]) {
-        this.pages[index] = {
-          shapes: []
-        }
-      }
-    }
+    this.pages = pages;
   }
 
   frontPage() {

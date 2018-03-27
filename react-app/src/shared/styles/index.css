@@ -10,13 +10,13 @@ body {
   height: auto !important;
 } */
 
-.konvajs-content {
+/* .card-preview .konvajs-content {
   width: 100% !important;
   height: auto !important;
   padding-bottom: 141.4%;
 }
 
-.konvajs-content canvas {
+.card-preview .konvajs-content canvas {
   width: 100% !important;
   height: 100% !important;
-}
+} */
