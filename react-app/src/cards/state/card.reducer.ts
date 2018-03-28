@@ -1,6 +1,6 @@
 import { CardState } from './card.state';
 import { AnyAction } from 'redux';
-import { TextShape, cardFactory, Shape } from '@wwc/core';
+import { TextShape, cardFactory, Shape, Card, Page, ImageShape } from '@wwc/core';
 import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE, UPDATE_SHAPE_POSITION } from './card.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 
@@ -25,8 +25,36 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     case UPDATE_SHAPE_POSITION: {
       const payload: { pageIndex: number; shapeIndex: number; x: number; y: number } = action.payload;
       return createNewState(state, newState => {
-        newState.activeCard.pages[payload.pageIndex].shapes[payload.shapeIndex].x = payload.x;
-        newState.activeCard.pages[payload.pageIndex].shapes[payload.shapeIndex].y = payload.y;
+        const newPages: Page[] = state.activeCard.pages.map((page, pageIndex) => {
+          if (pageIndex === payload.pageIndex) {
+            const newShapes: Shape[] = page.shapes.map((shape, shapeIndex) => {
+              if (shapeIndex === payload.shapeIndex) {
+                if (shape instanceof TextShape) {
+                  return new TextShape({
+                    ...shape,
+                    x: payload.x,
+                    y: payload.y
+                  });
+                } else if (shape instanceof ImageShape) {
+                  return new ImageShape({
+                    ...shape,
+                    x: payload.x,
+                    y: payload.y
+                  });
+                }
+              }
+              return shape;
+            });
+            return {
+              ...page,
+              shapes: newShapes
+            };
+          } else {
+            return page;
+          }
+        });
+
+        newState.activeCard = new Card(newPages);
       });
     }
     default: {
