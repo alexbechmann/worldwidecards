@@ -1,7 +1,5 @@
-import * as deepAssign from 'deep-assign';
-
 export function createNewState<T>(state: T, update: (state: T) => void): T {
-  const newState: T = deepAssign({}, state);
+  const newState: T = Object.assign({}, state);
   update(newState);
   return newState;
 }

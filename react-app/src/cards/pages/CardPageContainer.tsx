@@ -3,6 +3,8 @@ import { CardPage, CardPageProps, CardPageDispatchProps } from './CardPage';
 import { connect } from 'react-redux';
 import { Page } from '@wwc/core';
 import { setEditingShape, updateShapePosition } from 'src/cards/state/card.actions';
+import { combineContainers } from 'src/shared/helpers/combine-containers';
+import { withTheme } from 'material-ui';
 
 interface CardPageContainerProps {
   page: Page;
@@ -13,13 +15,14 @@ function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): Car
   const { page, pageIndex } = ownProps;
   return {
     page,
-    pageIndex
+    pageIndex,
+    editingShape: state.card.cardDesigner.editingShape
   };
 }
 
 const mapDispatchToProps: CardPageDispatchProps = { setEditingShape, updateShapePosition };
 
-export const CardPageContainer: React.ComponentType<CardPageContainerProps> = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CardPage);
+export const CardPageContainer: React.ComponentType<CardPageContainerProps> = combineContainers(CardPage, [
+  c => withTheme()(c),
+  c => connect(mapStateToProps, mapDispatchToProps)(c)
+]);
