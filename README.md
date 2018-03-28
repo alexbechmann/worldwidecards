@@ -19,6 +19,6 @@ React web app
 # Running locally
 
 ```
-yarn install
-yarn start
+npm install
+npm start
 ```
