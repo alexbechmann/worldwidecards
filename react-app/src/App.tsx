@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppMenuBar } from 'src/menu';
-import { CardEditorContainer } from 'src/cards';
+import { CardDesignerContainer } from 'src/cards';
 import { LoginContainer } from 'src/auth';
 import { CircularProgress } from 'material-ui';
 
@@ -31,7 +31,7 @@ class App extends React.Component<Props> {
 
   renderApp() {
     if (this.props.isLoggedIn && this.props.initialized) {
-      return <CardEditorContainer />;
+      return <CardDesignerContainer />;
     } else if (!this.props.isLoggedIn && this.props.initialized) {
       return <LoginContainer />;
     } else {
