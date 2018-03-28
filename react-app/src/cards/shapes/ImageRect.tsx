@@ -26,7 +26,7 @@ export class ImageRect extends React.Component<Props, State> {
 
   render() {
     return this.state.image ? (
-      <ReactKonva.Rect {...this.props} fillPatternImage={this.state.image} fillPatternRepeat="no-repeat" />
+      <ReactKonva.Image {...this.props} image={this.state.image} />
     ) : (
       <ReactKonva.Rect {...this.props} />
     );

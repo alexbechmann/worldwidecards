@@ -5,7 +5,10 @@ import { TextShape, ImageShape, Shape, Page } from '@wwc/core';
 import { ImageRect } from '../shapes/ImageRect';
 import Measure, { BoundingRect } from 'react-measure';
 
-export interface CardPageDispatchProps {}
+export interface CardPageDispatchProps {
+  updateShapePosition: (pageIndex: number, shapeIndex: number, x: number, y: number) => any;
+  setEditingShape: (shape: Shape) => any;
+}
 
 export interface CardPageProps {
   page: Page;
@@ -16,9 +19,7 @@ interface State {
   bounds: Partial<BoundingRect>;
 }
 
-interface Props extends CardPageProps, CardPageDispatchProps {
-  onShapeClick: (shape: Shape) => void;
-}
+interface Props extends CardPageProps, CardPageDispatchProps {}
 
 export class CardPage extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -96,8 +97,9 @@ export class CardPage extends React.Component<Props, State> {
             y={shape.y}
             width={shape.width}
             height={shape.height}
-            onClick={() => this.props.onShapeClick(shape)}
+            onClick={() => this.props.setEditingShape(shape)}
             draggable={true}
+            onDragEnd={e => this.handleDragEnd(e, index)}
           />
         );
       } else if (shape instanceof TextShape) {
@@ -112,11 +114,18 @@ export class CardPage extends React.Component<Props, State> {
             text={shape.text}
             align={'center'}
             draggable={true}
-            fill={'yellow'}
+            fill={shape.color}
+            onClick={() => this.props.setEditingShape(shape)}
+            onDragEnd={e => this.handleDragEnd(e, index)}
           />
         );
       }
       return null;
     });
   }
+
+  handleDragEnd = (e: any, index: number) => {
+    const rect: any = e.target;
+    this.props.updateShapePosition(this.props.pageIndex, index, rect.attrs.x, rect.attrs.y);
+  };
 }

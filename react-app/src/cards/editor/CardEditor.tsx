@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
-import { Card, Shape } from '@wwc/core';
-import { CardPage } from 'src/cards/pages/CardPage';
-import { ImageControls } from 'src/cards/editor/controls/ImageControls';
+import { Card, Shape, ImageShape, TextShape } from '@wwc/core';
+import { ImageControls } from './controls/ImageControls';
+import { TextControls } from './controls/TextControls';
+import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
 
 type StyleClassNames = 'root';
 
@@ -17,9 +18,7 @@ export interface CardEditorProps {
   editingShape?: Shape;
 }
 
-export interface CardEditorDispatchProps {
-  setEditingShape: (shape: Shape) => any;
-}
+export interface CardEditorDispatchProps {}
 
 interface Props extends CardEditorProps, CardEditorDispatchProps {}
 
@@ -37,24 +36,23 @@ class CardEditorComponent extends React.Component<StyledProps> {
         </Grid>
         <Grid container={true}>
           <Grid item={true} sm={4} xs={12}>
-            {this.renderControlsForPage(Card.frontPageIndex())}
-            <CardPage
-              onShapeClick={this.props.setEditingShape}
-              pageIndex={Card.frontPageIndex()}
-              page={this.props.card.frontPage()}
-            />
+            {this.renderControls()}
+            <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
           </Grid>
-          <Grid item={true} sm={8} xs={12}>
+          <Grid item={true} sm={2} xs={12}>
             <p>Work area</p>
+            <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
           </Grid>
         </Grid>
       </div>
     );
   }
 
-  renderControlsForPage(index: number) {
-    if (this.props.editingShape) {
+  renderControls() {
+    if (this.props.editingShape instanceof ImageShape) {
       return <ImageControls />;
+    } else if (this.props.editingShape instanceof TextShape) {
+      return <TextControls />;
     } else {
       return null;
     }
