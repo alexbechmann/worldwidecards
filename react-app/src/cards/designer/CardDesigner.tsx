@@ -13,18 +13,18 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   }
 });
 
-export interface CardEditorProps {
+export interface CardDesignerProps {
   card: Card;
   editingShape?: Shape;
 }
 
-export interface CardEditorDispatchProps {}
+export interface CardDesignerDispatchProps {}
 
-interface Props extends CardEditorProps, CardEditorDispatchProps {}
+interface Props extends CardDesignerProps, CardDesignerDispatchProps {}
 
 interface StyledProps extends Props, WithStyles<StyleClassNames> {}
 
-class CardEditorComponent extends React.Component<StyledProps> {
+class CardDesignerComponent extends React.Component<StyledProps> {
   render() {
     return (
       <div className={this.props.classes.root}>
@@ -76,4 +76,4 @@ class CardEditorComponent extends React.Component<StyledProps> {
   }
 }
 
-export const CardEditor: React.ComponentType<Props> = withStyles(styles, { withTheme: true })(CardEditorComponent);
+export const CardDesigner: React.ComponentType<Props> = withStyles(styles, { withTheme: true })(CardDesignerComponent);
