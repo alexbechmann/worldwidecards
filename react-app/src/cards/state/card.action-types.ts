@@ -1,1 +1,2 @@
 export const ADD_TEXT_SHAPE = 'WWC/ADD_TEXT_SHAPE';
+export const SET_EDITING_SHAPE = 'WWC/SET_EDITING_SHAPE';

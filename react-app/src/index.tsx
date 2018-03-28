@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import { AppContainer } from './AppContainer';
 import { Provider } from 'react-redux';
 import { store } from 'src/shared/state';
+import 'typeface-roboto';
 
 var config = {
   apiKey: 'AIzaSyBxBsgZ0TwAhsItBpqPZdwKKjQkch72FF4',

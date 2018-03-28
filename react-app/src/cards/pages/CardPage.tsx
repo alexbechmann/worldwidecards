@@ -16,7 +16,9 @@ interface State {
   bounds: Partial<BoundingRect>;
 }
 
-interface Props extends CardPageProps, CardPageDispatchProps {}
+interface Props extends CardPageProps, CardPageDispatchProps {
+  onShapeClick: (shape: Shape) => void;
+}
 
 export class CardPage extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -37,21 +39,23 @@ export class CardPage extends React.Component<Props, State> {
         }}
       >
         {({ measureRef }) => (
-          <div ref={measureRef}>
-            {this.state.bounds.width! > -1 ? (
-              <Paper>
-                <Stage
-                  scaleX={this.calculateScaleX()}
-                  scaleY={this.calculateScaleY()}
-                  width={this.calculateWidth()}
-                  height={this.calculateHeight()}
-                >
-                  <Layer>{this.renderShapes()}</Layer>
-                </Stage>
-              </Paper>
-            ) : (
-              <span />
-            )}
+          <div>
+            <div ref={measureRef}>
+              {this.state.bounds.width! > -1 ? (
+                <Paper>
+                  <Stage
+                    scaleX={this.calculateScaleX()}
+                    scaleY={this.calculateScaleY()}
+                    width={this.calculateWidth()}
+                    height={this.calculateHeight()}
+                  >
+                    <Layer>{this.renderShapes()}</Layer>
+                  </Stage>
+                </Paper>
+              ) : (
+                <span />
+              )}
+            </div>
           </div>
         )}
       </Measure>
@@ -92,7 +96,7 @@ export class CardPage extends React.Component<Props, State> {
             y={shape.y}
             width={shape.width}
             height={shape.height}
-            onClick={console.log}
+            onClick={() => this.props.onShapeClick(shape)}
             draggable={true}
           />
         );

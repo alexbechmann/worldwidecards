@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
-import { Card } from '@wwc/core';
-import { CardPageContainer } from '../pages/CardPageContainer';
+import { Card, Shape } from '@wwc/core';
+import { CardPage } from 'src/cards/pages/CardPage';
+import { ImageControls } from 'src/cards/editor/controls/ImageControls';
 
 type StyleClassNames = 'root';
 
@@ -13,9 +14,12 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
 
 export interface CardEditorProps {
   card: Card;
+  editingShape?: Shape;
 }
 
-export interface CardEditorDispatchProps {}
+export interface CardEditorDispatchProps {
+  setEditingShape: (shape: Shape) => any;
+}
 
 interface Props extends CardEditorProps, CardEditorDispatchProps {}
 
@@ -33,7 +37,12 @@ class CardEditorComponent extends React.Component<StyledProps> {
         </Grid>
         <Grid container={true}>
           <Grid item={true} sm={4} xs={12}>
-            <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
+            {this.renderControlsForPage(Card.frontPageIndex())}
+            <CardPage
+              onShapeClick={this.props.setEditingShape}
+              pageIndex={Card.frontPageIndex()}
+              page={this.props.card.frontPage()}
+            />
           </Grid>
           <Grid item={true} sm={8} xs={12}>
             <p>Work area</p>
@@ -41,6 +50,14 @@ class CardEditorComponent extends React.Component<StyledProps> {
         </Grid>
       </div>
     );
+  }
+
+  renderControlsForPage(index: number) {
+    if (this.props.editingShape) {
+      return <ImageControls />;
+    } else {
+      return null;
+    }
   }
 
   renderStepper() {

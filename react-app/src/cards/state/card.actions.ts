@@ -1,6 +1,6 @@
-import { TextShape } from '@wwc/core';
+import { TextShape, Shape } from '@wwc/core';
 import { AnyAction } from 'redux';
-import { ADD_TEXT_SHAPE } from './card.action-types';
+import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE } from './card.action-types';
 
 export function addTextShape(pageIndex: number, text: string): AnyAction {
   const textShape = new TextShape({
@@ -15,5 +15,12 @@ export function addTextShape(pageIndex: number, text: string): AnyAction {
       pageIndex,
       textShape
     }
+  };
+}
+
+export function setEditingShape(shape: Shape): AnyAction {
+  return {
+    type: SET_EDITING_SHAPE,
+    payload: shape
   };
 }
