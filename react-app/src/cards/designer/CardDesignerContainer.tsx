@@ -6,7 +6,7 @@ import { saveCardDesign } from 'src/cards/state/card.actions';
 function mapStateToProps(state: AppState): CardDesignerProps {
   return {
     card: state.card.activeCard,
-    editingShape: state.card.cardDesigner.editingShape
+    editingShapePosition: state.card.cardDesigner.editingShapePosition
   };
 }
 

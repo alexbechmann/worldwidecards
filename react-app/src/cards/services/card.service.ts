@@ -6,7 +6,10 @@ class CardService {
   saveCardDesign(card: Card): Promise<void> {
     const db = firebase.firestore();
     const cardRef = db.collection('card-designs').doc();
-    return cardRef.set(card);
+    return cardRef
+      .set(card)
+      .then(console.log)
+      .catch(console.log);
   }
 }
 

@@ -1,6 +1,6 @@
 export { Card } from './cards/card';
-export { TextShape } from './cards/shapes/text-shape';
-export { ImageShape } from './cards/shapes/image-shape';
+export { TextData } from './cards/shapes/text-data';
+export { ImageData } from './cards/shapes/image-data';
 export { Shape } from './cards/shapes/shape';
 export { Page } from './cards/page';
 export { nameof } from './shared/tools/nameof';

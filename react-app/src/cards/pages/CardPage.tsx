@@ -6,16 +6,17 @@ import { ImageRect } from '../shapes/ImageRect';
 import Measure, { BoundingRect } from 'react-measure';
 import { Rect } from 'react-konva';
 import { WithThemeProps } from 'src/shared/styles/with-theme-props';
+import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 export interface CardPageDispatchProps {
   updateShapePosition: (pageIndex: number, shapeIndex: number, x: number, y: number) => any;
-  setEditingShape: (shape: Shape) => any;
+  setEditingShape: (position: ShapePosition) => any;
 }
 
 export interface CardPageProps {
   page: Page;
   pageIndex: number;
-  editingShape?: Shape;
+  editingShapePosition?: ShapePosition;
 }
 
 interface State {
@@ -102,8 +103,18 @@ export class CardPage extends React.Component<Props, State> {
               y={shape.y}
               width={shape.width}
               height={shape.height}
-              onClick={() => this.props.setEditingShape(shape)}
-              onTap={() => this.props.setEditingShape(shape)}
+              onClick={() =>
+                this.props.setEditingShape({
+                  pageIndex: this.props.pageIndex,
+                  shapeIndex: index
+                })
+              }
+              onTap={() =>
+                this.props.setEditingShape({
+                  pageIndex: this.props.pageIndex,
+                  shapeIndex: index
+                })
+              }
               draggable={true}
               onDragMove={e => this.handleDragEnd(e, index)}
             />
@@ -126,8 +137,18 @@ export class CardPage extends React.Component<Props, State> {
               align={'center'}
               draggable={true}
               fill={shape.textData!.color}
-              onClick={() => this.props.setEditingShape(shape)}
-              onTap={() => this.props.setEditingShape(shape)}
+              onClick={() =>
+                this.props.setEditingShape({
+                  pageIndex: this.props.pageIndex,
+                  shapeIndex: index
+                })
+              }
+              onTap={() =>
+                this.props.setEditingShape({
+                  pageIndex: this.props.pageIndex,
+                  shapeIndex: index
+                })
+              }
               onDragMove={e => this.handleDragEnd(e, index)}
             />
           );
@@ -140,18 +161,23 @@ export class CardPage extends React.Component<Props, State> {
   }
 
   renderHighlightZone() {
-    const { editingShape, theme } = this.props;
-    if (editingShape) {
-      return (
-        <Rect
-          x={editingShape.x}
-          y={editingShape.y}
-          width={editingShape.width}
-          height={editingShape.height}
-          fill={theme.palette.secondary.main}
-          opacity={0.5}
-        />
-      );
+    const { editingShapePosition, theme } = this.props;
+    if (editingShapePosition && this.props.pageIndex === editingShapePosition.pageIndex) {
+      const editingShape: Shape = this.props.page.shapes[editingShapePosition.shapeIndex];
+      if (editingShape) {
+        return (
+          <Rect
+            x={editingShape.x}
+            y={editingShape.y}
+            width={editingShape.width}
+            height={editingShape.height}
+            fill={theme.palette.secondary.main}
+            opacity={0.5}
+            draggable={true}
+            onDragMove={e => this.handleDragEnd(e, editingShapePosition.shapeIndex)}
+          />
+        );
+      }
     }
     return null;
   }

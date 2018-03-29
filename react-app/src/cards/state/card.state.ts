@@ -1,6 +1,7 @@
-import { Card, Shape } from '@wwc/core';
+import { Card } from '@wwc/core';
+import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 export interface CardState {
   activeCard: Card;
-  cardDesigner: { editingShape?: Shape };
+  cardDesigner: { editingShapePosition?: ShapePosition };
 }

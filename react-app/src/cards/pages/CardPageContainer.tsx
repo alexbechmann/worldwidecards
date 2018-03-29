@@ -16,7 +16,7 @@ function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): Car
   return {
     page,
     pageIndex,
-    editingShape: state.card.cardDesigner.editingShape
+    editingShapePosition: state.card.cardDesigner.editingShapePosition
   };
 }
 

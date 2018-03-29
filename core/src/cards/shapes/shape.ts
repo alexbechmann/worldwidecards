@@ -1,5 +1,5 @@
-import { ImageShape } from "./image-shape";
-import { TextShape } from "./text-shape";
+import { ImageData } from "./image-data";
+import { TextData } from "./text-data";
 
 export interface Shape {
   type: string;
@@ -7,6 +7,6 @@ export interface Shape {
   y?: number;
   width?: number;
   height?: number;
-  imageData?: ImageShape;
-  textData?: TextShape;
+  imageData?: ImageData;
+  textData?: TextData;
 }

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { AppMenuBar } from 'src/menu';
 import { CardDesignerContainer } from 'src/cards';
 import { LoginContainer } from 'src/auth';
 import { CircularProgress } from 'material-ui';
+import { AppMenuBarContainer } from 'src/menu';
 
 export interface AppProps {
   isLoggedIn: boolean;
@@ -23,7 +23,7 @@ class App extends React.Component<Props> {
   render() {
     return (
       <div className="App">
-        <AppMenuBar isLoggedIn={this.props.isLoggedIn} logout={() => null} />
+        <AppMenuBarContainer />
         {this.renderApp()}
       </div>
     );

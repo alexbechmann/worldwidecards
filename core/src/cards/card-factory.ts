@@ -1,6 +1,4 @@
 import { Card } from './card';
-import { TextShape } from './shapes/text-shape';
-import { ImageShape } from './shapes/image-shape';
 import { constants } from '../shared/contants';
 
 export class CardFactory {
@@ -28,10 +26,10 @@ export class CardFactory {
               imageData: {
                 href: 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/182198.jpg',
               },
-              x: constants.card.dimensions.portrait.width - 35,
-              y: 5,
-              width: 30,
-              height: 30
+              x: 0,
+              y: 200,
+              width: constants.card.dimensions.portrait.width,
+              height: 300
             }
           ]
         }

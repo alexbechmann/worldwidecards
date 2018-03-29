@@ -1,5 +1,5 @@
-export interface TextShape {
-  font: string;
+export interface TextData {
+  font?: string;
   fontSize: number;
   text: string;
   color: string;

@@ -1,1 +1,1 @@
-export { AppMenuBar } from './AppMenuBar';
+export { AppMenuBarContainer } from './AppMenuBarContainer';

@@ -2,7 +2,7 @@ import { AnyAction } from 'redux';
 import { User, UserInfo } from 'firebase';
 import { store } from 'src/shared/state';
 import * as firebase from 'firebase';
-import { UPDATE_CURRENT_USER, INIT_AUTH } from './auth.action-types';
+import { UPDATE_CURRENT_USER, INIT_AUTH, LOGOUT } from './auth.action-types';
 
 export function loginWithFacebook(): AnyAction {
   const provider = new firebase.auth.FacebookAuthProvider();
@@ -26,5 +26,12 @@ export function initAuth(): AnyAction {
       // To give the onAuthStateChanged a chance to emit currentUser.
       setTimeout(() => resolve(), 500);
     })
+  };
+}
+
+export function logout() {
+  return {
+    type: LOGOUT,
+    payload: firebase.auth().signOut()
   };
 }

@@ -2,6 +2,7 @@ import { Shape, Card, constants } from '@wwc/core';
 import { AnyAction } from 'redux';
 import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE, UPDATE_SHAPE_POSITION, SAVE_CARD_DESIGN } from './card.action-types';
 import { cardService } from 'src/cards/services/card.service';
+import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 export function addTextShape(pageIndex: number, text: string): AnyAction {
   const textShape: Shape = {
@@ -23,10 +24,10 @@ export function addTextShape(pageIndex: number, text: string): AnyAction {
   };
 }
 
-export function setEditingShape(shape: Shape): AnyAction {
+export function setEditingShape(position: ShapePosition): AnyAction {
   return {
     type: SET_EDITING_SHAPE,
-    payload: shape
+    payload: position
   };
 }
 

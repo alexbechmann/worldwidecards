@@ -10,10 +10,11 @@ import {
   WithStyles,
   Button
 } from 'material-ui';
-import { Card, Shape, constants } from '@wwc/core';
+import { Card, constants, Shape } from '@wwc/core';
 import { ImageControls } from './controls/ImageControls';
 import { TextControls } from './controls/TextControls';
 import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
+import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 type StyleClassNames = 'root';
 
@@ -25,7 +26,7 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
 
 export interface CardDesignerProps {
   card: Card;
-  editingShape?: Shape;
+  editingShapePosition?: ShapePosition;
 }
 
 export interface CardDesignerDispatchProps {
@@ -63,16 +64,22 @@ class CardDesignerComponent extends React.Component<StyledProps> {
   }
 
   renderControls() {
-    if (this.props.editingShape) {
-      switch (this.props.editingShape.type) {
-        case constants.shapes.types.image: {
-          return <ImageControls />;
-        }
-        case constants.shapes.types.text: {
-          return <TextControls />;
-        }
-        default: {
-          return null;
+    const { editingShapePosition } = this.props;
+    if (editingShapePosition) {
+      const editingShape: Shape = this.props.card.pages[editingShapePosition.pageIndex].shapes[
+        editingShapePosition.shapeIndex
+      ];
+      if (editingShape) {
+        switch (editingShape.type) {
+          case constants.shapes.types.image: {
+            return <ImageControls />;
+          }
+          case constants.shapes.types.text: {
+            return <TextControls />;
+          }
+          default: {
+            return null;
+          }
         }
       }
     }
