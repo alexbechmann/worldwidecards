@@ -3,6 +3,9 @@ import { CardDesignerContainer } from 'src/cards';
 import { LoginContainer } from 'src/auth';
 import { CircularProgress } from 'material-ui';
 import { AppMenuBarContainer } from 'src/menu';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { routes } from 'src/shared/router/routes';
+import { MyDesignsContainer } from 'src/cards/designer/MyDesignsContainer';
 
 export interface AppProps {
   isLoggedIn: boolean;
@@ -31,7 +34,15 @@ class App extends React.Component<Props> {
 
   renderApp() {
     if (this.props.isLoggedIn && this.props.initialized) {
-      return <CardDesignerContainer />;
+      return (
+        <BrowserRouter>
+          <Switch>
+            <Route exact={true} path={routes.designs.path} component={CardDesignerContainer} />
+            <Route path={routes.myDesigns.path} component={MyDesignsContainer} />
+            <Route path="/" component={MyDesignsContainer} />
+          </Switch>
+        </BrowserRouter>
+      );
     } else if (!this.props.isLoggedIn && this.props.initialized) {
       return <LoginContainer />;
     } else {

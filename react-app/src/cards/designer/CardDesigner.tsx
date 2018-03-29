@@ -8,7 +8,8 @@ import {
   Theme,
   withStyles,
   WithStyles,
-  Button
+  Button,
+  CircularProgress
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
 import { ImageControls } from './controls/ImageControls';
@@ -25,7 +26,7 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
 });
 
 export interface CardDesignerProps {
-  card: Card;
+  card?: Card;
   editingShapePosition?: ShapePosition;
 }
 
@@ -40,32 +41,41 @@ interface StyledProps extends Props, WithStyles<StyleClassNames> {}
 class CardDesignerComponent extends React.Component<StyledProps> {
   render() {
     return (
-      <div className={this.props.classes.root}>
-        <Grid container={true}>
-          <Grid item={true} xs={12}>
-            {this.renderStepper()}
-          </Grid>
-        </Grid>
-        <Grid container={true}>
-          <Grid item={true} sm={4} xs={12}>
-            {this.renderControls()}
-            <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} />
-          </Grid>
-          <Grid item={true} sm={2} xs={12}>
-            <p>Work area</p>
-            <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} />
-            <br />
-            <br />
-            <Button onClick={() => this.props.saveCardDesign(this.props.card)}>Save</Button>
-          </Grid>
-        </Grid>
-      </div>
+      <div className={this.props.classes.root}>{this.props.card ? this.renderDesigner() : <CircularProgress />}</div>
     );
+  }
+
+  renderDesigner() {
+    if (this.props.card) {
+      return (
+        <div>
+          <Grid container={true}>
+            <Grid item={true} xs={12}>
+              {this.renderStepper()}
+            </Grid>
+          </Grid>
+          <Grid container={true}>
+            <Grid item={true} sm={4} xs={12}>
+              {this.renderControls()}
+              <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} />
+            </Grid>
+            <Grid item={true} sm={2} xs={12}>
+              <p>Work area</p>
+              <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} />
+              <br />
+              <br />
+              <Button onClick={() => this.props.saveCardDesign(this.props.card!)}>Save</Button>
+            </Grid>
+          </Grid>
+        </div>
+      );
+    }
+    return null;
   }
 
   renderControls() {
     const { editingShapePosition } = this.props;
-    if (editingShapePosition) {
+    if (editingShapePosition && this.props.card) {
       const editingShape: Shape = this.props.card.pages[editingShapePosition.pageIndex].shapes[
         editingShapePosition.shapeIndex
       ];

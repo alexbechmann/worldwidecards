@@ -1,6 +1,12 @@
 import { Shape, Card, constants } from '@wwc/core';
 import { AnyAction } from 'redux';
-import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE, UPDATE_SHAPE_POSITION, SAVE_CARD_DESIGN } from './card.action-types';
+import {
+  ADD_TEXT_SHAPE,
+  SET_EDITING_SHAPE,
+  UPDATE_SHAPE_POSITION,
+  SAVE_CARD_DESIGN,
+  SET_MY_CARD_DESIGNS_LIST
+} from './card.action-types';
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 
@@ -47,5 +53,12 @@ export function saveCardDesign(card: Card): AnyAction {
   return {
     type: SAVE_CARD_DESIGN,
     payload: cardService.saveCardDesign(card)
+  };
+}
+
+export function setMyCardDesignsList(cards: Card[]): AnyAction {
+  return {
+    type: SET_MY_CARD_DESIGNS_LIST,
+    payload: cards
   };
 }

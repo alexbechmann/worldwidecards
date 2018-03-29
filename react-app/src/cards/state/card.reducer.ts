@@ -1,13 +1,19 @@
 import { CardState } from './card.state';
 import { AnyAction } from 'redux';
 import { TextData, cardFactory, Shape, Page, constants } from '@wwc/core';
-import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE, UPDATE_SHAPE_POSITION } from './card.action-types';
+import {
+  ADD_TEXT_SHAPE,
+  SET_EDITING_SHAPE,
+  UPDATE_SHAPE_POSITION,
+  SET_MY_CARD_DESIGNS_LIST
+} from './card.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 const defaultState: CardState = {
   activeCard: cardFactory.createBlankPortraitCard(),
-  cardDesigner: {}
+  cardDesigner: {},
+  myDesigns: []
 };
 
 export function cardReducer(state: CardState = defaultState, action: AnyAction): CardState {
@@ -24,6 +30,11 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     case SET_EDITING_SHAPE: {
       return createNewState(state, newState => {
         newState.cardDesigner.editingShapePosition = action.payload as ShapePosition;
+      });
+    }
+    case SET_MY_CARD_DESIGNS_LIST: {
+      return createNewState(state, newState => {
+        newState.myDesigns = action.payload;
       });
     }
     case UPDATE_SHAPE_POSITION: {

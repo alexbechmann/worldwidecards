@@ -18,6 +18,7 @@ export function authReducer(state: AuthState = defaultState, action: AnyAction):
     case UPDATE_CURRENT_USER: {
       return createNewState(state, newState => {
         newState.currentUser = action.payload;
+        newState.initialized = true;
       });
     }
     default: {
