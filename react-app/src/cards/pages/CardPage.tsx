@@ -9,13 +9,14 @@ import { WithThemeProps } from 'src/shared/styles/with-theme-props';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 export interface CardPageDispatchProps {
-  updateShapePosition: (pageIndex: number, shapeIndex: number, x: number, y: number) => any;
-  setEditingShape: (position: ShapePosition) => any;
+  updateShapePosition: (cardId: string, pageIndex: number, shapeIndex: number, x: number, y: number) => any;
+  setEditingShape: (cardId: string, position: ShapePosition) => any;
 }
 
 export interface CardPageProps {
   page: Page;
   pageIndex: number;
+  cardId?: string;
   editingShapePosition?: ShapePosition;
 }
 
@@ -104,13 +105,13 @@ export class CardPage extends React.Component<Props, State> {
               width={shape.width}
               height={shape.height}
               onClick={() =>
-                this.props.setEditingShape({
+                this.props.setEditingShape(this.props.cardId!, {
                   pageIndex: this.props.pageIndex,
                   shapeIndex: index
                 })
               }
               onTap={() =>
-                this.props.setEditingShape({
+                this.props.setEditingShape(this.props.cardId!, {
                   pageIndex: this.props.pageIndex,
                   shapeIndex: index
                 })
@@ -138,13 +139,13 @@ export class CardPage extends React.Component<Props, State> {
               draggable={true}
               fill={shape.textData!.color}
               onClick={() =>
-                this.props.setEditingShape({
+                this.props.setEditingShape(this.props.cardId!, {
                   pageIndex: this.props.pageIndex,
                   shapeIndex: index
                 })
               }
               onTap={() =>
-                this.props.setEditingShape({
+                this.props.setEditingShape(this.props.cardId!, {
                   pageIndex: this.props.pageIndex,
                   shapeIndex: index
                 })
@@ -184,6 +185,6 @@ export class CardPage extends React.Component<Props, State> {
 
   handleDragEnd = (e: any, index: number) => {
     const rect: any = e.target;
-    this.props.updateShapePosition(this.props.pageIndex, index, rect.attrs.x, rect.attrs.y);
+    this.props.updateShapePosition(this.props.cardId!, this.props.pageIndex, index, rect.attrs.x, rect.attrs.y);
   };
 }

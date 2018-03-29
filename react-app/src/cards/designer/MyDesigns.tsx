@@ -19,7 +19,7 @@ export class MyDesigns extends React.Component<MyDesignsProps> {
             const EditLink = (props: any) => <Link to={routes.designs.build(card.id)} {...props} />;
             return (
               <Grid key={card.id} item={true} xs={12} sm={3} xl={2}>
-                <CardPageContainer page={card.pages[0]} pageIndex={0} />
+                <CardPageContainer page={card.pages[0]} pageIndex={0} cardId={card.id!} />
                 <Button component={EditLink}>Edit</Button>
               </Grid>
             );

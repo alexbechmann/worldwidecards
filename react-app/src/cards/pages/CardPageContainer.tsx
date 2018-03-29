@@ -9,6 +9,7 @@ import { withTheme } from 'material-ui';
 interface CardPageContainerProps {
   page: Page;
   pageIndex: number;
+  cardId: string;
 }
 
 function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): CardPageProps {
@@ -16,7 +17,8 @@ function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): Car
   return {
     page,
     pageIndex,
-    editingShapePosition: state.card.cardDesigner.editingShapePosition
+    editingShapePosition: state.card.cardDesigner.editingShapePosition,
+    cardId: ownProps.cardId
   };
 }
 

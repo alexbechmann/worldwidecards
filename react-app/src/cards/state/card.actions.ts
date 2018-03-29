@@ -10,7 +10,7 @@ import {
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 
-export function addTextShape(pageIndex: number, text: string): AnyAction {
+export function addTextShape(cardId: string, pageIndex: number, text: string): AnyAction {
   const textShape: Shape = {
     type: constants.shapes.types.text,
     textData: {
@@ -24,23 +24,34 @@ export function addTextShape(pageIndex: number, text: string): AnyAction {
   return {
     type: ADD_TEXT_SHAPE,
     payload: {
+      cardId,
       pageIndex,
       textShape
     }
   };
 }
 
-export function setEditingShape(position: ShapePosition): AnyAction {
+export function setEditingShape(cardId: string, position: ShapePosition): AnyAction {
   return {
     type: SET_EDITING_SHAPE,
-    payload: position
+    payload: {
+      cardId,
+      position
+    }
   };
 }
 
-export function updateShapePosition(pageIndex: number, shapeIndex: number, x: number, y: number): AnyAction {
+export function updateShapePosition(
+  cardId: string,
+  pageIndex: number,
+  shapeIndex: number,
+  x: number,
+  y: number
+): AnyAction {
   return {
     type: UPDATE_SHAPE_POSITION,
     payload: {
+      cardId,
       shapeIndex,
       pageIndex,
       x,

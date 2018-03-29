@@ -1,6 +1,6 @@
 import { CardState } from './card.state';
 import { AnyAction } from 'redux';
-import { TextData, cardFactory, Shape, Page, constants } from '@wwc/core';
+import { TextData, Shape, Page, constants } from '@wwc/core';
 import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
@@ -9,19 +9,19 @@ import {
 } from './card.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
-
+//   activeCard: cardFactory.createBlankPortraitCard(),
 const defaultState: CardState = {
-  activeCard: cardFactory.createBlankPortraitCard(),
   cardDesigner: {},
   myDesigns: []
 };
 
 export function cardReducer(state: CardState = defaultState, action: AnyAction): CardState {
+  console.log(action, state);
   switch (action.type) {
     case ADD_TEXT_SHAPE: {
-      const payload: { pageIndex: number; textShape: TextData } = action.payload;
+      const payload: { cardId: string; pageIndex: number; textShape: TextData } = action.payload;
       return createNewState(state, newState => {
-        newState.activeCard.pages[payload.pageIndex].shapes.push({
+        newState.myDesigns[payload.cardId].pages[payload.pageIndex].shapes.push({
           type: constants.shapes.types.text,
           textData: payload.textShape
         });
@@ -29,7 +29,8 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     }
     case SET_EDITING_SHAPE: {
       return createNewState(state, newState => {
-        newState.cardDesigner.editingShapePosition = action.payload as ShapePosition;
+        newState.cardDesigner.editingShapePosition = action.payload.position as ShapePosition;
+        newState.cardDesigner.cardId = action.payload.cardId;
       });
     }
     case SET_MY_CARD_DESIGNS_LIST: {
@@ -38,34 +39,40 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
       });
     }
     case UPDATE_SHAPE_POSITION: {
-      const payload: { pageIndex: number; shapeIndex: number; x: number; y: number } = action.payload;
-      return createNewState(state, newState => {
-        const newPages: Page[] = state.activeCard.pages.map((page, pageIndex) => {
-          if (pageIndex === payload.pageIndex) {
-            const newShapes: Shape[] = page.shapes.map((shape, shapeIndex) => {
-              if (shapeIndex === payload.shapeIndex) {
-                return {
-                  ...shape,
-                  x: payload.x,
-                  y: payload.y
-                };
-              }
-              return shape;
-            });
-            return {
-              ...page,
-              shapes: newShapes
-            };
-          } else {
-            return page;
-          }
-        });
+      const payload: { cardId: string; pageIndex: number; shapeIndex: number; x: number; y: number } = action.payload;
+      const card = state.myDesigns.find(design => design.id === payload.cardId);
+      if (card) {
+        return createNewState(state, newState => {
+          const newPages: Page[] = card.pages.map((page, pageIndex) => {
+            if (pageIndex === payload.pageIndex) {
+              const newShapes: Shape[] = page.shapes.map((shape, shapeIndex) => {
+                if (shapeIndex === payload.shapeIndex) {
+                  return {
+                    ...shape,
+                    x: payload.x,
+                    y: payload.y
+                  };
+                }
+                return shape;
+              });
+              return {
+                ...page,
+                shapes: newShapes
+              };
+            } else {
+              return page;
+            }
+          });
 
-        newState.activeCard = {
-          ...newState.activeCard,
-          pages: newPages
-        };
-      });
+          const index = state.myDesigns.indexOf(card);
+          newState.myDesigns[index] = {
+            ...card,
+            pages: newPages
+          };
+        });
+      } else {
+        return state;
+      }
     }
     default: {
       return state;
