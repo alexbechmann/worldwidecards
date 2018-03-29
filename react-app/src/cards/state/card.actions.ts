@@ -1,15 +1,19 @@
-import { TextShape, Shape, Card } from '@wwc/core';
+import { Shape, Card, constants } from '@wwc/core';
 import { AnyAction } from 'redux';
 import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE, UPDATE_SHAPE_POSITION, SAVE_CARD_DESIGN } from './card.action-types';
 import { cardService } from 'src/cards/services/card.service';
 
 export function addTextShape(pageIndex: number, text: string): AnyAction {
-  const textShape = new TextShape({
-    text: '',
-    fontSize: 24,
+  const textShape: Shape = {
+    type: constants.shapes.types.text,
+    textData: {
+      text: '',
+      fontSize: 24,
+      color: 'black'
+    },
     x: 0,
     y: 0
-  });
+  };
   return {
     type: ADD_TEXT_SHAPE,
     payload: {

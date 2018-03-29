@@ -1,6 +1,6 @@
 import { CardState } from './card.state';
 import { AnyAction } from 'redux';
-import { TextShape, cardFactory, Shape, Card, Page, ImageShape } from '@wwc/core';
+import { TextShape, cardFactory, Shape, Page, constants } from '@wwc/core';
 import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE, UPDATE_SHAPE_POSITION } from './card.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 
@@ -14,7 +14,10 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     case ADD_TEXT_SHAPE: {
       const payload: { pageIndex: number; textShape: TextShape } = action.payload;
       return createNewState(state, newState => {
-        newState.activeCard.pages[payload.pageIndex].shapes.push(payload.textShape);
+        newState.activeCard.pages[payload.pageIndex].shapes.push({
+          type: constants.shapes.types.text,
+          textData: payload.textShape
+        });
       });
     }
     case SET_EDITING_SHAPE: {
@@ -29,19 +32,11 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
           if (pageIndex === payload.pageIndex) {
             const newShapes: Shape[] = page.shapes.map((shape, shapeIndex) => {
               if (shapeIndex === payload.shapeIndex) {
-                if (shape instanceof TextShape) {
-                  return new TextShape({
-                    ...shape,
-                    x: payload.x,
-                    y: payload.y
-                  });
-                } else if (shape instanceof ImageShape) {
-                  return new ImageShape({
-                    ...shape,
-                    x: payload.x,
-                    y: payload.y
-                  });
-                }
+                return {
+                  ...shape,
+                  x: payload.x,
+                  y: payload.y
+                };
               }
               return shape;
             });
@@ -54,7 +49,10 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
           }
         });
 
-        newState.activeCard = new Card(newPages);
+        newState.activeCard = {
+          ...newState.activeCard,
+          pages: newPages
+        };
       });
     }
     default: {

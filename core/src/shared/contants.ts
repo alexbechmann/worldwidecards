@@ -13,5 +13,11 @@ export const constants = deepFreeze({
         height: a4.width
       }
     }
+  },
+  shapes: {
+    types: {
+      text: "TEXT_SHAPE",
+      image: "IMAGE_SHAPE"
+    }
   }
 });

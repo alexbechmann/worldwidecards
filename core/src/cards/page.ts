@@ -1,4 +1,4 @@
-import { Shape } from './shape';
+import { Shape } from './shapes/shape';
 
 export interface Page {
   shapes: Shape[];

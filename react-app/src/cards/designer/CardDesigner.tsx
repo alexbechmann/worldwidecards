@@ -10,7 +10,7 @@ import {
   WithStyles,
   Button
 } from 'material-ui';
-import { Card, Shape, ImageShape, TextShape } from '@wwc/core';
+import { Card, Shape, constants } from '@wwc/core';
 import { ImageControls } from './controls/ImageControls';
 import { TextControls } from './controls/TextControls';
 import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
@@ -42,18 +42,17 @@ class CardDesignerComponent extends React.Component<StyledProps> {
       <div className={this.props.classes.root}>
         <Grid container={true}>
           <Grid item={true} xs={12}>
-            {this.props.card.title}
             {this.renderStepper()}
           </Grid>
         </Grid>
         <Grid container={true}>
           <Grid item={true} sm={4} xs={12}>
             {this.renderControls()}
-            <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
+            <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} />
           </Grid>
           <Grid item={true} sm={2} xs={12}>
             <p>Work area</p>
-            <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
+            <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} />
             <br />
             <br />
             <Button onClick={() => this.props.saveCardDesign(this.props.card)}>Save</Button>
@@ -64,13 +63,20 @@ class CardDesignerComponent extends React.Component<StyledProps> {
   }
 
   renderControls() {
-    if (this.props.editingShape instanceof ImageShape) {
-      return <ImageControls />;
-    } else if (this.props.editingShape instanceof TextShape) {
-      return <TextControls />;
-    } else {
-      return null;
+    if (this.props.editingShape) {
+      switch (this.props.editingShape.type) {
+        case constants.shapes.types.image: {
+          return <ImageControls />;
+        }
+        case constants.shapes.types.text: {
+          return <TextControls />;
+        }
+        default: {
+          return null;
+        }
+      }
     }
+    return null;
   }
 
   renderStepper() {

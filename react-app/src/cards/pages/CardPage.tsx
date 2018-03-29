@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Paper } from 'material-ui';
 import { Stage, Layer, Text } from 'react-konva';
-import { TextShape, ImageShape, Shape, Page } from '@wwc/core';
+import { Shape, Page, constants } from '@wwc/core';
 import { ImageRect } from '../shapes/ImageRect';
 import Measure, { BoundingRect } from 'react-measure';
 import { Rect } from 'react-konva';
@@ -92,46 +92,50 @@ export class CardPage extends React.Component<Props, State> {
 
   renderShapes() {
     return this.props.page.shapes.map((shape: Shape, index: number) => {
-      if (shape instanceof ImageShape) {
-        return (
-          <ImageRect
-            key={index}
-            href={shape.href}
-            x={shape.x}
-            y={shape.y}
-            width={shape.width}
-            height={shape.height}
-            onClick={() => this.props.setEditingShape(shape)}
-            onTap={() => this.props.setEditingShape(shape)}
-            draggable={true}
-            onDragMove={e => this.handleDragEnd(e, index)}
-          />
-        );
-      } else if (shape instanceof TextShape) {
-        return (
-          <Text
-            ref={(r: any) => {
-              if (r) {
-                // console.info(`Text box height: ${r.height()} with text ${shape.text}`);
-              }
-            }}
-            x={shape.x}
-            y={shape.y}
-            key={index}
-            width={shape.width}
-            height={shape.height}
-            fontSize={shape.fontSize}
-            text={shape.text}
-            align={'center'}
-            draggable={true}
-            fill={shape.color}
-            onClick={() => this.props.setEditingShape(shape)}
-            onTap={() => this.props.setEditingShape(shape)}
-            onDragMove={e => this.handleDragEnd(e, index)}
-          />
-        );
+      switch (shape.type) {
+        case constants.shapes.types.image: {
+          return (
+            <ImageRect
+              key={index}
+              href={shape.imageData!.href}
+              x={shape.x}
+              y={shape.y}
+              width={shape.width}
+              height={shape.height}
+              onClick={() => this.props.setEditingShape(shape)}
+              onTap={() => this.props.setEditingShape(shape)}
+              draggable={true}
+              onDragMove={e => this.handleDragEnd(e, index)}
+            />
+          );
+        }
+        case constants.shapes.types.text: {
+          return (
+            <Text
+              ref={(r: any) => {
+                if (r) {
+                  // console.info(`Text box height: ${r.height()} with text ${shape.text}`);
+                }
+              }}
+              x={shape.x}
+              y={shape.y}
+              key={index}
+              width={shape.width}
+              fontSize={shape.textData!.fontSize}
+              text={shape.textData!.text}
+              align={'center'}
+              draggable={true}
+              fill={shape.textData!.color}
+              onClick={() => this.props.setEditingShape(shape)}
+              onTap={() => this.props.setEditingShape(shape)}
+              onDragMove={e => this.handleDragEnd(e, index)}
+            />
+          );
+        }
+        default: {
+          return null;
+        }
       }
-      return null;
     });
   }
 
