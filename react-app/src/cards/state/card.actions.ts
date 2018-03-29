@@ -1,6 +1,7 @@
-import { TextShape, Shape } from '@wwc/core';
+import { TextShape, Shape, Card } from '@wwc/core';
 import { AnyAction } from 'redux';
-import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE, UPDATE_SHAPE_POSITION } from './card.action-types';
+import { ADD_TEXT_SHAPE, SET_EDITING_SHAPE, UPDATE_SHAPE_POSITION, SAVE_CARD_DESIGN } from './card.action-types';
+import { cardService } from 'src/cards/services/card.service';
 
 export function addTextShape(pageIndex: number, text: string): AnyAction {
   const textShape = new TextShape({
@@ -34,5 +35,12 @@ export function updateShapePosition(pageIndex: number, shapeIndex: number, x: nu
       x,
       y
     }
+  };
+}
+
+export function saveCardDesign(card: Card): AnyAction {
+  return {
+    type: SAVE_CARD_DESIGN,
+    payload: cardService.saveCardDesign(card)
   };
 }

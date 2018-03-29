@@ -1,6 +1,7 @@
 import { AppState } from 'src/shared/state';
 import { CardDesigner, CardDesignerProps, CardDesignerDispatchProps } from './CardDesigner';
 import { connect } from 'react-redux';
+import { saveCardDesign } from 'src/cards/state/card.actions';
 
 function mapStateToProps(state: AppState): CardDesignerProps {
   return {
@@ -9,6 +10,6 @@ function mapStateToProps(state: AppState): CardDesignerProps {
   };
 }
 
-const mapDispatchToProps: CardDesignerDispatchProps = {};
+const mapDispatchToProps: CardDesignerDispatchProps = { saveCardDesign };
 
 export const CardDesignerContainer = connect(mapStateToProps, mapDispatchToProps)(CardDesigner);

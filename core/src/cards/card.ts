@@ -1,7 +1,9 @@
 import { FrontPage } from './front-page';
 import { Page } from '..';
+import { Entity } from '../shared/entity';
 
-export class Card {
+export class Card implements Entity {
+  id?: string;
   title: string;
   pages: Page[];
   constructor(pages: Page[]) {

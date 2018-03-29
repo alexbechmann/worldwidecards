@@ -1,5 +1,15 @@
 import * as React from 'react';
-import { Grid, Stepper, Step, StepButton, StyleRulesCallback, Theme, withStyles, WithStyles } from 'material-ui';
+import {
+  Grid,
+  Stepper,
+  Step,
+  StepButton,
+  StyleRulesCallback,
+  Theme,
+  withStyles,
+  WithStyles,
+  Button
+} from 'material-ui';
 import { Card, Shape, ImageShape, TextShape } from '@wwc/core';
 import { ImageControls } from './controls/ImageControls';
 import { TextControls } from './controls/TextControls';
@@ -18,7 +28,9 @@ export interface CardDesignerProps {
   editingShape?: Shape;
 }
 
-export interface CardDesignerDispatchProps {}
+export interface CardDesignerDispatchProps {
+  saveCardDesign: (card: Card) => any;
+}
 
 interface Props extends CardDesignerProps, CardDesignerDispatchProps {}
 
@@ -42,6 +54,9 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           <Grid item={true} sm={2} xs={12}>
             <p>Work area</p>
             <CardPageContainer pageIndex={Card.frontPageIndex()} page={this.props.card.frontPage()} />
+            <br />
+            <br />
+            <Button onClick={() => this.props.saveCardDesign(this.props.card)}>Save</Button>
           </Grid>
         </Grid>
       </div>
