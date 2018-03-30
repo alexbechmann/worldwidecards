@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  Avatar,
   AppBar,
   MenuItem,
   Drawer,
@@ -8,15 +9,19 @@ import {
   Typography,
   Divider,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Theme,
+  StyleRulesCallback
 } from 'material-ui';
 import * as Icons from 'material-ui-icons';
 import { routes } from 'src/shared/router/routes';
 import { RouteButton } from 'src/shared/ui';
 import withStyles, { WithStyles } from 'material-ui/styles/withStyles';
+import { UserInfo } from 'firebase';
 
 export interface AppMenuBarProps {
   isLoggedIn: boolean;
+  currentUser?: UserInfo;
 }
 
 export interface AppMenuBarDispatchProps {
@@ -29,16 +34,19 @@ interface State {
   showDrawer: boolean;
 }
 
-type StyleClassNames = 'root' | 'flex';
+type StyleClassNames = 'root' | 'flex' | 'avatar';
 
-const styles = {
+const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   root: {
     flexGrow: 1
   },
   flex: {
     flex: 1
+  },
+  avatar: {
+    marginLeft: theme.spacing.unit
   }
-};
+});
 
 interface StyledProps extends Props, WithStyles<StyleClassNames> {}
 
@@ -65,11 +73,21 @@ export const AppMenuBar: React.ComponentType<Props> = withStyles(styles, { withT
                 Worldwidecards
               </Typography>
               {this.renderNavButtons()}
+              {this.renderAvatar()}
             </Toolbar>
           </AppBar>
           {this.renderSideDrawer()}
         </div>
       );
+    }
+
+    renderAvatar() {
+      if (this.props.currentUser) {
+        return this.props.currentUser.photoURL ? (
+          <Avatar className={this.props.classes.avatar} src={this.props.currentUser.photoURL} />
+        ) : null;
+      }
+      return null;
     }
 
     renderNavButtons() {

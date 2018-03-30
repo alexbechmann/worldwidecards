@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 function mapStateToProps(state: AppState): AppMenuBarProps {
   return {
-    isLoggedIn: state.auth.currentUser != null
+    isLoggedIn: state.auth.currentUser != null,
+    currentUser: state.auth.currentUser
   };
 }
 
