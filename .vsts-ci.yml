@@ -17,12 +17,6 @@ steps:
 
 - task: Npm@1
   inputs:
-    command: 'install'
-    workingDir: 'react-app'
-    verbose: 'false'
-
-- task: Npm@1
-  inputs:
     command: 'custom'
     workingDir: 'core'
     verbose: 'false'
@@ -30,8 +24,27 @@ steps:
 
 - task: Npm@1
   inputs:
+    command: 'install'
+    workingDir: 'react-app'
+    verbose: 'false'
+
+- task: Npm@1
+  inputs:
     command: 'custom'
     workingDir: 'react-app'
+    verbose: 'false'
+    customCommand: 'run build'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'functions'
+    verbose: 'false'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'functions'
     verbose: 'false'
     customCommand: 'run build'
 
@@ -42,14 +55,21 @@ steps:
     verbose: 'false'
     customCommand: 'test'
 
-- task: PublishBuildArtifacts@1
+- task: CopyFiles@2
   inputs:
-    PathtoPublish: 'react-app/build'
-    ArtifactName: 'react-app'
-    publishLocation: Container
+    Contents: |
+     .firebaserc
+     database.rules.json
+     firebase.json
+     firestore.indexes.json
+     firestore.rules
+     storage.rules
+     functions/**
+     react-app/build/**
+    TargetFolder: '$(build.artifactstagingdirectory)/firebase-app'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'firebase-config'
-    ArtifactName: 'firebase-config'
+    PathtoPublish: '$(build.artifactstagingdirectory)/firebase-app'
+    ArtifactName: 'firebase-app'
     publishLocation: Container
