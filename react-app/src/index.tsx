@@ -10,12 +10,12 @@ import 'typeface-roboto';
 import { cardWatcher } from 'src/cards/state/card.watcher';
 
 var config = {
-  apiKey: 'AIzaSyBxBsgZ0TwAhsItBpqPZdwKKjQkch72FF4',
-  authDomain: 'worldwidecards-dev.firebaseapp.com',
-  databaseURL: 'https://worldwidecards-dev.firebaseio.com',
-  projectId: 'worldwidecards-dev',
-  storageBucket: 'worldwidecards-dev.appspot.com',
-  messagingSenderId: '764474237794'
+  apiKey: process.env.FIREBASE_CONFIG_API_KEY,
+  authDomain:  process.env.FIREBASE_CONFIG_AUTH_DOMAIN,
+  databaseURL:  process.env.FIREBASE_CONFIG_DATABASE_URL,
+  projectId: process.env.FIREBASE_CONFIG_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_CONFIG_STORAGE_BUCKET,
+  messagingSenderId:  process.env.FIREBASE_CONFIG_MESSAGING_SENDER_ID
 };
 firebase.initializeApp(config);
 
