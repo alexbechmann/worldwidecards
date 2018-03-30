@@ -6,12 +6,6 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
-    workingDir: ''
-    verbose: 'false'
-
-- task: Npm@1
-  inputs:
-    command: 'install'
     workingDir: 'core'
     verbose: 'false'
 
@@ -41,3 +35,15 @@ steps:
     workingDir: ''
     verbose: 'false'
     customCommand: 'test'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'react-app/build'
+    ArtifactName: 'react-app'
+    publishLocation: Container
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'firebase-config'
+    ArtifactName: 'firebase-config'
+    publishLocation: Container
