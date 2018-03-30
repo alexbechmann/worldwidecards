@@ -3,6 +3,7 @@ import { User, UserInfo } from 'firebase';
 import { store } from 'src/shared/state';
 import * as firebase from 'firebase';
 import { UPDATE_CURRENT_USER, INIT_AUTH, LOGOUT } from './auth.action-types';
+import { startWatchingCardDesignsForUser } from 'src/cards/state/card.actions';
 
 export function loginWithFacebook(): AnyAction {
   const provider = new firebase.auth.FacebookAuthProvider();
@@ -19,6 +20,9 @@ export function initAuth(): AnyAction {
       type: UPDATE_CURRENT_USER,
       payload: userInfo
     });
+    if (user) {
+      store.dispatch(startWatchingCardDesignsForUser(user));
+    }
   });
   return {
     type: INIT_AUTH,

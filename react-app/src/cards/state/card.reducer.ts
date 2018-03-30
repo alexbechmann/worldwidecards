@@ -9,15 +9,19 @@ import {
   SET_ACTIVE_CARD,
   SAVING_CARD_DESIGN,
   SAVE_CARD_DESIGN,
-  UNSET_ACTIVE_CARD
+  UNSET_ACTIVE_CARD,
+  START_WATCHING_CARD_DESIGNS_FOR_USER
 } from './card.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { UserInfo } from 'firebase';
+import { LOGOUT } from 'src/auth/state/auth.action-types';
 
 const defaultState: CardState = {
+  loadingMyDesigns: true,
   myDesigns: [],
-  savingActiveCard: false
+  savingActiveCard: false,
+  firestoreUnsubscribeMethods: []
 };
 
 export function cardReducer(state: CardState = defaultState, action: AnyAction): CardState {
@@ -43,6 +47,7 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
         if (newState.activeCardId && !newState.activeCard && card) {
           newState.activeCard = card;
         }
+        newState.loadingMyDesigns = false;
       });
     }
     case SET_ACTIVE_CARD: {
@@ -64,6 +69,17 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     case SAVE_CARD_DESIGN: {
       return createNewState(state, newState => {
         newState.savingActiveCard = false;
+      });
+    }
+    case START_WATCHING_CARD_DESIGNS_FOR_USER: {
+      return createNewState(state, newState => {
+        newState.firestoreUnsubscribeMethods.push(action.payload as Function);
+      });
+    }
+    case LOGOUT: {
+      state.firestoreUnsubscribeMethods.forEach(unsubscribe => unsubscribe());
+      return createNewState(state, newState => {
+        newState.firestoreUnsubscribeMethods = [];
       });
     }
     case UNSET_ACTIVE_CARD: {

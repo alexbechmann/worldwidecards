@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Card } from '@wwc/core';
 import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
-import { Grid, Typography, Button } from 'material-ui';
-import { Link } from 'react-router-dom';
+import { Grid, Typography, CircularProgress } from 'material-ui';
 import { routes } from 'src/shared/router/routes';
 import { RouteButton } from 'src/shared/ui';
 
 export interface MyDesignsProps {
   designs: Card[];
+  loading: boolean;
 }
 
 export class MyDesigns extends React.Component<MyDesignsProps> {
@@ -28,12 +28,18 @@ export class MyDesigns extends React.Component<MyDesignsProps> {
             );
           })}
         </Grid>
+        {this.renderLoadingState()}
       </div>
     );
   }
 
-  renderLink(text: string, id?: string) {
-    const DesignerLink = (props: any) => <Link {...props} />;
-    return <Button component={DesignerLink}>{text}</Button>;
+  renderLoadingState() {
+    return this.props.loading ? (
+      <CircularProgress />
+    ) : this.props.designs.length > 0 ? (
+      <span />
+    ) : (
+      <div>No designs yet.</div>
+    );
   }
 }

@@ -8,12 +8,14 @@ import {
   SET_MY_CARD_DESIGNS_LIST,
   SET_ACTIVE_CARD,
   SAVING_CARD_DESIGN,
-  UNSET_ACTIVE_CARD
+  UNSET_ACTIVE_CARD,
+  START_WATCHING_CARD_DESIGNS_FOR_USER
 } from './card.action-types';
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { store } from 'src/shared/state';
 import { UserInfo } from 'firebase';
+import * as firebase from 'firebase';
 
 export function addTextShape(pageIndex: number, text: string): AnyAction {
   const textShape: Shape = {
@@ -74,7 +76,6 @@ export function setMyCardDesignsList(cards: Card[]): AnyAction {
 }
 
 export function setActiveCard(user: UserInfo, cardId?: string) {
-  console.log(user);
   return {
     type: SET_ACTIVE_CARD,
     payload: {
@@ -87,5 +88,23 @@ export function setActiveCard(user: UserInfo, cardId?: string) {
 export function unSetActiveCard() {
   return {
     type: UNSET_ACTIVE_CARD
+  };
+}
+
+export function startWatchingCardDesignsForUser(user: UserInfo): AnyAction {
+  const db = firebase.firestore();
+  const cardDesigns = db.collection('card-designs').where('userId', '==', user.uid);
+  const unsubscribe = cardDesigns.onSnapshot(snapshot => {
+    const cards: Card[] = snapshot.docs.map(doc => {
+      const card = doc.data() as Card;
+      card.id = doc.id;
+      return card;
+    });
+    const action = setMyCardDesignsList(cards);
+    store.dispatch(action);
+  });
+  return {
+    type: START_WATCHING_CARD_DESIGNS_FOR_USER,
+    payload: unsubscribe
   };
 }

@@ -4,6 +4,8 @@ import { constants } from '@wwc/core';
 import { CardState } from '../card.state';
 
 const defaultState: CardState = {
+  loadingMyDesigns: false,
+  firestoreUnsubscribeMethods: [],
   myDesigns: [],
   savingActiveCard: false,
   activeCard: {

@@ -7,7 +7,6 @@ import { AppContainer } from './AppContainer';
 import { Provider } from 'react-redux';
 import { store } from 'src/shared/state';
 import 'typeface-roboto';
-import { cardWatcher } from 'src/cards/state/card.watcher';
 
 var config = {
   apiKey: process.env.REACT_APP_FIREBASE_CONFIG_API_KEY,
@@ -18,8 +17,6 @@ var config = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_CONFIG_MESSAGING_SENDER_ID
 };
 firebase.initializeApp(config);
-
-cardWatcher.startWatching();
 
 const Root = () => (
   <Provider store={store}>
