@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CardDesignerContainer } from 'src/cards';
 import { LoginContainer } from 'src/auth';
-import { CircularProgress } from 'material-ui';
+import { LinearProgress } from 'material-ui';
 import { AppMenuBarContainer } from 'src/menu';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from 'src/shared/router/routes';
@@ -46,7 +46,7 @@ class App extends React.Component<Props> {
     } else if (!this.props.isLoggedIn && this.props.initialized) {
       return <LoginContainer />;
     } else {
-      return <CircularProgress />;
+      return <LinearProgress variant="query" />;
     }
   }
 }

@@ -1,20 +1,16 @@
 import { AppState } from 'src/shared/state';
 import { CardDesigner, CardDesignerProps, CardDesignerDispatchProps } from './CardDesigner';
 import { connect } from 'react-redux';
-import { saveCardDesign } from 'src/cards/state/card.actions';
-import { RouteComponentProps } from 'react-router';
+import { saveCardDesign, setActiveCard } from 'src/cards/state/card.actions';
 
-interface RouteParameters {
-  id: string;
-}
-
-function mapStateToProps(state: AppState, ownProps: RouteComponentProps<RouteParameters>): CardDesignerProps {
+function mapStateToProps(state: AppState): CardDesignerProps {
   return {
-    card: state.card.myDesigns.find(design => design.id === ownProps.match.params.id),
-    editingShapePosition: state.card.cardDesigner.editingShapePosition
+    card: state.card.activeCard,
+    editingShapePosition: state.card.cardDesigner.editingShapePosition,
+    saving: state.card.savingActiveCard
   };
 }
 
-const mapDispatchToProps: CardDesignerDispatchProps = { saveCardDesign };
+const mapDispatchToProps: CardDesignerDispatchProps = { saveCardDesign, setActiveCard };
 
 export const CardDesignerContainer = connect(mapStateToProps, mapDispatchToProps)(CardDesigner);

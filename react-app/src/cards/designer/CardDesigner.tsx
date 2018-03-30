@@ -16,6 +16,7 @@ import { ImageControls } from './controls/ImageControls';
 import { TextControls } from './controls/TextControls';
 import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
+import { RouteComponentProps } from 'react-router';
 
 type StyleClassNames = 'root';
 
@@ -28,13 +29,19 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
 export interface CardDesignerProps {
   card?: Card;
   editingShapePosition?: ShapePosition;
+  saving: boolean;
 }
 
 export interface CardDesignerDispatchProps {
   saveCardDesign: (card: Card) => any;
+  setActiveCard: (id?: string) => any;
 }
 
-interface Props extends CardDesignerProps, CardDesignerDispatchProps {}
+interface RouteParameters {
+  id: string;
+}
+
+interface Props extends CardDesignerProps, CardDesignerDispatchProps, RouteComponentProps<RouteParameters> {}
 
 interface StyledProps extends Props, WithStyles<StyleClassNames> {}
 
@@ -43,6 +50,12 @@ class CardDesignerComponent extends React.Component<StyledProps> {
     return (
       <div className={this.props.classes.root}>{this.props.card ? this.renderDesigner() : <CircularProgress />}</div>
     );
+  }
+
+  componentDidMount() {
+    if (!this.props.card || this.props.card.id !== this.props.match.params.id) {
+      this.props.setActiveCard(this.props.match.params.id);
+    }
   }
 
   renderDesigner() {
@@ -64,7 +77,9 @@ class CardDesignerComponent extends React.Component<StyledProps> {
               <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} cardId={this.props.card.id!} />
               <br />
               <br />
-              <Button onClick={() => this.props.saveCardDesign(this.props.card!)}>Save</Button>
+              <Button onClick={() => this.props.saveCardDesign(this.props.card!)}>
+                {this.props.saving ? <CircularProgress /> : 'Save'}
+              </Button>
             </Grid>
           </Grid>
         </div>

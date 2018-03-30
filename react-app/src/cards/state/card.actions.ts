@@ -5,10 +5,13 @@ import {
   SET_EDITING_SHAPE,
   UPDATE_SHAPE_POSITION,
   SAVE_CARD_DESIGN,
-  SET_MY_CARD_DESIGNS_LIST
+  SET_MY_CARD_DESIGNS_LIST,
+  SET_ACTIVE_CARD,
+  SAVING_CARD_DESIGN
 } from './card.action-types';
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
+import { store } from 'src/shared/state';
 
 export function addTextShape(cardId: string, pageIndex: number, text: string): AnyAction {
   const textShape: Shape = {
@@ -60,6 +63,9 @@ export function updateShapePosition(
 }
 
 export function saveCardDesign(card: Card): AnyAction {
+  store.dispatch({
+    type: SAVING_CARD_DESIGN
+  });
   return {
     type: SAVE_CARD_DESIGN,
     payload: cardService.saveCardDesign(card)
@@ -70,5 +76,12 @@ export function setMyCardDesignsList(cards: Card[]): AnyAction {
   return {
     type: SET_MY_CARD_DESIGNS_LIST,
     payload: cards
+  };
+}
+
+export function setActiveCard(id?: string) {
+  return {
+    type: SET_ACTIVE_CARD,
+    payload: id
   };
 }

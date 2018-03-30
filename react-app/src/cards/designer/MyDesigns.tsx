@@ -14,18 +14,23 @@ export class MyDesigns extends React.Component<MyDesignsProps> {
     return (
       <div>
         <Typography variant="headline">My Designs</Typography>
+        {this.renderLink('New card', undefined)}
         <Grid container={true}>
           {this.props.designs.map(card => {
-            const EditLink = (props: any) => <Link to={routes.designs.build(card.id)} {...props} />;
             return (
               <Grid key={card.id} item={true} xs={12} sm={3} xl={2}>
                 <CardPageContainer page={card.pages[0]} pageIndex={0} cardId={card.id!} />
-                <Button component={EditLink}>Edit</Button>
+                {this.renderLink('Edit', card.id)}
               </Grid>
             );
           })}
         </Grid>
       </div>
     );
+  }
+
+  renderLink(text: string, id?: string) {
+    const DesignerLink = (props: any) => <Link to={routes.designs.build(id)} {...props} />;
+    return <Button component={DesignerLink}>{text}</Button>;
   }
 }

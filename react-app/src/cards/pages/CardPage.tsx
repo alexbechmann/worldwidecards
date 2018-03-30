@@ -154,23 +154,22 @@ export class CardPage extends React.Component<Props, State> {
     if (
       editingShapePosition &&
       this.props.pageIndex === editingShapePosition.pageIndex &&
+      this.props.page.shapes[editingShapePosition.shapeIndex] != null &&
       this.props.cardId === editingShapePosition.cardId
     ) {
       const editingShape: Shape = this.props.page.shapes[editingShapePosition.shapeIndex];
-      if (editingShape) {
-        return (
-          <Rect
-            x={editingShape.x}
-            y={editingShape.y}
-            width={editingShape.width}
-            height={editingShape.height}
-            fill={theme.palette.secondary.main}
-            opacity={0.5}
-            draggable={true}
-            onDragMove={e => this.handleDragEnd(e, editingShapePosition.shapeIndex)}
-          />
-        );
-      }
+      return (
+        <Rect
+          x={editingShape.x}
+          y={editingShape.y}
+          width={editingShape.width}
+          height={editingShape.height}
+          fill={theme.palette.secondary.main}
+          opacity={0.5}
+          draggable={true}
+          onDragMove={e => this.handleDragEnd(e, editingShapePosition.shapeIndex)}
+        />
+      );
     }
     return null;
   }

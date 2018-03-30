@@ -1,0 +1,43 @@
+queue:
+  name: Hosted Linux Preview
+  demands: npm
+
+steps:
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: ''
+    verbose: 'false'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'core'
+    verbose: 'false'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'react-app'
+    verbose: 'false'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'core'
+    verbose: 'false'
+    customCommand: 'run build'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'react-app'
+    verbose: 'false'
+    customCommand: 'run build'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: ''
+    verbose: 'false'
+    customCommand: 'test'
