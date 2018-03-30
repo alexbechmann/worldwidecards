@@ -19,7 +19,7 @@ export class MyDesigns extends React.Component<MyDesignsProps> {
           {this.props.designs.map(card => {
             return (
               <Grid key={card.id} item={true} xs={12} sm={3} xl={2}>
-                <CardPageContainer page={card.pages[0]} pageIndex={0} cardId={card.id!} />
+                <CardPageContainer page={card.pages[0]} pageIndex={0} cardId={card.id!} editable={false} />
                 {this.renderLink('Edit', card.id)}
               </Grid>
             );

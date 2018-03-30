@@ -8,13 +8,13 @@ import {
   SET_MY_CARD_DESIGNS_LIST,
   SET_ACTIVE_CARD,
   SAVING_CARD_DESIGN,
-  SAVE_CARD_DESIGN
+  SAVE_CARD_DESIGN,
+  UNSET_ACTIVE_CARD
 } from './card.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 const defaultState: CardState = {
-  cardDesigner: {},
   myDesigns: [],
   savingActiveCard: false
 };
@@ -32,7 +32,7 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     }
     case SET_EDITING_SHAPE: {
       return createNewState(state, newState => {
-        newState.cardDesigner.editingShapePosition = action.payload as ShapePosition;
+        newState.editingShapePosition = action.payload as ShapePosition;
       });
     }
     case SET_MY_CARD_DESIGNS_LIST: {
@@ -63,6 +63,13 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     case SAVE_CARD_DESIGN: {
       return createNewState(state, newState => {
         newState.savingActiveCard = false;
+      });
+    }
+    case UNSET_ACTIVE_CARD: {
+      return createNewState(state, newState => {
+        newState.editingShapePosition = undefined;
+        newState.activeCard = undefined;
+        newState.activeCardId = undefined;
       });
     }
     case UPDATE_SHAPE_POSITION: {

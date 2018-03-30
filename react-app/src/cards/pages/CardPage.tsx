@@ -18,6 +18,7 @@ export interface CardPageProps {
   pageIndex: number;
   cardId?: string;
   editingShapePosition?: ShapePosition;
+  editable: boolean;
 }
 
 interface State {
@@ -106,7 +107,7 @@ export class CardPage extends React.Component<Props, State> {
               height={shape.height}
               onClick={() => this.setEditingShape(index)}
               onTap={() => this.setEditingShape(index)}
-              draggable={true}
+              draggable={this.props.editable}
               onDragMove={e => this.handleDragEnd(e, index)}
             />
           );
@@ -126,7 +127,7 @@ export class CardPage extends React.Component<Props, State> {
               fontSize={shape.textData!.fontSize}
               text={shape.textData!.text}
               align={'center'}
-              draggable={true}
+              draggable={this.props.editable}
               fill={shape.textData!.color}
               onClick={() => this.setEditingShape(index)}
               onTap={() => this.setEditingShape(index)}
@@ -142,11 +143,13 @@ export class CardPage extends React.Component<Props, State> {
   }
 
   setEditingShape(shapeIndex: number) {
-    this.props.setEditingShape({
-      pageIndex: this.props.pageIndex,
-      shapeIndex: shapeIndex,
-      cardId: this.props.cardId!
-    });
+    if (this.props.editable) {
+      this.props.setEditingShape({
+        pageIndex: this.props.pageIndex,
+        shapeIndex: shapeIndex,
+        cardId: this.props.cardId!
+      });
+    }
   }
 
   renderHighlightZone() {
@@ -166,7 +169,7 @@ export class CardPage extends React.Component<Props, State> {
           height={editingShape.height}
           fill={theme.palette.secondary.main}
           opacity={0.5}
-          draggable={true}
+          draggable={this.props.editable}
           onDragMove={e => this.handleDragEnd(e, editingShapePosition.shapeIndex)}
         />
       );

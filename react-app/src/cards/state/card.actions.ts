@@ -7,7 +7,8 @@ import {
   SAVE_CARD_DESIGN,
   SET_MY_CARD_DESIGNS_LIST,
   SET_ACTIVE_CARD,
-  SAVING_CARD_DESIGN
+  SAVING_CARD_DESIGN,
+  UNSET_ACTIVE_CARD
 } from './card.action-types';
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
@@ -83,5 +84,11 @@ export function setActiveCard(id?: string) {
   return {
     type: SET_ACTIVE_CARD,
     payload: id
+  };
+}
+
+export function unSetActiveCard() {
+  return {
+    type: UNSET_ACTIVE_CARD
   };
 }

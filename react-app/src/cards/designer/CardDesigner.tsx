@@ -35,6 +35,7 @@ export interface CardDesignerProps {
 export interface CardDesignerDispatchProps {
   saveCardDesign: (card: Card) => any;
   setActiveCard: (id?: string) => any;
+  unSetActiveCard: () => any;
 }
 
 interface RouteParameters {
@@ -70,11 +71,21 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           <Grid container={true}>
             <Grid item={true} sm={4} xs={12}>
               {this.renderControls()}
-              <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} cardId={this.props.card.id!} />
+              <CardPageContainer
+                pageIndex={0}
+                page={this.props.card.pages[0]}
+                cardId={this.props.card.id!}
+                editable={true}
+              />
             </Grid>
             <Grid item={true} sm={2} xs={12}>
               <p>Work area</p>
-              <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} cardId={this.props.card.id!} />
+              <CardPageContainer
+                pageIndex={0}
+                page={this.props.card.pages[0]}
+                cardId={this.props.card.id!}
+                editable={true}
+              />
               <br />
               <br />
               <Button onClick={() => this.props.saveCardDesign(this.props.card!)}>
@@ -126,6 +137,10 @@ class CardDesignerComponent extends React.Component<StyledProps> {
         })}
       </Stepper>
     );
+  }
+
+  componentWillUnmount() {
+    this.props.unSetActiveCard();
   }
 }
 
