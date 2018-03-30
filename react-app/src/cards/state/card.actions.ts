@@ -13,6 +13,7 @@ import {
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { store } from 'src/shared/state';
+import { UserInfo } from 'firebase';
 
 export function addTextShape(pageIndex: number, text: string): AnyAction {
   const textShape: Shape = {
@@ -55,13 +56,13 @@ export function updateShapePosition(pageIndex: number, shapeIndex: number, x: nu
   };
 }
 
-export function saveCardDesign(card: Card): AnyAction {
+export function saveCardDesign(user: UserInfo, card: Card): AnyAction {
   store.dispatch({
     type: SAVING_CARD_DESIGN
   });
   return {
     type: SAVE_CARD_DESIGN,
-    payload: cardService.saveCardDesign(card)
+    payload: cardService.saveCardDesign(user, card)
   };
 }
 
@@ -72,10 +73,14 @@ export function setMyCardDesignsList(cards: Card[]): AnyAction {
   };
 }
 
-export function setActiveCard(id?: string) {
+export function setActiveCard(user: UserInfo, cardId?: string) {
+  console.log(user);
   return {
     type: SET_ACTIVE_CARD,
-    payload: id
+    payload: {
+      user,
+      cardId
+    }
   };
 }
 

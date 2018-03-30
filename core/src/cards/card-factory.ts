@@ -1,9 +1,12 @@
 import { Card } from './card';
 import { constants } from '../shared/contants';
+import { UserInfo } from 'firebase';
 
 export class CardFactory {
-  createBlankPortraitCard(): Card {
+  createBlankPortraitCard(userInfo: UserInfo): Card {
     return {
+      userId: userInfo.uid,
+      userInfo,
       pages: [
         {
           height: constants.card.dimensions.portrait.height,

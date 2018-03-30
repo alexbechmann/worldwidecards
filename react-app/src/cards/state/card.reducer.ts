@@ -13,6 +13,7 @@ import {
 } from './card.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
+import { UserInfo } from 'firebase';
 
 const defaultState: CardState = {
   myDesigns: [],
@@ -46,12 +47,12 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     }
     case SET_ACTIVE_CARD: {
       return createNewState(state, newState => {
-        const id: string = action.payload;
-        if (id) {
-          newState.activeCard = state.myDesigns.find(design => design.id === id);
-          newState.activeCardId = id;
+        const { cardId, user }: { cardId: string; user: UserInfo } = action.payload;
+        if (cardId) {
+          newState.activeCard = state.myDesigns.find(design => design.id === cardId);
+          newState.activeCardId = cardId;
         } else {
-          newState.activeCard = cardFactory.createBlankPortraitCard();
+          newState.activeCard = cardFactory.createBlankPortraitCard(user);
         }
       });
     }
@@ -97,6 +98,8 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
         });
 
         newState.activeCard = {
+          userInfo: state.activeCard!.userInfo,
+          userId: state.activeCard!.userId,
           ...state.activeCard,
           pages: newPages
         };

@@ -4,7 +4,6 @@ import { UPDATE_CURRENT_USER, INIT_AUTH } from './auth.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 
 const defaultState: AuthState = {
-  currentUser: null,
   initialized: false
 };
 

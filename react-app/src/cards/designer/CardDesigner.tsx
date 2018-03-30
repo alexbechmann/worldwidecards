@@ -17,6 +17,7 @@ import { TextControls } from './controls/TextControls';
 import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
+import { UserInfo } from 'firebase';
 
 type StyleClassNames = 'root';
 
@@ -30,11 +31,12 @@ export interface CardDesignerProps {
   card?: Card;
   editingShapePosition?: ShapePosition;
   saving: boolean;
+  currentUser?: UserInfo;
 }
 
 export interface CardDesignerDispatchProps {
-  saveCardDesign: (card: Card) => any;
-  setActiveCard: (id?: string) => any;
+  saveCardDesign: (user: UserInfo, card: Card) => any;
+  setActiveCard: (user: UserInfo, cardId?: string) => any;
   unSetActiveCard: () => any;
 }
 
@@ -48,14 +50,16 @@ interface StyledProps extends Props, WithStyles<StyleClassNames> {}
 
 class CardDesignerComponent extends React.Component<StyledProps> {
   render() {
-    return (
+    return this.props.currentUser != null ? (
       <div className={this.props.classes.root}>{this.props.card ? this.renderDesigner() : <CircularProgress />}</div>
+    ) : (
+      <div>Must be logged in.</div>
     );
   }
 
   componentDidMount() {
-    if (!this.props.card || this.props.card.id !== this.props.match.params.id) {
-      this.props.setActiveCard(this.props.match.params.id);
+    if (!this.props.card || (this.props.card.id !== this.props.match.params.id && this.props.currentUser)) {
+      this.props.setActiveCard(this.props.currentUser!, this.props.match.params.id);
     }
   }
 
@@ -88,7 +92,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
               />
               <br />
               <br />
-              <Button onClick={() => this.props.saveCardDesign(this.props.card!)}>
+              <Button onClick={() => this.props.saveCardDesign(this.props.currentUser!, this.props.card!)}>
                 {this.props.saving ? <CircularProgress /> : 'Save'}
               </Button>
             </Grid>

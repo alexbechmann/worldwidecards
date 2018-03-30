@@ -7,6 +7,15 @@ const defaultState: CardState = {
   myDesigns: [],
   savingActiveCard: false,
   activeCard: {
+    userId: 'A3KDFSDFL',
+    userInfo: {
+      displayName: '',
+      email: '',
+      phoneNumber: '',
+      photoURL: '',
+      providerId: '',
+      uid: ''
+    },
     pages: [
       {
         height: constants.card.dimensions.portrait.height,
