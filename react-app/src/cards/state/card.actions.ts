@@ -31,12 +31,11 @@ export function addTextShape(cardId: string, pageIndex: number, text: string): A
   };
 }
 
-export function setEditingShape(cardId: string, position: ShapePosition): AnyAction {
+export function setEditingShape(position: ShapePosition): AnyAction {
   return {
     type: SET_EDITING_SHAPE,
     payload: {
-      cardId,
-      position
+      ...position
     }
   };
 }

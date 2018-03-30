@@ -16,7 +16,6 @@ const defaultState: CardState = {
 };
 
 export function cardReducer(state: CardState = defaultState, action: AnyAction): CardState {
-  console.log(action, state);
   switch (action.type) {
     case ADD_TEXT_SHAPE: {
       const payload: { cardId: string; pageIndex: number; textShape: TextData } = action.payload;
@@ -29,8 +28,7 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
     }
     case SET_EDITING_SHAPE: {
       return createNewState(state, newState => {
-        newState.cardDesigner.editingShapePosition = action.payload.position as ShapePosition;
-        newState.cardDesigner.cardId = action.payload.cardId;
+        newState.cardDesigner.editingShapePosition = action.payload as ShapePosition;
       });
     }
     case SET_MY_CARD_DESIGNS_LIST: {

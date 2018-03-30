@@ -10,7 +10,7 @@ import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 export interface CardPageDispatchProps {
   updateShapePosition: (cardId: string, pageIndex: number, shapeIndex: number, x: number, y: number) => any;
-  setEditingShape: (cardId: string, position: ShapePosition) => any;
+  setEditingShape: (position: ShapePosition) => any;
 }
 
 export interface CardPageProps {
@@ -104,18 +104,8 @@ export class CardPage extends React.Component<Props, State> {
               y={shape.y}
               width={shape.width}
               height={shape.height}
-              onClick={() =>
-                this.props.setEditingShape(this.props.cardId!, {
-                  pageIndex: this.props.pageIndex,
-                  shapeIndex: index
-                })
-              }
-              onTap={() =>
-                this.props.setEditingShape(this.props.cardId!, {
-                  pageIndex: this.props.pageIndex,
-                  shapeIndex: index
-                })
-              }
+              onClick={() => this.setEditingShape(index)}
+              onTap={() => this.setEditingShape(index)}
               draggable={true}
               onDragMove={e => this.handleDragEnd(e, index)}
             />
@@ -138,18 +128,8 @@ export class CardPage extends React.Component<Props, State> {
               align={'center'}
               draggable={true}
               fill={shape.textData!.color}
-              onClick={() =>
-                this.props.setEditingShape(this.props.cardId!, {
-                  pageIndex: this.props.pageIndex,
-                  shapeIndex: index
-                })
-              }
-              onTap={() =>
-                this.props.setEditingShape(this.props.cardId!, {
-                  pageIndex: this.props.pageIndex,
-                  shapeIndex: index
-                })
-              }
+              onClick={() => this.setEditingShape(index)}
+              onTap={() => this.setEditingShape(index)}
               onDragMove={e => this.handleDragEnd(e, index)}
             />
           );
@@ -161,9 +141,21 @@ export class CardPage extends React.Component<Props, State> {
     });
   }
 
+  setEditingShape(shapeIndex: number) {
+    this.props.setEditingShape({
+      pageIndex: this.props.pageIndex,
+      shapeIndex: shapeIndex,
+      cardId: this.props.cardId!
+    });
+  }
+
   renderHighlightZone() {
     const { editingShapePosition, theme } = this.props;
-    if (editingShapePosition && this.props.pageIndex === editingShapePosition.pageIndex) {
+    if (
+      editingShapePosition &&
+      this.props.pageIndex === editingShapePosition.pageIndex &&
+      this.props.cardId === editingShapePosition.cardId
+    ) {
       const editingShape: Shape = this.props.page.shapes[editingShapePosition.shapeIndex];
       if (editingShape) {
         return (
