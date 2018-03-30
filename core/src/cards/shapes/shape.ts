@@ -1,5 +1,5 @@
-import { ImageData } from "./image-data";
-import { TextData } from "./text-data";
+import { ImageData } from './image-data';
+import { TextData } from './text-data';
 
 export interface Shape {
   type: string;

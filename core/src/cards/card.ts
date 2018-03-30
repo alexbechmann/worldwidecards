@@ -3,5 +3,5 @@ import { Entity } from '../shared/entity';
 
 export class Card implements Entity {
   id?: string;
-  pages: Page[];  
+  pages: Page[];
 }

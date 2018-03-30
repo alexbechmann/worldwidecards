@@ -24,7 +24,7 @@ export class CardFactory {
             {
               type: constants.shapes.types.image,
               imageData: {
-                href: 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/182198.jpg',
+                href: 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/182198.jpg'
               },
               x: 0,
               y: 200,

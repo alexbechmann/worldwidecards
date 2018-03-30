@@ -16,8 +16,8 @@ export const constants = deepFreeze({
   },
   shapes: {
     types: {
-      text: "TEXT_SHAPE",
-      image: "IMAGE_SHAPE"
+      text: 'TEXT_SHAPE',
+      image: 'IMAGE_SHAPE'
     }
   }
 });
