@@ -19,8 +19,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-console.log(config, process.env);
-
 cardWatcher.startWatching();
 
 const Root = () => (

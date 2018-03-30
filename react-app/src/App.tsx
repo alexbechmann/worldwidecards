@@ -26,8 +26,12 @@ class App extends React.Component<Props> {
   render() {
     return (
       <div className="App">
-        <AppMenuBarContainer />
-        {this.renderApp()}
+        <BrowserRouter>
+          <div>
+            <AppMenuBarContainer />
+            {this.renderApp()}
+          </div>
+        </BrowserRouter>
       </div>
     );
   }
@@ -35,13 +39,11 @@ class App extends React.Component<Props> {
   renderApp() {
     if (this.props.isLoggedIn && this.props.initialized) {
       return (
-        <BrowserRouter>
-          <Switch>
-            <Route exact={true} path={routes.designs.path} component={CardDesignerContainer} />
-            <Route path={routes.myDesigns.path} component={MyDesignsContainer} />
-            <Route path="/" component={MyDesignsContainer} />
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route exact={true} path={routes.designs.path} component={CardDesignerContainer} />
+          <Route path={routes.myDesigns.path} component={MyDesignsContainer} />
+          <Route path="/" component={MyDesignsContainer} />
+        </Switch>
       );
     } else if (!this.props.isLoggedIn && this.props.initialized) {
       return <LoginContainer />;
