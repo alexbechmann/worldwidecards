@@ -22,7 +22,7 @@ const defaultState: CardState = {
 export function cardReducer(state: CardState = defaultState, action: AnyAction): CardState {
   switch (action.type) {
     case ADD_TEXT_SHAPE: {
-      const payload: { cardId: string; pageIndex: number; textShape: TextData } = action.payload;
+      const payload: { pageIndex: number; textShape: TextData } = action.payload;
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.pageIndex].shapes.push({
           type: constants.shapes.types.text,
@@ -73,39 +73,34 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
       });
     }
     case UPDATE_SHAPE_POSITION: {
-      const payload: { cardId: string; pageIndex: number; shapeIndex: number; x: number; y: number } = action.payload;
-      const card = state.myDesigns.find(design => design.id === payload.cardId);
-      if (card) {
-        return createNewState(state, newState => {
-          const newPages: Page[] = card.pages.map((page, pageIndex) => {
-            if (pageIndex === payload.pageIndex) {
-              const newShapes: Shape[] = page.shapes.map((shape, shapeIndex) => {
-                if (shapeIndex === payload.shapeIndex) {
-                  return {
-                    ...shape,
-                    x: payload.x,
-                    y: payload.y
-                  };
-                }
-                return shape;
-              });
-              return {
-                ...page,
-                shapes: newShapes
-              };
-            } else {
-              return page;
-            }
-          });
-
-          newState.activeCard = {
-            ...card,
-            pages: newPages
-          };
+      const payload: { pageIndex: number; shapeIndex: number; x: number; y: number } = action.payload;
+      return createNewState(state, newState => {
+        const newPages: Page[] = state.activeCard!.pages.map((page, pageIndex) => {
+          if (pageIndex === payload.pageIndex) {
+            const newShapes: Shape[] = page.shapes.map((shape, shapeIndex) => {
+              if (shapeIndex === payload.shapeIndex) {
+                return {
+                  ...shape,
+                  x: payload.x,
+                  y: payload.y
+                };
+              }
+              return shape;
+            });
+            return {
+              ...page,
+              shapes: newShapes
+            };
+          } else {
+            return page;
+          }
         });
-      } else {
-        return state;
-      }
+
+        newState.activeCard = {
+          ...state.activeCard,
+          pages: newPages
+        };
+      });
     }
     default: {
       return state;

@@ -14,7 +14,7 @@ import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { store } from 'src/shared/state';
 
-export function addTextShape(cardId: string, pageIndex: number, text: string): AnyAction {
+export function addTextShape(pageIndex: number, text: string): AnyAction {
   const textShape: Shape = {
     type: constants.shapes.types.text,
     textData: {
@@ -28,7 +28,6 @@ export function addTextShape(cardId: string, pageIndex: number, text: string): A
   return {
     type: ADD_TEXT_SHAPE,
     payload: {
-      cardId,
       pageIndex,
       textShape
     }
@@ -45,7 +44,6 @@ export function setEditingShape(position: ShapePosition): AnyAction {
 }
 
 export function updateShapePosition(
-  cardId: string,
   pageIndex: number,
   shapeIndex: number,
   x: number,
@@ -54,7 +52,6 @@ export function updateShapePosition(
   return {
     type: UPDATE_SHAPE_POSITION,
     payload: {
-      cardId,
       shapeIndex,
       pageIndex,
       x,

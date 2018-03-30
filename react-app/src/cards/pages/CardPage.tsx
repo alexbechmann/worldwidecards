@@ -9,7 +9,7 @@ import { WithThemeProps } from 'src/shared/styles/with-theme-props';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 export interface CardPageDispatchProps {
-  updateShapePosition: (cardId: string, pageIndex: number, shapeIndex: number, x: number, y: number) => any;
+  updateShapePosition: (pageIndex: number, shapeIndex: number, x: number, y: number) => any;
   setEditingShape: (position: ShapePosition) => any;
 }
 
@@ -108,7 +108,7 @@ export class CardPage extends React.Component<Props, State> {
               onClick={() => this.setEditingShape(index)}
               onTap={() => this.setEditingShape(index)}
               draggable={this.props.editable}
-              onDragMove={e => this.handleDragEnd(e, index)}
+              onDragMove={e => this.handleDragEvent(e, index)}
             />
           );
         }
@@ -131,7 +131,7 @@ export class CardPage extends React.Component<Props, State> {
               fill={shape.textData!.color}
               onClick={() => this.setEditingShape(index)}
               onTap={() => this.setEditingShape(index)}
-              onDragMove={e => this.handleDragEnd(e, index)}
+              onDragMove={e => this.handleDragEvent(e, index)}
             />
           );
         }
@@ -170,15 +170,15 @@ export class CardPage extends React.Component<Props, State> {
           fill={theme.palette.secondary.main}
           opacity={0.5}
           draggable={this.props.editable}
-          onDragMove={e => this.handleDragEnd(e, editingShapePosition.shapeIndex)}
+          onDragMove={e => this.handleDragEvent(e, editingShapePosition.shapeIndex)}
         />
       );
     }
     return null;
   }
 
-  handleDragEnd = (e: any, index: number) => {
+  handleDragEvent = (e: any, index: number) => {
     const rect: any = e.target;
-    this.props.updateShapePosition(this.props.cardId!, this.props.pageIndex, index, rect.attrs.x, rect.attrs.y);
+    this.props.updateShapePosition(this.props.pageIndex, index, rect.attrs.x, rect.attrs.y);
   };
 }
