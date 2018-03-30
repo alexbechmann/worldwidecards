@@ -43,12 +43,7 @@ export function setEditingShape(position: ShapePosition): AnyAction {
   };
 }
 
-export function updateShapePosition(
-  pageIndex: number,
-  shapeIndex: number,
-  x: number,
-  y: number
-): AnyAction {
+export function updateShapePosition(pageIndex: number, shapeIndex: number, x: number, y: number): AnyAction {
   return {
     type: UPDATE_SHAPE_POSITION,
     payload: {
