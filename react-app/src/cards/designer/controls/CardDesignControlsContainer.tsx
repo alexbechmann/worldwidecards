@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { CardDesignControls, CardDesignControlsProps, CardDesignControlsDispatchProps } from './CardDesignControls';
-import { saveCardDesign, addTextShape } from 'src/cards/designer/state/designer.actions';
-import { AppState } from 'src/shared/state';
+import { saveCardDesign, addTextShape } from '@app/cards/designer/state/designer.actions';
+import { AppState } from '@app/shared/state';
 
 function mapStateToProps(state: AppState): CardDesignControlsProps {
   return {

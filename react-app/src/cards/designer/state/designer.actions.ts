@@ -18,9 +18,9 @@ import {
   RemoveShapeArgs,
   REMOVE_SHAPE
 } from './designer.action-types';
-import { cardService } from 'src/cards/services/card.service';
-import { ShapePosition } from 'src/cards/shapes/shape-position';
-import { store } from 'src/shared/state';
+import { cardService } from '@app/cards/services/card.service';
+import { ShapePosition } from '@app/cards/shapes/shape-position';
+import { store } from '@app/shared/state';
 import { UserInfo } from 'firebase';
 import * as firebase from 'firebase';
 

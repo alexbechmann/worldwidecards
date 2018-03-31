@@ -1,5 +1,5 @@
 import { Shape } from '@wwc/core';
-import { ShapePosition } from 'src/cards/shapes/shape-position';
+import { ShapePosition } from '@app/cards/shapes/shape-position';
 
 export const ADD_TEXT_SHAPE = 'WWC/ADD_TEXT_SHAPE';
 export type AddTextShapeArgs = { pageIndex: number; text?: string };

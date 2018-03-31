@@ -13,13 +13,13 @@ import {
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
 import { ImageControls } from './controls/ImageControls';
-import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
-import { ShapePosition } from 'src/cards/shapes/shape-position';
+import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
+import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
-import { TextControlsContainer } from 'src/cards/designer/controls/TextControlsContainer';
-import { CardDesignControlsContainer } from 'src/cards/designer/controls/CardDesignControlsContainer';
-import { TimeAgo } from 'src/shared/ui';
+import { TextControlsContainer } from '@app/cards/designer/controls/TextControlsContainer';
+import { CardDesignControlsContainer } from '@app/cards/designer/controls/CardDesignControlsContainer';
+import { TimeAgo } from '@app/shared/ui';
 
 type StyleClassNames = 'root';
 

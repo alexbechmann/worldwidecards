@@ -1,7 +1,7 @@
-import { AppState } from 'src/shared/state';
+import { AppState } from '@app/shared/state';
 import { CardDesigner, CardDesignerProps, CardDesignerDispatchProps } from './CardDesigner';
 import { connect } from 'react-redux';
-import { setActiveCard, unSetActiveCard } from 'src/cards/designer/state/designer.actions';
+import { setActiveCard, unSetActiveCard } from '@app/cards/designer/state/designer.actions';
 
 function mapStateToProps(state: AppState): CardDesignerProps {
   return {

@@ -1,9 +1,9 @@
 import { AnyAction } from 'redux';
 import { User, UserInfo } from 'firebase';
-import { store } from 'src/shared/state';
+import { store } from '@app/shared/state';
 import * as firebase from 'firebase';
 import { UPDATE_CURRENT_USER, INIT_AUTH, LOGOUT } from './auth.action-types';
-import { startWatchingCardDesignsForUser } from 'src/cards/designer/state/designer.actions';
+import { startWatchingCardDesignsForUser } from '@app/cards/designer/state/designer.actions';
 
 export function loginWithFacebook(): AnyAction {
   const provider = new firebase.auth.FacebookAuthProvider();

@@ -1,4 +1,4 @@
-import { AppState } from 'src/shared/state';
+import { AppState } from '@app/shared/state';
 import { MyDesignsProps, MyDesigns } from './MyDesigns';
 import { connect } from 'react-redux';
 

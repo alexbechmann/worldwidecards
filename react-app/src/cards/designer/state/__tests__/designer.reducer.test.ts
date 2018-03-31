@@ -55,7 +55,7 @@ const defaultState: DesignerState = {
 it('Add text', () => {
   const action = addTextShape({ pageIndex: 0, text: 'test1' });
   const state = designerReducer(defaultState, action);
-  expect(state.activeCard!.pages[0].shapes[3].textData!.text).toEqual('test1');
+  expect(state.activeCard!.pages[0].shapes[2].textData!.text).toEqual('test1');
 });
 
 it('Update shape position', () => {

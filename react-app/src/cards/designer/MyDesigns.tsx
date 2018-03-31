@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Card } from '@wwc/core';
-import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
+import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
 import { Grid, Typography, CircularProgress } from 'material-ui';
-import { routes } from 'src/shared/router/routes';
-import { RouteButton } from 'src/shared/ui';
+import { routes } from '@app/shared/router/routes';
+import { RouteButton } from '@app/shared/ui';
 
 export interface MyDesignsProps {
   designs: Card[];

@@ -1,7 +1,7 @@
-import { updateText, removeShape } from 'src/cards/designer/state/designer.actions';
+import { updateText, removeShape } from '@app/cards/designer/state/designer.actions';
 import { TextControls, TextControlsDispatchProps, TextControlsProps } from './TextControls';
 import { connect } from 'react-redux';
-import { AppState } from 'src/shared/state';
+import { AppState } from '@app/shared/state';
 
 const mapDispatchToProps: TextControlsDispatchProps = { updateText, removeShape };
 

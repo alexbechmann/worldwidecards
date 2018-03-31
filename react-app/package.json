@@ -47,7 +47,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "src/(.*)": "<rootDir>/src/$1"
+      "@app/(.*)": "<rootDir>/src/$1",
+      "automock": true
     },
     "moduleDirectories": [
       "node_modules",

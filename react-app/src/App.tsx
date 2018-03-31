@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { CardDesignerContainer } from 'src/cards';
-import { LoginContainer } from 'src/auth';
+import { CardDesignerContainer } from '@app/cards';
+import { LoginContainer } from '@app/auth';
 import { LinearProgress } from 'material-ui';
-import { AppMenuBarContainer } from 'src/menu';
+import { AppMenuBarContainer } from '@app/menu';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { routes } from 'src/shared/router/routes';
-import { MyDesignsContainer } from 'src/cards/designer/MyDesignsContainer';
+import { routes } from '@app/shared/router/routes';
+import { MyDesignsContainer } from '@app/cards/designer/MyDesignsContainer';
 
 export interface AppProps {
   isLoggedIn: boolean;

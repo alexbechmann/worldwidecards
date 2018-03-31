@@ -1,7 +1,7 @@
 import { AuthState } from './auth.state';
 import { AnyAction } from 'redux';
 import { UPDATE_CURRENT_USER, INIT_AUTH } from './auth.action-types';
-import { createNewState } from 'src/shared/helpers/create-new-state';
+import { createNewState } from '@app/shared/helpers/create-new-state';
 
 const defaultState: AuthState = {
   initialized: false

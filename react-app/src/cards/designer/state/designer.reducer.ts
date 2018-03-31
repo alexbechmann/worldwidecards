@@ -18,10 +18,10 @@ import {
   UpdateTextArgs,
   RemoveShapeArgs
 } from './designer.action-types';
-import { createNewState } from 'src/shared/helpers/create-new-state';
-import { ShapePosition } from 'src/cards/shapes/shape-position';
+import { createNewState } from '@app/shared/helpers/create-new-state';
+import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UserInfo } from 'firebase';
-import { LOGOUT } from 'src/auth/state/auth.action-types';
+import { LOGOUT } from '@app/auth/state/auth.action-types';
 
 const defaultState: DesignerState = {
   loadingMyDesigns: true,

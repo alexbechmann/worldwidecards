@@ -1,6 +1,6 @@
 import { AppMenuBar, AppMenuBarProps, AppMenuBarDispatchProps } from './AppMenuBar';
-import { AppState } from 'src/shared/state';
-import { logout } from 'src/auth/state/auth.actions';
+import { AppState } from '@app/shared/state';
+import { logout } from '@app/auth/state/auth.actions';
 import { connect } from 'react-redux';
 
 function mapStateToProps(state: AppState): AppMenuBarProps {

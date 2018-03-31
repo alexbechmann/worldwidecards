@@ -5,7 +5,7 @@ import 'src/shared/styles/index.css';
 import * as firebase from 'firebase';
 import { AppContainer } from './AppContainer';
 import { Provider } from 'react-redux';
-import { store } from 'src/shared/state';
+import { store } from '@app/shared/state';
 import 'typeface-roboto';
 
 var config = {

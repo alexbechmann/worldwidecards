@@ -3,8 +3,8 @@ import { withStyles, Theme, WithStyles } from 'material-ui/styles';
 import { TextField, Button } from 'material-ui';
 // import * as Icons from 'material-ui-icons';
 import { Shape } from '@wwc/core';
-import { ShapePosition } from 'src/cards/shapes/shape-position';
-import { UpdateTextArgs, RemoveShapeArgs } from 'src/cards/designer/state/designer.action-types';
+import { ShapePosition } from '@app/cards/shapes/shape-position';
+import { UpdateTextArgs, RemoveShapeArgs } from '@app/cards/designer/state/designer.action-types';
 
 type ClassNames = 'button' | 'form';
 
