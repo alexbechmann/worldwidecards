@@ -34,6 +34,7 @@ export interface CardDesignerProps {
   editingShapePosition?: ShapePosition;
   currentUser?: UserInfo;
   lastSavedDate?: Date;
+  saving: boolean;
 }
 
 export interface CardDesignerDispatchProps {
@@ -83,11 +84,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
                 editable={true}
               />
               <br />
-              {this.props.lastSavedDate && (
-                <Typography variant="caption">
-                  Last saved: <TimeAgo date={this.props.lastSavedDate} />
-                </Typography>
-              )}
+              {this.renderSaveStatus()}
             </Grid>
             <Grid item={true} sm={8} xs={12}>
               <p>Work area</p>
@@ -98,6 +95,20 @@ class CardDesignerComponent extends React.Component<StyledProps> {
       );
     }
     return null;
+  }
+
+  renderSaveStatus() {
+    if (this.props.saving) {
+      return <CircularProgress size={24} />;
+    } else if (this.props.lastSavedDate) {
+      return (
+        <Typography variant="caption">
+          Last saved: <TimeAgo date={this.props.lastSavedDate} />
+        </Typography>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderControls() {

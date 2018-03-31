@@ -1,4 +1,13 @@
+import { Shape } from '@wwc/core';
+import { ShapePosition } from 'src/cards/shapes/shape-position';
+
 export const ADD_TEXT_SHAPE = 'WWC/ADD_TEXT_SHAPE';
+export type AddTextShapeArgs = { pageIndex: number; text?: string };
+export type AddTextShapePayload = { pageIndex: number; textShape: Shape };
+
+export const REMOVE_SHAPE = '/WWC/REMOVE_SHAPE';
+export type RemoveShapeArgs = { position: ShapePosition };
+
 export const UPDATE_TEXT = 'WWC/UPDATE_TEXT';
 export type UpdateTextArgs = { pageIndex: number; shapeIndex: number; text: string };
 

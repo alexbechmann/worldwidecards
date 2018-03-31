@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { TextField } from 'material-ui';
+import { TextField, Button } from 'material-ui';
 // import * as Icons from 'material-ui-icons';
 import { Shape } from '@wwc/core';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
-import { UpdateTextArgs } from 'src/cards/designer/state/designer.action-types';
+import { UpdateTextArgs, RemoveShapeArgs } from 'src/cards/designer/state/designer.action-types';
 
-type ClassNames = 'button';
+type ClassNames = 'button' | 'form';
 
 const styles = (theme: Theme) => ({
   button: {
@@ -16,6 +16,7 @@ const styles = (theme: Theme) => ({
 
 export interface TextControlsDispatchProps {
   updateText: (args: UpdateTextArgs) => any;
+  removeShape: (args: RemoveShapeArgs) => any;
 }
 
 export interface TextControlsProps {
@@ -55,6 +56,18 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
               })
             }
           />
+          <Button
+            className={this.props.classes.button}
+            onClick={() =>
+              this.props.removeShape({
+                position: this.props.shapePosition
+              })
+            }
+            variant="raised"
+            color="secondary"
+          >
+            Remove
+          </Button>
         </div>
       );
     }

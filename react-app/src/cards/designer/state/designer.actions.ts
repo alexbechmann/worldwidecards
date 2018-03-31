@@ -12,7 +12,11 @@ import {
   START_WATCHING_CARD_DESIGNS_FOR_USER,
   UPDATE_TEXT,
   UpdateShapePositionArgs,
-  UpdateTextArgs
+  UpdateTextArgs,
+  AddTextShapeArgs,
+  AddTextShapePayload,
+  RemoveShapeArgs,
+  REMOVE_SHAPE
 } from './designer.action-types';
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
@@ -20,23 +24,31 @@ import { store } from 'src/shared/state';
 import { UserInfo } from 'firebase';
 import * as firebase from 'firebase';
 
-export function addTextShape(pageIndex: number, text: string): AnyAction {
+export function addTextShape(args: AddTextShapeArgs): AnyAction {
   const textShape: Shape = {
     type: constants.shapes.types.text,
     textData: {
-      text: '',
+      text: args.text || 'New text box',
       fontSize: 24,
       color: 'black'
     },
     x: 0,
     y: 0
   };
+  const payload: AddTextShapePayload = {
+    pageIndex: args.pageIndex,
+    textShape
+  };
   return {
     type: ADD_TEXT_SHAPE,
-    payload: {
-      pageIndex,
-      textShape
-    }
+    payload: payload
+  };
+}
+
+export function removeShape(args: RemoveShapeArgs): AnyAction {
+  return {
+    type: REMOVE_SHAPE,
+    payload: args
   };
 }
 

@@ -1,6 +1,6 @@
 import { DesignerState } from './designer.state';
 import { AnyAction } from 'redux';
-import { TextData, constants, cardFactory } from '@wwc/core';
+import { cardFactory } from '@wwc/core';
 import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
@@ -12,7 +12,11 @@ import {
   UNSET_ACTIVE_CARD,
   START_WATCHING_CARD_DESIGNS_FOR_USER,
   UPDATE_TEXT,
-  UpdateShapePositionArgs
+  UpdateShapePositionArgs,
+  AddTextShapePayload,
+  REMOVE_SHAPE,
+  UpdateTextArgs,
+  RemoveShapeArgs
 } from './designer.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
@@ -23,18 +27,20 @@ const defaultState: DesignerState = {
   loadingMyDesigns: true,
   myDesigns: [],
   savingActiveCard: false,
-  firestoreUnsubscribeMethods: []
+  firestoreUnsubscribeMethods: [],
+  activePageIndex: 0
 };
 
 export function designerReducer(state: DesignerState = defaultState, action: AnyAction): DesignerState {
   switch (action.type) {
     case ADD_TEXT_SHAPE: {
-      const payload: { pageIndex: number; textShape: TextData } = action.payload;
+      const payload: AddTextShapePayload = action.payload;
       return createNewState(state, newState => {
-        newState.activeCard!.pages[payload.pageIndex].shapes.push({
-          type: constants.shapes.types.text,
-          textData: payload.textShape
-        });
+        const length = newState.activeCard!.pages[payload.pageIndex].shapes.push(payload.textShape);
+        newState.editingShapePosition = {
+          pageIndex: payload.pageIndex,
+          shapeIndex: length - 1
+        };
       });
     }
     case SET_EDITING_SHAPE: {
@@ -61,6 +67,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
         } else {
           newState.activeCard = cardFactory.createBlankPortraitCard(user);
         }
+        newState.activePageIndex = 0;
       });
     }
     case SAVING_CARD_DESIGN: {
@@ -94,9 +101,16 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
       });
     }
     case UPDATE_TEXT: {
-      const payload: { shapeIndex: number; pageIndex: number; text: string } = action.payload;
+      const payload: UpdateTextArgs = action.payload;
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].textData!.text = payload.text;
+      });
+    }
+    case REMOVE_SHAPE: {
+      const payload: RemoveShapeArgs = action.payload;
+      return createNewState(state, newState => {
+        newState.activeCard!.pages[payload.position.pageIndex].shapes.splice(payload.position.shapeIndex, 1);
+        newState.editingShapePosition = undefined;
       });
     }
     case UPDATE_SHAPE_POSITION: {

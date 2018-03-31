@@ -147,8 +147,7 @@ export class CardPage extends React.Component<Props, State> {
     if (this.props.editable) {
       this.props.setEditingShape({
         pageIndex: this.props.pageIndex,
-        shapeIndex: shapeIndex,
-        cardId: this.props.cardId!
+        shapeIndex: shapeIndex
       });
     }
   }
@@ -158,8 +157,7 @@ export class CardPage extends React.Component<Props, State> {
     if (
       editingShapePosition &&
       this.props.pageIndex === editingShapePosition.pageIndex &&
-      this.props.page.shapes[editingShapePosition.shapeIndex] != null &&
-      this.props.cardId === editingShapePosition.cardId
+      this.props.page.shapes[editingShapePosition.shapeIndex] != null
     ) {
       const editingShape: Shape = this.props.page.shapes[editingShapePosition.shapeIndex];
       return (

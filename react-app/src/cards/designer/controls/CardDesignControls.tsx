@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { CircularProgress, IconButton } from 'material-ui';
-import * as Icons from 'material-ui-icons';
+import { Button } from 'material-ui';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
+import { AddTextShapeArgs } from 'src/cards/designer/state/designer.action-types';
 
 type ClassNames = 'button' | 'input';
 
@@ -18,12 +18,14 @@ const styles = (theme: Theme) => ({
 
 export interface CardDesignControlsDispatchProps {
   saveCardDesign: (user: UserInfo, card: Card) => any;
+  addTextShape: (args: AddTextShapeArgs) => any;
 }
 
 export interface CardDesignControlsProps {
   currentUser?: UserInfo;
   card?: Card;
   saving: boolean;
+  activePageIndex: number;
 }
 
 interface Props extends CardDesignControlsDispatchProps, CardDesignControlsProps {}
@@ -37,17 +39,25 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
       return (
         <div>
           <div>
-            {/* <IconButton className={classes.button} aria-label="Add text box">
-              <Icons.AddCircle />
-            </IconButton> */}
-            <IconButton
+            <Button
+              className={classes.button}
+              aria-label="Add text box"
+              onClick={() =>
+                this.props.addTextShape({
+                  pageIndex: this.props.activePageIndex
+                })
+              }
+            >
+              Add text box
+            </Button>
+            <Button
               disabled={this.props.saving}
               className={classes.button}
               aria-label="Save design"
               onClick={() => this.props.saveCardDesign(this.props.currentUser!, this.props.card!)}
             >
-              {this.props.saving ? <CircularProgress color="secondary" size={24} /> : <Icons.Save />}
-            </IconButton>
+              Save
+            </Button>
           </div>
         </div>
       );
