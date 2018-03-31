@@ -1,9 +1,13 @@
-import { Shape } from '@wwc/core';
+import { Shape, Page } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 
 export const ADD_TEXT_SHAPE = 'WWC/ADD_TEXT_SHAPE';
 export type AddTextShapeArgs = { pageIndex: number; text?: string };
 export type AddTextShapePayload = { pageIndex: number; textShape: Shape };
+
+export const UPDATE_SHAPE_WIDTH = 'WWC/UPDATE_SHAPE_WIDTH';
+export type UpdateShapeWidthArgs = { position: ShapePosition; newWidth: number; shape: Shape; page: Page };
+export type UpdateShapeWidthPayload = { position: ShapePosition; newWidth: number };
 
 export const REMOVE_SHAPE = '/WWC/REMOVE_SHAPE';
 export type RemoveShapeArgs = { position: ShapePosition };

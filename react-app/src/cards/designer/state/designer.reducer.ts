@@ -16,7 +16,9 @@ import {
   AddTextShapePayload,
   REMOVE_SHAPE,
   UpdateTextArgs,
-  RemoveShapeArgs
+  RemoveShapeArgs,
+  UPDATE_SHAPE_WIDTH,
+  UpdateShapeWidthPayload
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -104,6 +106,13 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
       const payload: UpdateTextArgs = action.payload;
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].textData!.text = payload.text;
+      });
+    }
+    case UPDATE_SHAPE_WIDTH: {
+      const payload: UpdateShapeWidthPayload = action.payload;
+      return createNewState(state, newState => {
+        newState.activeCard!.pages[payload.position.pageIndex].shapes[payload.position.shapeIndex].width =
+          payload.newWidth;
       });
     }
     case REMOVE_SHAPE: {

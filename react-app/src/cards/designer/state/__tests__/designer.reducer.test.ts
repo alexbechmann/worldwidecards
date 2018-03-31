@@ -43,8 +43,7 @@ const defaultState: DesignerState = {
             },
             x: 0,
             y: 200,
-            width: constants.card.dimensions.portrait.width,
-            height: 300
+            width: constants.card.dimensions.portrait.width
           }
         ]
       }

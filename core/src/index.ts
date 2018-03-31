@@ -6,3 +6,4 @@ export { Page } from './cards/page';
 export { nameof } from './shared/tools/nameof';
 export { constants } from './shared/contants';
 export { cardFactory } from './cards/card-factory';
+export { mathHelper } from './helpers/math-helper';

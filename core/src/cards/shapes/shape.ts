@@ -6,7 +6,6 @@ export interface Shape {
   x?: number;
   y?: number;
   width?: number;
-  height?: number;
   imageData?: ImageData;
   textData?: TextData;
 }

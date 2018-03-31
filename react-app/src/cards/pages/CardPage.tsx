@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Paper } from 'material-ui';
 import { Stage, Layer, Text } from 'react-konva';
-import { Shape, Page, constants } from '@wwc/core';
+import { Shape, Page, constants, mathHelper } from '@wwc/core';
 import { ImageRect } from '../shapes/ImageRect';
 import Measure, { BoundingRect } from 'react-measure';
-import { Rect } from 'react-konva';
 import { WithThemeProps } from '@app/shared/styles/with-theme-props';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UpdateShapePositionArgs } from '@app/cards/designer/state/designer.action-types';
@@ -58,7 +57,7 @@ export class CardPage extends React.Component<Props, State> {
                     height={this.calculateHeight()}
                   >
                     <Layer>{this.renderShapes()}</Layer>
-                    <Layer>{this.renderHighlightZone()}</Layer>
+                    {/* <Layer>{this.renderHighlightZone()}</Layer> */}
                   </Stage>
                 </Paper>
               ) : (
@@ -84,14 +83,11 @@ export class CardPage extends React.Component<Props, State> {
   }
 
   calculateHeight(): number {
-    const percentageBetweenWidthAndHeight = this.getPercentageChange(this.props.page.width, this.props.page.height);
-    const ratio = 1 + -percentageBetweenWidthAndHeight / 100;
-    return this.calculateWidth() * ratio;
-  }
-
-  getPercentageChange(oldNumber: number, newNumber: number) {
-    var decreaseValue = oldNumber - newNumber;
-    return decreaseValue / oldNumber * 100;
+    return mathHelper.calculateHeight({
+      width: this.calculateWidth(),
+      originalWidth: this.props.page.width,
+      originalHeight: this.props.page.height
+    });
   }
 
   renderShapes() {
@@ -105,7 +101,6 @@ export class CardPage extends React.Component<Props, State> {
               x={shape.x}
               y={shape.y}
               width={shape.width}
-              height={shape.height}
               onClick={() => this.setEditingShape(index)}
               onTap={() => this.setEditingShape(index)}
               draggable={this.props.editable}
@@ -152,29 +147,28 @@ export class CardPage extends React.Component<Props, State> {
     }
   }
 
-  renderHighlightZone() {
-    const { editingShapePosition, theme } = this.props;
-    if (
-      editingShapePosition &&
-      this.props.pageIndex === editingShapePosition.pageIndex &&
-      this.props.page.shapes[editingShapePosition.shapeIndex] != null
-    ) {
-      const editingShape: Shape = this.props.page.shapes[editingShapePosition.shapeIndex];
-      return (
-        <Rect
-          x={editingShape.x}
-          y={editingShape.y}
-          width={editingShape.width}
-          height={editingShape.height}
-          fill={theme.palette.secondary.main}
-          opacity={0.5}
-          draggable={this.props.editable}
-          onDragMove={e => this.handleDragEvent(e, editingShapePosition.shapeIndex)}
-        />
-      );
-    }
-    return null;
-  }
+  // renderHighlightZone() {
+  //   const { editingShapePosition, theme } = this.props;
+  //   if (
+  //     editingShapePosition &&
+  //     this.props.pageIndex === editingShapePosition.pageIndex &&
+  //     this.props.page.shapes[editingShapePosition.shapeIndex] != null
+  //   ) {
+  //     const editingShape: Shape = this.props.page.shapes[editingShapePosition.shapeIndex];
+  //     return (
+  //       <Rect
+  //         x={editingShape.x}
+  //         y={editingShape.y}
+  //         width={editingShape.width}
+  //         fill={theme.palette.secondary.main}
+  //         opacity={0.5}
+  //         draggable={this.props.editable}
+  //         onDragMove={e => this.handleDragEvent(e, editingShapePosition.shapeIndex)}
+  //       />
+  //     );
+  //   }
+  //   return null;
+  // }
 
   handleDragEvent = (e: any, index: number) => {
     const rect: any = e.target;

@@ -16,7 +16,10 @@ import {
   AddTextShapeArgs,
   AddTextShapePayload,
   RemoveShapeArgs,
-  REMOVE_SHAPE
+  REMOVE_SHAPE,
+  UpdateShapeWidthArgs,
+  UPDATE_SHAPE_WIDTH,
+  UpdateShapeWidthPayload
 } from './designer.action-types';
 import { cardService } from '@app/cards/services/card.service';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -123,5 +126,18 @@ export function updateText(args: UpdateTextArgs): AnyAction {
   return {
     type: UPDATE_TEXT,
     payload: args
+  };
+}
+
+export function updateShapeWidth(args: UpdateShapeWidthArgs): AnyAction {
+  const maxWidth = args.page.width - args.shape.x!;
+  const width = args.newWidth > maxWidth ? maxWidth : args.newWidth;
+  const payload: UpdateShapeWidthPayload = {
+    newWidth: width,
+    position: args.position
+  };
+  return {
+    type: UPDATE_SHAPE_WIDTH,
+    payload: payload
   };
 }
