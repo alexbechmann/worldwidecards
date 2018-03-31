@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 function mapStateToProps(state: AppState): MyDesignsProps {
   return {
-    designs: state.card.myDesigns,
-    loading: state.card.loadingMyDesigns
+    designs: state.designer.myDesigns,
+    loading: state.designer.loadingMyDesigns
   };
 }
 

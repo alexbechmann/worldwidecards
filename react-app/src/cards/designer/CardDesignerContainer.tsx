@@ -1,13 +1,13 @@
 import { AppState } from 'src/shared/state';
 import { CardDesigner, CardDesignerProps, CardDesignerDispatchProps } from './CardDesigner';
 import { connect } from 'react-redux';
-import { saveCardDesign, setActiveCard, unSetActiveCard } from 'src/cards/state/card.actions';
+import { saveCardDesign, setActiveCard, unSetActiveCard } from 'src/cards/designer/state/designer.actions';
 
 function mapStateToProps(state: AppState): CardDesignerProps {
   return {
-    card: state.card.activeCard,
-    editingShapePosition: state.card.editingShapePosition,
-    saving: state.card.savingActiveCard,
+    card: state.designer.activeCard,
+    editingShapePosition: state.designer.editingShapePosition,
+    saving: state.designer.savingActiveCard,
     currentUser: state.auth.currentUser
   };
 }

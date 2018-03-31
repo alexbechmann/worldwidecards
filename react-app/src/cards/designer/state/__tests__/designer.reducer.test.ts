@@ -1,9 +1,9 @@
-import { cardReducer } from '../card.reducer';
-import { addTextShape, updateShapePosition } from '../card.actions';
+import { designerReducer } from '../designer.reducer';
+import { addTextShape, updateShapePosition } from '../designer.actions';
 import { constants } from '@wwc/core';
-import { CardState } from '../card.state';
+import { DesignerState } from '../designer.state';
 
-const defaultState: CardState = {
+const defaultState: DesignerState = {
   loadingMyDesigns: false,
   firestoreUnsubscribeMethods: [],
   myDesigns: [],
@@ -53,13 +53,13 @@ const defaultState: CardState = {
 
 it('Add text', () => {
   const action = addTextShape(0, 'test1');
-  const state = cardReducer(defaultState, action);
+  const state = designerReducer(defaultState, action);
   expect(state.activeCard!.pages[0].shapes[3].textData!.text).toEqual('test1');
 });
 
 it('Update shape position', () => {
   const action = updateShapePosition(0, 1, 49, 33);
-  const state = cardReducer(defaultState, action);
+  const state = designerReducer(defaultState, action);
   expect(state.activeCard!.pages[0].shapes[1].x).toEqual(49);
   expect(state.activeCard!.pages[0].shapes[1].y).toEqual(33);
 });

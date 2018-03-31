@@ -2,9 +2,9 @@ import { AppState } from 'src/shared/state';
 import { CardPage, CardPageProps, CardPageDispatchProps } from './CardPage';
 import { connect } from 'react-redux';
 import { Page } from '@wwc/core';
-import { setEditingShape, updateShapePosition } from 'src/cards/state/card.actions';
 import { combineContainers } from 'src/shared/helpers/combine-containers';
 import { withTheme } from 'material-ui';
+import { setEditingShape, updateShapePosition } from 'src/cards/designer/state/designer.actions';
 
 interface CardPageContainerProps {
   page: Page;
@@ -18,7 +18,7 @@ function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): Car
   return {
     page,
     pageIndex,
-    editingShapePosition: state.card.editingShapePosition,
+    editingShapePosition: state.designer.editingShapePosition,
     cardId: ownProps.cardId,
     editable: ownProps.editable
   };

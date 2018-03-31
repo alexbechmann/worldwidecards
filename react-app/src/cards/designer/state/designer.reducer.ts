@@ -1,4 +1,4 @@
-import { CardState } from './card.state';
+import { DesignerState } from './designer.state';
 import { AnyAction } from 'redux';
 import { TextData, constants, cardFactory } from '@wwc/core';
 import {
@@ -12,20 +12,20 @@ import {
   UNSET_ACTIVE_CARD,
   START_WATCHING_CARD_DESIGNS_FOR_USER,
   UPDATE_TEXT
-} from './card.action-types';
+} from './designer.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { UserInfo } from 'firebase';
 import { LOGOUT } from 'src/auth/state/auth.action-types';
 
-const defaultState: CardState = {
+const defaultState: DesignerState = {
   loadingMyDesigns: true,
   myDesigns: [],
   savingActiveCard: false,
   firestoreUnsubscribeMethods: []
 };
 
-export function cardReducer(state: CardState = defaultState, action: AnyAction): CardState {
+export function designerReducer(state: DesignerState = defaultState, action: AnyAction): DesignerState {
   switch (action.type) {
     case ADD_TEXT_SHAPE: {
       const payload: { pageIndex: number; textShape: TextData } = action.payload;

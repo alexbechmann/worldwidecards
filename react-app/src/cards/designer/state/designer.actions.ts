@@ -11,7 +11,7 @@ import {
   UNSET_ACTIVE_CARD,
   START_WATCHING_CARD_DESIGNS_FOR_USER,
   UPDATE_TEXT
-} from './card.action-types';
+} from './designer.action-types';
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { store } from 'src/shared/state';
