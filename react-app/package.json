@@ -26,7 +26,8 @@
   "scripts": {
     "start": "react-app-rewired start --scripts-version react-scripts-ts",
     "build": "react-app-rewired build --scripts-version react-scripts-ts",
-    "test": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom",
+    "test": "cross-env CI=true react-app-rewired test --scripts-version react-scripts-ts --env=jsdom",
+    "test:watch": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
@@ -41,6 +42,7 @@
     "@types/react-router": "^4.0.23",
     "@types/react-router-dom": "^4.2.5",
     "canvas-prebuilt": "^2.0.0-alpha.9",
+    "cross-env": "^5.1.4",
     "immutability-helper": "^2.6.6",
     "react-app-rewired": "^1.5.0",
     "typescript": "^2.7.2"

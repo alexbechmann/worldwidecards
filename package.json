@@ -20,6 +20,7 @@
     "install:react-app": "cd ./react-app && npm install",
     "clean:react-app": "remove-node-modules ./react-app/node_modules/",
     "start:react-app": "cd ./react-app && npm start",
+    "start:react-app-test-watch": "cd ./react-app && npm run test:watch",
     "test:react-app": "cd ./react-app && npm test",
     "install:functions": "cd ./functions && npm install",
     "clean:functions": "remove-node-modules ./functions/node_modules/",
@@ -28,7 +29,7 @@
     "clean:core": "remove-node-modules ./core/node_modules/",
     "start:core": "cd ./core && npm start",
     "build:core": "cd ./core && npm run build",
-    "start": "npm run build:core && npm-run-all -p start:core start:react-app start:functions prettier:watch",
+    "start": "npm run build:core && npm-run-all -p start:core start:react-app start:functions prettier:watch start:react-app-test-watch",
     "clean": "npm-run-all -p clean:core clean:react-app clean:functions"
   },
   "author": "",
