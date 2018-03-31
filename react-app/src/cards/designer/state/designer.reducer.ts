@@ -11,7 +11,8 @@ import {
   SAVE_CARD_DESIGN,
   UNSET_ACTIVE_CARD,
   START_WATCHING_CARD_DESIGNS_FOR_USER,
-  UPDATE_TEXT
+  UPDATE_TEXT,
+  UpdateShapePositionArgs
 } from './designer.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
@@ -70,6 +71,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     case SAVE_CARD_DESIGN: {
       return createNewState(state, newState => {
         newState.savingActiveCard = false;
+        newState.activeCardLastSavedDate = new Date();
       });
     }
     case START_WATCHING_CARD_DESIGNS_FOR_USER: {
@@ -88,6 +90,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
         newState.editingShapePosition = undefined;
         newState.activeCard = undefined;
         newState.activeCardId = undefined;
+        newState.activeCardLastSavedDate = undefined;
       });
     }
     case UPDATE_TEXT: {
@@ -97,7 +100,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
       });
     }
     case UPDATE_SHAPE_POSITION: {
-      const payload: { pageIndex: number; shapeIndex: number; x: number; y: number } = action.payload;
+      const payload: UpdateShapePositionArgs = action.payload;
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].x = payload.x;
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].y = payload.y;

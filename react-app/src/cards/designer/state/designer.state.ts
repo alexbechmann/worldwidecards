@@ -9,4 +9,5 @@ export interface DesignerState {
   savingActiveCard: boolean;
   editingShapePosition?: ShapePosition;
   firestoreUnsubscribeMethods: Function[];
+  activeCardLastSavedDate?: Date;
 }

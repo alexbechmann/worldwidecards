@@ -7,7 +7,8 @@ function mapStateToProps(state: AppState): CardDesignerProps {
   return {
     card: state.designer.activeCard,
     editingShapePosition: state.designer.editingShapePosition,
-    currentUser: state.auth.currentUser
+    currentUser: state.auth.currentUser,
+    lastSavedDate: state.designer.activeCardLastSavedDate
   };
 }
 

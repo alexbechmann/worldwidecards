@@ -8,7 +8,8 @@ import {
   Theme,
   withStyles,
   WithStyles,
-  CircularProgress
+  CircularProgress,
+  Typography
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
 import { ImageControls } from './controls/ImageControls';
@@ -18,6 +19,7 @@ import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
 import { TextControlsContainer } from 'src/cards/designer/controls/TextControlsContainer';
 import { CardDesignControlsContainer } from 'src/cards/designer/controls/CardDesignControlsContainer';
+import { TimeAgo } from 'src/shared/ui';
 
 type StyleClassNames = 'root';
 
@@ -31,6 +33,7 @@ export interface CardDesignerProps {
   card?: Card;
   editingShapePosition?: ShapePosition;
   currentUser?: UserInfo;
+  lastSavedDate?: Date;
 }
 
 export interface CardDesignerDispatchProps {
@@ -79,6 +82,12 @@ class CardDesignerComponent extends React.Component<StyledProps> {
                 cardId={this.props.card.id!}
                 editable={true}
               />
+              <br />
+              {this.props.lastSavedDate && (
+                <Typography variant="caption">
+                  Last saved: <TimeAgo date={this.props.lastSavedDate} />
+                </Typography>
+              )}
             </Grid>
             <Grid item={true} sm={8} xs={12}>
               <p>Work area</p>

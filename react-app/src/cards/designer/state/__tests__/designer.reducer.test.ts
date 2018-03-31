@@ -58,12 +58,13 @@ it('Add text', () => {
 });
 
 it('Update shape position', () => {
-  const action = updateShapePosition(0, 1, 49, 33);
+  const action = updateShapePosition({
+    pageIndex: 0,
+    shapeIndex: 1,
+    x: 49,
+    y: 33
+  });
   const state = designerReducer(defaultState, action);
   expect(state.activeCard!.pages[0].shapes[1].x).toEqual(49);
   expect(state.activeCard!.pages[0].shapes[1].y).toEqual(33);
-});
-
-it('t', () => {
-  expect('a').toEqual('a');
 });

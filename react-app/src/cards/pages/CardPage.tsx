@@ -7,9 +7,10 @@ import Measure, { BoundingRect } from 'react-measure';
 import { Rect } from 'react-konva';
 import { WithThemeProps } from 'src/shared/styles/with-theme-props';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
+import { UpdateShapePositionArgs } from 'src/cards/designer/state/designer.action-types';
 
 export interface CardPageDispatchProps {
-  updateShapePosition: (pageIndex: number, shapeIndex: number, x: number, y: number) => any;
+  updateShapePosition: (args: UpdateShapePositionArgs) => any;
   setEditingShape: (position: ShapePosition) => any;
 }
 
@@ -179,6 +180,11 @@ export class CardPage extends React.Component<Props, State> {
 
   handleDragEvent = (e: any, index: number) => {
     const rect: any = e.target;
-    this.props.updateShapePosition(this.props.pageIndex, index, rect.attrs.x, rect.attrs.y);
+    this.props.updateShapePosition({
+      pageIndex: this.props.pageIndex,
+      shapeIndex: index,
+      x: rect.attrs.x,
+      y: rect.attrs.y
+    });
   };
 }

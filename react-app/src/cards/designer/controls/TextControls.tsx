@@ -4,6 +4,7 @@ import { TextField } from 'material-ui';
 // import * as Icons from 'material-ui-icons';
 import { Shape } from '@wwc/core';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
+import { UpdateTextArgs } from 'src/cards/designer/state/designer.action-types';
 
 type ClassNames = 'button';
 
@@ -14,7 +15,7 @@ const styles = (theme: Theme) => ({
 });
 
 export interface TextControlsDispatchProps {
-  updateText: (pageIndex: number, shapeIndex: number, text: string) => any;
+  updateText: (args: UpdateTextArgs) => any;
 }
 
 export interface TextControlsProps {
@@ -41,17 +42,17 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             </IconButton>
           </div> */}
           <TextField
-            label="Change text"
+            label="Edit text"
             fullWidth={true}
             multiline={true}
             rowsMax={5}
             value={this.props.textShape.textData!.text}
             onChange={e =>
-              this.props.updateText(
-                this.props.shapePosition.pageIndex,
-                this.props.shapePosition.shapeIndex,
-                e.target.value
-              )
+              this.props.updateText({
+                pageIndex: this.props.shapePosition.pageIndex,
+                shapeIndex: this.props.shapePosition.shapeIndex,
+                text: e.target.value
+              })
             }
           />
         </div>

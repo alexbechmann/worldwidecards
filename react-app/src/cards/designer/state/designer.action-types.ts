@@ -1,9 +1,11 @@
 export const ADD_TEXT_SHAPE = 'WWC/ADD_TEXT_SHAPE';
 export const UPDATE_TEXT = 'WWC/UPDATE_TEXT';
+export type UpdateTextArgs = { pageIndex: number; shapeIndex: number; text: string };
 
 export const SET_EDITING_SHAPE = 'WWC/SET_EDITING_SHAPE';
 
 export const UPDATE_SHAPE_POSITION = 'WWC/UPDATE_PAGE_SHAPE_POSITION';
+export type UpdateShapePositionArgs = { pageIndex: number; shapeIndex: number; x: number; y: number };
 
 export const SAVING_CARD_DESIGN = 'WWC/SAVING_CARD_DESIGN';
 export const SAVE_CARD_DESIGN = 'WWC/SAVE_CARD_DESIGN';

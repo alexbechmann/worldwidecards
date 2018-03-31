@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { Typography, IconButton } from 'material-ui';
+import { CircularProgress, IconButton } from 'material-ui';
 import * as Icons from 'material-ui-icons';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
@@ -36,7 +36,6 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
       const { classes } = this.props;
       return (
         <div>
-          <Typography variant="caption">Add item</Typography>
           <div>
             {/* <IconButton className={classes.button} aria-label="Add text box">
               <Icons.AddCircle />
@@ -47,7 +46,7 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
               aria-label="Save design"
               onClick={() => this.props.saveCardDesign(this.props.currentUser!, this.props.card!)}
             >
-              <Icons.Save />
+              {this.props.saving ? <CircularProgress color="secondary" size={24} /> : <Icons.Save />}
             </IconButton>
           </div>
         </div>

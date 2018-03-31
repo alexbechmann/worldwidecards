@@ -10,7 +10,9 @@ import {
   SAVING_CARD_DESIGN,
   UNSET_ACTIVE_CARD,
   START_WATCHING_CARD_DESIGNS_FOR_USER,
-  UPDATE_TEXT
+  UPDATE_TEXT,
+  UpdateShapePositionArgs,
+  UpdateTextArgs
 } from './designer.action-types';
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
@@ -47,15 +49,10 @@ export function setEditingShape(position: ShapePosition): AnyAction {
   };
 }
 
-export function updateShapePosition(pageIndex: number, shapeIndex: number, x: number, y: number): AnyAction {
+export function updateShapePosition(args: UpdateShapePositionArgs): AnyAction {
   return {
     type: UPDATE_SHAPE_POSITION,
-    payload: {
-      shapeIndex,
-      pageIndex,
-      x,
-      y
-    }
+    payload: args
   };
 }
 
@@ -110,13 +107,9 @@ export function startWatchingCardDesignsForUser(user: UserInfo): AnyAction {
   };
 }
 
-export function updateText(pageIndex: number, shapeIndex: number, text: string): AnyAction {
+export function updateText(args: UpdateTextArgs): AnyAction {
   return {
     type: UPDATE_TEXT,
-    payload: {
-      shapeIndex,
-      pageIndex,
-      text
-    }
+    payload: args
   };
 }
