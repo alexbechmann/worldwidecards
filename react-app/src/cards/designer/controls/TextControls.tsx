@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { TextField, IconButton } from 'material-ui';
-import * as Icons from 'material-ui-icons';
+import { TextField } from 'material-ui';
+// import * as Icons from 'material-ui-icons';
 import { Shape } from '@wwc/core';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 
-type ClassNames = 'button' | 'input';
+type ClassNames = 'button';
 
 const styles = (theme: Theme) => ({
   button: {
@@ -29,17 +29,17 @@ interface StyledProps extends Props, WithStyles<ClassNames> {}
 export const TextControls: React.ComponentType<Props> = withStyles(styles)(
   class TextControlsComponent extends React.Component<StyledProps> {
     render() {
-      const { classes } = this.props;
+      // const { classes } = this.props;
       return (
         <div>
-          <div>
+          {/* <div>
             <IconButton className={classes.button} aria-label="Copy">
               <Icons.ContentCopy />
             </IconButton>
             <IconButton className={classes.button} aria-label="Delete">
               <Icons.Delete />
             </IconButton>
-          </div>
+          </div> */}
           <TextField
             label="Change text"
             fullWidth={true}

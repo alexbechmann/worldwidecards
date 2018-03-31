@@ -8,7 +8,6 @@ import {
   Theme,
   withStyles,
   WithStyles,
-  Button,
   CircularProgress
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
@@ -18,6 +17,7 @@ import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
 import { TextControlsContainer } from 'src/cards/designer/controls/TextControlsContainer';
+import { CardDesignControlsContainer } from 'src/cards/designer/controls/CardDesignControlsContainer';
 
 type StyleClassNames = 'root';
 
@@ -30,12 +30,10 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
 export interface CardDesignerProps {
   card?: Card;
   editingShapePosition?: ShapePosition;
-  saving: boolean;
   currentUser?: UserInfo;
 }
 
 export interface CardDesignerDispatchProps {
-  saveCardDesign: (user: UserInfo, card: Card) => any;
   setActiveCard: (user: UserInfo, cardId?: string) => any;
   unSetActiveCard: () => any;
 }
@@ -74,6 +72,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           </Grid>
           <Grid container={true}>
             <Grid item={true} sm={4} xs={12}>
+              <CardDesignControlsContainer />
               <CardPageContainer
                 pageIndex={0}
                 page={this.props.card.pages[0]}
@@ -84,11 +83,6 @@ class CardDesignerComponent extends React.Component<StyledProps> {
             <Grid item={true} sm={8} xs={12}>
               <p>Work area</p>
               {this.renderControls()}
-              <br />
-              <br />
-              <Button onClick={() => this.props.saveCardDesign(this.props.currentUser!, this.props.card!)}>
-                {this.props.saving ? <CircularProgress size={24} /> : 'Save design'}
-              </Button>
             </Grid>
           </Grid>
         </div>
