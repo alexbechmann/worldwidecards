@@ -13,11 +13,11 @@ import {
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
 import { ImageControls } from './controls/ImageControls';
-import { TextControls } from './controls/TextControls';
 import { CardPageContainer } from 'src/cards/pages/CardPageContainer';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
+import { TextControlsContainer } from 'src/cards/designer/controls/TextControlsContainer';
 
 type StyleClassNames = 'root';
 
@@ -74,7 +74,6 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           </Grid>
           <Grid container={true}>
             <Grid item={true} sm={4} xs={12}>
-              {this.renderControls()}
               <CardPageContainer
                 pageIndex={0}
                 page={this.props.card.pages[0]}
@@ -82,18 +81,13 @@ class CardDesignerComponent extends React.Component<StyledProps> {
                 editable={true}
               />
             </Grid>
-            <Grid item={true} sm={2} xs={12}>
+            <Grid item={true} sm={8} xs={12}>
               <p>Work area</p>
-              <CardPageContainer
-                pageIndex={0}
-                page={this.props.card.pages[0]}
-                cardId={this.props.card.id!}
-                editable={true}
-              />
+              {this.renderControls()}
               <br />
               <br />
               <Button onClick={() => this.props.saveCardDesign(this.props.currentUser!, this.props.card!)}>
-                {this.props.saving ? <CircularProgress /> : 'Save'}
+                {this.props.saving ? <CircularProgress size={24} /> : 'Save design'}
               </Button>
             </Grid>
           </Grid>
@@ -115,7 +109,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
             return <ImageControls />;
           }
           case constants.shapes.types.text: {
-            return <TextControls />;
+            return <TextControlsContainer />;
           }
           default: {
             return null;

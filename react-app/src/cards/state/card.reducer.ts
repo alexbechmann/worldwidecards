@@ -1,6 +1,6 @@
 import { CardState } from './card.state';
 import { AnyAction } from 'redux';
-import { TextData, Shape, Page, constants, cardFactory } from '@wwc/core';
+import { TextData, constants, cardFactory } from '@wwc/core';
 import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
@@ -10,7 +10,8 @@ import {
   SAVING_CARD_DESIGN,
   SAVE_CARD_DESIGN,
   UNSET_ACTIVE_CARD,
-  START_WATCHING_CARD_DESIGNS_FOR_USER
+  START_WATCHING_CARD_DESIGNS_FOR_USER,
+  UPDATE_TEXT
 } from './card.action-types';
 import { createNewState } from 'src/shared/helpers/create-new-state';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
@@ -89,36 +90,17 @@ export function cardReducer(state: CardState = defaultState, action: AnyAction):
         newState.activeCardId = undefined;
       });
     }
+    case UPDATE_TEXT: {
+      const payload: { shapeIndex: number; pageIndex: number; text: string } = action.payload;
+      return createNewState(state, newState => {
+        newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].textData!.text = payload.text;
+      });
+    }
     case UPDATE_SHAPE_POSITION: {
       const payload: { pageIndex: number; shapeIndex: number; x: number; y: number } = action.payload;
       return createNewState(state, newState => {
-        const newPages: Page[] = state.activeCard!.pages.map((page, pageIndex) => {
-          if (pageIndex === payload.pageIndex) {
-            const newShapes: Shape[] = page.shapes.map((shape, shapeIndex) => {
-              if (shapeIndex === payload.shapeIndex) {
-                return {
-                  ...shape,
-                  x: payload.x,
-                  y: payload.y
-                };
-              }
-              return shape;
-            });
-            return {
-              ...page,
-              shapes: newShapes
-            };
-          } else {
-            return page;
-          }
-        });
-
-        newState.activeCard = {
-          userInfo: state.activeCard!.userInfo,
-          userId: state.activeCard!.userId,
-          ...state.activeCard,
-          pages: newPages
-        };
+        newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].x = payload.x;
+        newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].y = payload.y;
       });
     }
     default: {

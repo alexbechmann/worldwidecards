@@ -9,7 +9,8 @@ import {
   SET_ACTIVE_CARD,
   SAVING_CARD_DESIGN,
   UNSET_ACTIVE_CARD,
-  START_WATCHING_CARD_DESIGNS_FOR_USER
+  START_WATCHING_CARD_DESIGNS_FOR_USER,
+  UPDATE_TEXT
 } from './card.action-types';
 import { cardService } from 'src/cards/services/card.service';
 import { ShapePosition } from 'src/cards/shapes/shape-position';
@@ -106,5 +107,16 @@ export function startWatchingCardDesignsForUser(user: UserInfo): AnyAction {
   return {
     type: START_WATCHING_CARD_DESIGNS_FOR_USER,
     payload: unsubscribe
+  };
+}
+
+export function updateText(pageIndex: number, shapeIndex: number, text: string): AnyAction {
+  return {
+    type: UPDATE_TEXT,
+    payload: {
+      shapeIndex,
+      pageIndex,
+      text
+    }
   };
 }

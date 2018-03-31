@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { IconButton } from 'material-ui';
+import { TextField, IconButton } from 'material-ui';
 import * as Icons from 'material-ui-icons';
+import { Shape } from '@wwc/core';
+import { ShapePosition } from 'src/cards/shapes/shape-position';
 
 type ClassNames = 'button' | 'input';
 
@@ -11,7 +13,16 @@ const styles = (theme: Theme) => ({
   }
 });
 
-interface Props {}
+export interface TextControlsDispatchProps {
+  updateText: (pageIndex: number, shapeIndex: number, text: string) => any;
+}
+
+export interface TextControlsProps {
+  textShape: Shape;
+  shapePosition: ShapePosition;
+}
+
+interface Props extends TextControlsProps, TextControlsDispatchProps {}
 
 interface StyledProps extends Props, WithStyles<ClassNames> {}
 
@@ -21,18 +32,28 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
       const { classes } = this.props;
       return (
         <div>
-          <IconButton className={classes.button} aria-label="Delete">
-            <Icons.Delete />
-          </IconButton>
-          <IconButton className={classes.button} aria-label="Delete" color="primary">
-            <Icons.Edit />
-          </IconButton>
-          <IconButton color="secondary" className={classes.button} aria-label="Add an alarm">
-            <Icons.Alarm />
-          </IconButton>
-          <IconButton color="primary" className={classes.button} aria-label="Add to shopping cart">
-            <Icons.AddShoppingCart />
-          </IconButton>
+          <div>
+            <IconButton className={classes.button} aria-label="Copy">
+              <Icons.ContentCopy />
+            </IconButton>
+            <IconButton className={classes.button} aria-label="Delete">
+              <Icons.Delete />
+            </IconButton>
+          </div>
+          <TextField
+            label="Change text"
+            fullWidth={true}
+            multiline={true}
+            rowsMax={5}
+            value={this.props.textShape.textData!.text}
+            onChange={e =>
+              this.props.updateText(
+                this.props.shapePosition.pageIndex,
+                this.props.shapePosition.shapeIndex,
+                e.target.value
+              )
+            }
+          />
         </div>
       );
     }
