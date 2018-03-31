@@ -6,11 +6,14 @@ import { Shape, Page } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UpdateTextArgs, RemoveShapeArgs, UpdateShapeWidthArgs } from '@app/cards/designer/state/designer.action-types';
 
-type ClassNames = 'button' | 'form';
+type ClassNames = 'button' | 'formControl';
 
 const styles = (theme: Theme) => ({
   button: {
     margin: theme.spacing.unit
+  },
+  formControl: {
+    marginBottom: theme.spacing.unit
   }
 });
 
@@ -33,7 +36,7 @@ interface StyledProps extends Props, WithStyles<ClassNames> {}
 export const TextControls: React.ComponentType<Props> = withStyles(styles)(
   class TextControlsComponent extends React.Component<StyledProps> {
     render() {
-      // const { classes } = this.props;
+      const { classes } = this.props;
       return (
         <div>
           {/* <div>
@@ -45,6 +48,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             </IconButton>
           </div> */}
           <TextField
+            className={classes.formControl}
             label="Edit text"
             fullWidth={true}
             multiline={true}
@@ -59,6 +63,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             }
           />
           <TextField
+            className={classes.formControl}
             label="Edit width"
             fullWidth={true}
             value={this.props.textShape.width}

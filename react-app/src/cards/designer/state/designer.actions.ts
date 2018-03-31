@@ -36,7 +36,8 @@ export function addTextShape(args: AddTextShapeArgs): AnyAction {
       color: 'black'
     },
     x: 0,
-    y: 0
+    y: 0,
+    width: 300
   };
   const payload: AddTextShapePayload = {
     pageIndex: args.pageIndex,
@@ -131,7 +132,8 @@ export function updateText(args: UpdateTextArgs): AnyAction {
 
 export function updateShapeWidth(args: UpdateShapeWidthArgs): AnyAction {
   const maxWidth = args.page.width - args.shape.x!;
-  const width = args.newWidth > maxWidth ? maxWidth : args.newWidth;
+  var width = args.newWidth > maxWidth ? maxWidth : args.newWidth;
+  width = !width || width < 20 ? 20 : width;
   const payload: UpdateShapeWidthPayload = {
     newWidth: width,
     position: args.position
