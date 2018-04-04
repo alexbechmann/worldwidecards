@@ -112,7 +112,6 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     }
     case TOGGLE_ALLOW_USER_EDIT: {
       const payload: ToggleAllowUserEditArgs = action.payload;
-      console.log(payload);
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].allowUserEdit = !newState.activeCard!
           .pages[payload.pageIndex].shapes[payload.shapeIndex].allowUserEdit;

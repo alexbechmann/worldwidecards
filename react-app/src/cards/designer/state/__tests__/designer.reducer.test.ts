@@ -1,5 +1,5 @@
 import { designerReducer } from '../designer.reducer';
-import { addTextShape, updateShapePosition } from '../designer.actions';
+import { addTextShape, updateShapePosition, toggleAllowUserEdit } from '../designer.actions';
 import { constants } from '@wwc/core';
 import { DesignerState } from '../designer.state';
 
@@ -69,4 +69,17 @@ it('Update shape position', () => {
   const state = designerReducer(defaultState, action);
   expect(state.activeCard!.pages[0].shapes[1].x).toEqual(49);
   expect(state.activeCard!.pages[0].shapes[1].y).toEqual(33);
+});
+
+it('should toggle user edit', () => {
+  const action = toggleAllowUserEdit({ pageIndex: 0, shapeIndex: 1 });
+
+  var state = designerReducer(defaultState, action);
+  expect(state.activeCard!.pages[0].shapes[1].allowUserEdit).toEqual(false);
+
+  state = designerReducer(state, action);
+  expect(state.activeCard!.pages[0].shapes[1].allowUserEdit).toEqual(true);
+
+  state = designerReducer(state, action);
+  expect(state.activeCard!.pages[0].shapes[1].allowUserEdit).toEqual(false);
 });
