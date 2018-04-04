@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { TextField, Button } from 'material-ui';
+import { FormControl, FormLabel, TextField, Button, Switch } from 'material-ui';
 // import * as Icons from 'material-ui-icons';
 import { Shape, Page } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { UpdateTextArgs, RemoveShapeArgs, UpdateShapeWidthArgs } from '@app/cards/designer/state/designer.action-types';
+import {
+  UpdateTextArgs,
+  RemoveShapeArgs,
+  UpdateShapeWidthArgs,
+  ToggleAllowUserEditArgs
+} from '@app/cards/designer/state/designer.action-types';
 
 type ClassNames = 'button' | 'formControl';
 
@@ -21,6 +26,7 @@ export interface TextControlsDispatchProps {
   updateText: (args: UpdateTextArgs) => any;
   removeShape: (args: RemoveShapeArgs) => any;
   updateShapeWidth: (args: UpdateShapeWidthArgs) => any;
+  toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
 }
 
 export interface TextControlsProps {
@@ -47,6 +53,18 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
               <Icons.Delete />
             </IconButton>
           </div> */}
+          <FormControl>
+            <FormLabel>Allow user edit?</FormLabel>
+            <Switch
+              checked={this.props.textShape.allowUserEdit}
+              onChange={e => {
+                this.props.toggleAllowUserEdit({
+                  shapeIndex: this.props.shapePosition.shapeIndex,
+                  pageIndex: this.props.shapePosition.pageIndex
+                });
+              }}
+            />
+          </FormControl>
           <TextField
             className={classes.formControl}
             label="Edit text"

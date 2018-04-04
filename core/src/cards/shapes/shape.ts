@@ -8,4 +8,5 @@ export interface Shape {
   width?: number;
   imageData?: ImageData;
   textData?: TextData;
+  allowUserEdit: boolean;
 }

@@ -22,10 +22,12 @@ export class CardFactory {
                 fontSize: 24,
                 color: 'blue',
                 font: ''
-              }
+              },
+              allowUserEdit: false
             },
             {
               type: constants.shapes.types.image,
+              allowUserEdit: false,
               imageData: {
                 href: 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/182198.jpg'
               },

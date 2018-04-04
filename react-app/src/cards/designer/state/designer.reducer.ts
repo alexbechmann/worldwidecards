@@ -18,7 +18,9 @@ import {
   UpdateTextArgs,
   RemoveShapeArgs,
   UPDATE_SHAPE_WIDTH,
-  UpdateShapeWidthPayload
+  UpdateShapeWidthPayload,
+  TOGGLE_ALLOW_USER_EDIT,
+  ToggleAllowUserEditArgs
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -106,6 +108,14 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
       const payload: UpdateTextArgs = action.payload;
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].textData!.text = payload.text;
+      });
+    }
+    case TOGGLE_ALLOW_USER_EDIT: {
+      const payload: ToggleAllowUserEditArgs = action.payload;
+      console.log(payload);
+      return createNewState(state, newState => {
+        newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].allowUserEdit = !newState.activeCard!
+          .pages[payload.pageIndex].shapes[payload.shapeIndex].allowUserEdit;
       });
     }
     case UPDATE_SHAPE_WIDTH: {

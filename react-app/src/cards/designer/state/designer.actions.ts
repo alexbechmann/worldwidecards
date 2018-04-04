@@ -19,7 +19,9 @@ import {
   REMOVE_SHAPE,
   UpdateShapeWidthArgs,
   UPDATE_SHAPE_WIDTH,
-  UpdateShapeWidthPayload
+  UpdateShapeWidthPayload,
+  ToggleAllowUserEditArgs,
+  TOGGLE_ALLOW_USER_EDIT
 } from './designer.action-types';
 import { cardService } from '@app/cards/services/card.service';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -35,6 +37,7 @@ export function addTextShape(args: AddTextShapeArgs): AnyAction {
       fontSize: 24,
       color: 'black'
     },
+    allowUserEdit: false,
     x: 0,
     y: 0,
     width: 300
@@ -141,5 +144,12 @@ export function updateShapeWidth(args: UpdateShapeWidthArgs): AnyAction {
   return {
     type: UPDATE_SHAPE_WIDTH,
     payload: payload
+  };
+}
+
+export function toggleAllowUserEdit(args: ToggleAllowUserEditArgs) {
+  return {
+    type: TOGGLE_ALLOW_USER_EDIT,
+    payload: args
   };
 }

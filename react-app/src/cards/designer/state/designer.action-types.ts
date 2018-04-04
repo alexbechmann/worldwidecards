@@ -29,3 +29,6 @@ export const SET_ACTIVE_CARD = 'WWC/SET_ACTIVE_CARD';
 export const UNSET_ACTIVE_CARD = 'WWC/UNSET_ACTIVE_CARD';
 
 export const START_WATCHING_CARD_DESIGNS_FOR_USER = 'WWC/START_WATCHING_CARD_DESIGNS_FOR_USER';
+
+export const TOGGLE_ALLOW_USER_EDIT = 'TOGGLE_ALLOW_USER_EDIT';
+export type ToggleAllowUserEditArgs = { pageIndex: number; shapeIndex: number };
