@@ -3,8 +3,12 @@ import { withStyles, Theme, WithStyles } from 'material-ui/styles';
 import { FormControl, FormLabel, TextField, Button, Switch } from 'material-ui';
 import { Shape, Page } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { UpdateTextArgs, RemoveShapeArgs, UpdateShapeWidthArgs } from '@app/cards/state/card.action-types';
 import { ToggleAllowUserEditArgs } from '@app/designer/artist/state/artist-designer.action-types';
+import {
+  UpdateTextArgs,
+  RemoveShapeArgs,
+  UpdateShapeWidthArgs
+} from '@app/designer/shared/state/designer.action-types';
 
 type ClassNames = 'button' | 'formControl';
 

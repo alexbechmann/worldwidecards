@@ -3,7 +3,7 @@ import { withStyles, Theme, WithStyles } from 'material-ui/styles';
 import { Button } from 'material-ui';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
-import { AddTextShapeArgs } from '@app/cards/state/card.action-types';
+import { AddTextShapeArgs } from '@app/designer/shared/state/designer.action-types';
 
 type ClassNames = 'button' | 'input';
 

@@ -1,5 +1,5 @@
-import { ShapePosition } from '../shapes/shape-position';
 import { Shape, Page } from '@wwc/core';
+import { ShapePosition } from '@app/cards/shapes/shape-position';
 
 export type AddTextShapeArgs = { pageIndex: number; text?: string };
 export type AddTextShapePayload = { pageIndex: number; textShape: Shape };

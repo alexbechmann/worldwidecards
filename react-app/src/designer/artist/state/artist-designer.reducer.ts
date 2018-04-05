@@ -27,7 +27,7 @@ import {
   UpdateShapePositionArgs,
   RemoveShapeArgs,
   UpdateTextArgs
-} from '@app/cards/state/card.action-types';
+} from '@app/designer/shared/state/designer.action-types';
 
 const defaultState: ArtistDesignerState = {
   loadingMyDesigns: true,
@@ -37,7 +37,10 @@ const defaultState: ArtistDesignerState = {
   activePageIndex: 0
 };
 
-export function artistDesignerReducer(state: ArtistDesignerState = defaultState, action: AnyAction): ArtistDesignerState {
+export function artistDesignerReducer(
+  state: ArtistDesignerState = defaultState,
+  action: AnyAction
+): ArtistDesignerState {
   switch (action.type) {
     case DESIGNER_ADD_TEXT_SHAPE: {
       const payload: AddTextShapePayload = action.payload;

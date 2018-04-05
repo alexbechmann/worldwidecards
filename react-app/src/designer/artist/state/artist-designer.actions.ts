@@ -29,7 +29,7 @@ import {
   AddTextShapePayload,
   UpdateShapePositionArgs,
   AddTextShapeArgs
-} from '@app/cards/state/card.action-types';
+} from '@app/designer/shared/state/designer.action-types';
 
 export function addTextShape(args: AddTextShapeArgs): AnyAction {
   const textShape: Shape = {
