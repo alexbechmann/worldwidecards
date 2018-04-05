@@ -1,7 +1,7 @@
-import { DesignerState } from '@app/cards';
+import { ArtistDesignerState } from '@app/designer';
 import { AuthState } from '@app/auth';
 
 export interface AppState {
-  designer: DesignerState;
+  artistDesigner: ArtistDesignerState;
   auth: AuthState;
 }

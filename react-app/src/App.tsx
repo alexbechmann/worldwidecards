@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { CardDesignerContainer } from '@app/cards';
+import { ArtistCardDesignerContainer, MyDesignsContainer } from '@app/designer';
 import { LoginContainer } from '@app/auth';
 import { LinearProgress } from 'material-ui';
 import { AppMenuBarContainer } from '@app/menu';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from '@app/shared/router/routes';
-import { MyDesignsContainer } from '@app/cards/designer/MyDesignsContainer';
 
 export interface AppProps {
   isLoggedIn: boolean;
@@ -40,7 +39,7 @@ class App extends React.Component<Props> {
     if (this.props.isLoggedIn && this.props.initialized) {
       return (
         <Switch>
-          <Route exact={true} path={routes.designs.path} component={CardDesignerContainer} />
+          <Route exact={true} path={routes.designs.path} component={ArtistCardDesignerContainer} />
           <Route path={routes.myDesigns.path} component={MyDesignsContainer} />
           <Route path="/" component={MyDesignsContainer} />
         </Switch>
