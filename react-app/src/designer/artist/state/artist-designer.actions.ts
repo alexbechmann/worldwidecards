@@ -6,20 +6,20 @@ import { store } from '@app/shared/state';
 import { UserInfo } from 'firebase';
 import * as firebase from 'firebase';
 import {
-  DESIGNER_ADD_TEXT_SHAPE,
-  DESIGNER_REMOVE_SHAPE,
-  DESIGNER_SET_EDITING_SHAPE,
-  DESIGNER_UPDATE_SHAPE_POSITION,
-  DESIGNER_SAVING_CARD_DESIGN,
-  DESIGNER_SAVE_CARD_DESIGN,
-  DESIGNER_SET_MY_CARD_DESIGNS_LIST,
-  DESIGNER_SET_ACTIVE_CARD,
-  DESIGNER_UNSET_ACTIVE_CARD,
-  DESIGNER_START_WATCHING_CARD_DESIGNS_FOR_USER,
-  DESIGNER_UPDATE_TEXT,
-  DESIGNER_UPDATE_SHAPE_WIDTH,
+  ARTIST_DESIGNER_ADD_TEXT_SHAPE,
+  ARTIST_DESIGNER_REMOVE_SHAPE,
+  ARTIST_DESIGNER_SET_EDITING_SHAPE,
+  ARTIST_DESIGNER_UPDATE_SHAPE_POSITION,
+  ARTIST_DESIGNER_SAVING_CARD_DESIGN,
+  ARTIST_DESIGNER_SAVE_CARD_DESIGN,
+  ARTIST_DESIGNER_SET_MY_CARD_DESIGNS_LIST,
+  ARTIST_DESIGNER_SET_ACTIVE_CARD,
+  ARTIST_DESIGNER_UNSET_ACTIVE_CARD,
+  ARTIST_DESIGNER_START_WATCHING_CARD_DESIGNS_FOR_USER,
+  ARTIST_DESIGNER_UPDATE_TEXT,
+  ARTIST_DESIGNER_UPDATE_SHAPE_WIDTH,
   ToggleAllowUserEditArgs,
-  DESIGNER_TOGGLE_ALLOW_USER_EDIT
+  ARTIST_DESIGNER_TOGGLE_ALLOW_USER_EDIT
 } from './artist-designer.action-types';
 import {
   UpdateTextArgs,
@@ -49,21 +49,21 @@ export function addTextShape(args: AddTextShapeArgs): AnyAction {
     textShape
   };
   return {
-    type: DESIGNER_ADD_TEXT_SHAPE,
+    type: ARTIST_DESIGNER_ADD_TEXT_SHAPE,
     payload: payload
   };
 }
 
 export function removeShape(args: RemoveShapeArgs): AnyAction {
   return {
-    type: DESIGNER_REMOVE_SHAPE,
+    type: ARTIST_DESIGNER_REMOVE_SHAPE,
     payload: args
   };
 }
 
 export function setEditingShape(position: ShapePosition): AnyAction {
   return {
-    type: DESIGNER_SET_EDITING_SHAPE,
+    type: ARTIST_DESIGNER_SET_EDITING_SHAPE,
     payload: {
       ...position
     }
@@ -72,31 +72,31 @@ export function setEditingShape(position: ShapePosition): AnyAction {
 
 export function updateShapePosition(args: UpdateShapePositionArgs): AnyAction {
   return {
-    type: DESIGNER_UPDATE_SHAPE_POSITION,
+    type: ARTIST_DESIGNER_UPDATE_SHAPE_POSITION,
     payload: args
   };
 }
 
 export function saveCardDesign(user: UserInfo, card: Card): AnyAction {
   store.dispatch({
-    type: DESIGNER_SAVING_CARD_DESIGN
+    type: ARTIST_DESIGNER_SAVING_CARD_DESIGN
   });
   return {
-    type: DESIGNER_SAVE_CARD_DESIGN,
+    type: ARTIST_DESIGNER_SAVE_CARD_DESIGN,
     payload: cardService.saveCardDesign(user, card)
   };
 }
 
 export function setMyCardDesignsList(cards: Card[]): AnyAction {
   return {
-    type: DESIGNER_SET_MY_CARD_DESIGNS_LIST,
+    type: ARTIST_DESIGNER_SET_MY_CARD_DESIGNS_LIST,
     payload: cards
   };
 }
 
 export function setActiveCard(user: UserInfo, cardId?: string) {
   return {
-    type: DESIGNER_SET_ACTIVE_CARD,
+    type: ARTIST_DESIGNER_SET_ACTIVE_CARD,
     payload: {
       user,
       cardId
@@ -106,7 +106,7 @@ export function setActiveCard(user: UserInfo, cardId?: string) {
 
 export function unSetActiveCard() {
   return {
-    type: DESIGNER_UNSET_ACTIVE_CARD
+    type: ARTIST_DESIGNER_UNSET_ACTIVE_CARD
   };
 }
 
@@ -123,14 +123,14 @@ export function startWatchingCardDesignsForUser(user: UserInfo): AnyAction {
     store.dispatch(action);
   });
   return {
-    type: DESIGNER_START_WATCHING_CARD_DESIGNS_FOR_USER,
+    type: ARTIST_DESIGNER_START_WATCHING_CARD_DESIGNS_FOR_USER,
     payload: unsubscribe
   };
 }
 
 export function updateText(args: UpdateTextArgs): AnyAction {
   return {
-    type: DESIGNER_UPDATE_TEXT,
+    type: ARTIST_DESIGNER_UPDATE_TEXT,
     payload: args
   };
 }
@@ -144,14 +144,14 @@ export function updateShapeWidth(args: UpdateShapeWidthArgs): AnyAction {
     position: args.position
   };
   return {
-    type: DESIGNER_UPDATE_SHAPE_WIDTH,
+    type: ARTIST_DESIGNER_UPDATE_SHAPE_WIDTH,
     payload: payload
   };
 }
 
 export function toggleAllowUserEdit(args: ToggleAllowUserEditArgs) {
   return {
-    type: DESIGNER_TOGGLE_ALLOW_USER_EDIT,
+    type: ARTIST_DESIGNER_TOGGLE_ALLOW_USER_EDIT,
     payload: args
   };
 }

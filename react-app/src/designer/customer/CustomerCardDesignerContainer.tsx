@@ -15,4 +15,4 @@ function mapStateToProps(state: AppState): CardDesignerProps {
 
 const mapDispatchToProps: CardDesignerDispatchProps = { setActiveCard, unSetActiveCard };
 
-export const ArtistCardDesignerContainer = connect(mapStateToProps, mapDispatchToProps)(ArtistCardDesigner);
+export const CustomerCardDesignerContainer = connect(mapStateToProps, mapDispatchToProps)(ArtistCardDesigner);
