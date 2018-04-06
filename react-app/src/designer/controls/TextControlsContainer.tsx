@@ -1,9 +1,4 @@
-import {
-  updateText,
-  removeShape,
-  updateShapeWidth,
-  toggleAllowUserEdit
-} from '@app/cards/designer/state/designer.actions';
+import { updateText, removeShape, updateShapeWidth, toggleAllowUserEdit } from '@app/designer/state/designer.actions';
 import { TextControls, TextControlsDispatchProps, TextControlsProps } from './TextControls';
 import { connect } from 'react-redux';
 import { AppState } from '@app/shared/state';

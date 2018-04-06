@@ -9,7 +9,7 @@ import {
   RemoveShapeArgs,
   UpdateShapeWidthArgs,
   ToggleAllowUserEditArgs
-} from '@app/cards/designer/state/designer.action-types';
+} from '@app/designer/state/designer.action-types';
 
 type ClassNames = 'button' | 'formControl';
 

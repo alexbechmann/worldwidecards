@@ -3,7 +3,7 @@ import { User, UserInfo } from 'firebase';
 import { store } from '@app/shared/state';
 import * as firebase from 'firebase';
 import { UPDATE_CURRENT_USER, INIT_AUTH, LOGOUT } from './auth.action-types';
-import { startWatchingCardDesignsForUser } from '@app/cards/designer/state/designer.actions';
+import { startWatchingCardDesignsForUser } from '@app/designer/state/designer.actions';
 
 export function loginWithFacebook(): AnyAction {
   const provider = new firebase.auth.FacebookAuthProvider();

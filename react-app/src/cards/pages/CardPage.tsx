@@ -6,7 +6,7 @@ import { ImageRect } from '../shapes/ImageRect';
 import Measure, { BoundingRect } from 'react-measure';
 import { WithThemeProps } from '@app/shared/styles/with-theme-props';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { UpdateShapePositionArgs } from '@app/cards/designer/state/designer.action-types';
+import { UpdateShapePositionArgs } from '@app/designer/state/designer.action-types';
 
 export interface CardPageDispatchProps {
   updateShapePosition: (args: UpdateShapePositionArgs) => any;

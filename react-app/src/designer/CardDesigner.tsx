@@ -17,8 +17,8 @@ import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
-import { TextControlsContainer } from '@app/cards/designer/controls/TextControlsContainer';
-import { CardDesignControlsContainer } from '@app/cards/designer/controls/CardDesignControlsContainer';
+import { TextControlsContainer } from './controls/TextControlsContainer';
+import { CardDesignControlsContainer } from './controls/CardDesignControlsContainer';
 import { TimeAgo } from '@app/shared/ui';
 
 type StyleClassNames = 'root';

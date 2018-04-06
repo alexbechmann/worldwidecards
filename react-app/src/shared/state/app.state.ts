@@ -1,4 +1,4 @@
-import { DesignerState } from '@app/cards';
+import { DesignerState } from '@app/designer';
 import { AuthState } from '@app/auth';
 
 export interface AppState {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Page } from '@wwc/core';
 import { combineContainers } from '@app/shared/helpers/combine-containers';
 import { withTheme } from 'material-ui';
-import { setEditingShape, updateShapePosition } from '@app/cards/designer/state/designer.actions';
+import { setEditingShape, updateShapePosition } from '@app/designer/state/designer.actions';
 
 interface CardPageContainerProps {
   page: Page;
