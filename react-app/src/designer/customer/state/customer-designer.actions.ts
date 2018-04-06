@@ -1,10 +1,7 @@
-import { Shape, Card, constants } from '@wwc/core';
+import { Shape, constants } from '@wwc/core';
 import { AnyAction } from 'redux';
-import { cardService } from '@app/cards/services/card.service';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { store } from '@app/shared/state';
 import { UserInfo } from 'firebase';
-import * as firebase from 'firebase';
 import {
   CUSTOMER_DESIGNER_ADD_TEXT_SHAPE,
   CUSTOMER_DESIGNER_REMOVE_SHAPE,
