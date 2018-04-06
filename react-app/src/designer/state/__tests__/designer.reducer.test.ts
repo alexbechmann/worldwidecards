@@ -6,9 +6,7 @@ import { DesignerState } from '../designer.state';
 const defaultState: DesignerState = {
   activePageIndex: 0,
   loadingMyDesigns: false,
-  firestoreUnsubscribeMethods: [],
   myDesigns: [],
-  savingActiveCard: false,
   activeCard: {
     userId: 'A3KDFSDFL',
     userInfo: {

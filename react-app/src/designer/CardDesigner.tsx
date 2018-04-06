@@ -17,9 +17,9 @@ import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
-import { TextControlsContainer } from './controls/TextControlsContainer';
-import { CardDesignControlsContainer } from './controls/CardDesignControlsContainer';
 import { TimeAgo } from '@app/shared/ui';
+import { ConnectedArtistCardDesignControls } from '@app/artist/ConnectedArtistCardDesignControls';
+import { ConnectedTextControls } from '@app/designer/controls/ConnectedTextControls';
 
 type StyleClassNames = 'root';
 
@@ -76,7 +76,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           </Grid>
           <Grid container={true}>
             <Grid item={true} sm={4} xs={12}>
-              <CardDesignControlsContainer />
+              <ConnectedArtistCardDesignControls />
               <CardPageContainer
                 pageIndex={0}
                 page={this.props.card.pages[0]}
@@ -123,7 +123,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
             return <ImageControls />;
           }
           case constants.shapes.types.text: {
-            return <TextControlsContainer />;
+            return <ConnectedTextControls />;
           }
           default: {
             return null;

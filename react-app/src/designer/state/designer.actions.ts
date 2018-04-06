@@ -1,15 +1,11 @@
-import { Shape, Card, constants } from '@wwc/core';
+import { Shape, constants } from '@wwc/core';
 import { AnyAction } from 'redux';
 import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
   UPDATE_SHAPE_POSITION,
-  SAVE_CARD_DESIGN,
-  SET_MY_CARD_DESIGNS_LIST,
   SET_ACTIVE_CARD,
-  SAVING_CARD_DESIGN,
   UNSET_ACTIVE_CARD,
-  START_WATCHING_CARD_DESIGNS_FOR_USER,
   UPDATE_TEXT,
   UpdateShapePositionArgs,
   UpdateTextArgs,
@@ -23,11 +19,8 @@ import {
   ToggleAllowUserEditArgs,
   TOGGLE_ALLOW_USER_EDIT
 } from './designer.action-types';
-import { cardService } from '@app/cards/services/card.service';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { store } from '@app/shared/state';
 import { UserInfo } from 'firebase';
-import * as firebase from 'firebase';
 
 export function addTextShape(args: AddTextShapeArgs): AnyAction {
   const textShape: Shape = {
@@ -75,23 +68,6 @@ export function updateShapePosition(args: UpdateShapePositionArgs): AnyAction {
   };
 }
 
-export function saveCardDesign(user: UserInfo, card: Card): AnyAction {
-  store.dispatch({
-    type: SAVING_CARD_DESIGN
-  });
-  return {
-    type: SAVE_CARD_DESIGN,
-    payload: cardService.saveCardDesign(user, card)
-  };
-}
-
-export function setMyCardDesignsList(cards: Card[]): AnyAction {
-  return {
-    type: SET_MY_CARD_DESIGNS_LIST,
-    payload: cards
-  };
-}
-
 export function setActiveCard(user: UserInfo, cardId?: string) {
   return {
     type: SET_ACTIVE_CARD,
@@ -105,24 +81,6 @@ export function setActiveCard(user: UserInfo, cardId?: string) {
 export function unSetActiveCard() {
   return {
     type: UNSET_ACTIVE_CARD
-  };
-}
-
-export function startWatchingCardDesignsForUser(user: UserInfo): AnyAction {
-  const db = firebase.firestore();
-  const cardDesigns = db.collection('card-designs').where('userId', '==', user.uid);
-  const unsubscribe = cardDesigns.onSnapshot(snapshot => {
-    const cards: Card[] = snapshot.docs.map(doc => {
-      const card = doc.data() as Card;
-      card.id = doc.id;
-      return card;
-    });
-    const action = setMyCardDesignsList(cards);
-    store.dispatch(action);
-  });
-  return {
-    type: START_WATCHING_CARD_DESIGNS_FOR_USER,
-    payload: unsubscribe
   };
 }
 

@@ -5,12 +5,8 @@ import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
   UPDATE_SHAPE_POSITION,
-  SET_MY_CARD_DESIGNS_LIST,
   SET_ACTIVE_CARD,
-  SAVING_CARD_DESIGN,
-  SAVE_CARD_DESIGN,
   UNSET_ACTIVE_CARD,
-  START_WATCHING_CARD_DESIGNS_FOR_USER,
   UPDATE_TEXT,
   UpdateShapePositionArgs,
   AddTextShapePayload,
@@ -25,13 +21,11 @@ import {
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UserInfo } from 'firebase';
-import { LOGOUT } from '@app/auth/state/auth.action-types';
+import { SET_MY_CARD_DESIGNS_LIST } from '@app/artist/state/artist.action-types';
 
 const defaultState: DesignerState = {
   loadingMyDesigns: true,
   myDesigns: [],
-  savingActiveCard: false,
-  firestoreUnsubscribeMethods: [],
   activePageIndex: 0
 };
 
@@ -74,34 +68,11 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
         newState.activePageIndex = 0;
       });
     }
-    case SAVING_CARD_DESIGN: {
-      return createNewState(state, newState => {
-        newState.savingActiveCard = true;
-      });
-    }
-    case SAVE_CARD_DESIGN: {
-      return createNewState(state, newState => {
-        newState.savingActiveCard = false;
-        newState.activeCardLastSavedDate = new Date();
-      });
-    }
-    case START_WATCHING_CARD_DESIGNS_FOR_USER: {
-      return createNewState(state, newState => {
-        newState.firestoreUnsubscribeMethods.push(action.payload as Function);
-      });
-    }
-    case LOGOUT: {
-      state.firestoreUnsubscribeMethods.forEach(unsubscribe => unsubscribe());
-      return createNewState(state, newState => {
-        newState.firestoreUnsubscribeMethods = [];
-      });
-    }
     case UNSET_ACTIVE_CARD: {
       return createNewState(state, newState => {
         newState.editingShapePosition = undefined;
         newState.activeCard = undefined;
         newState.activeCardId = undefined;
-        newState.activeCardLastSavedDate = undefined;
       });
     }
     case UPDATE_TEXT: {

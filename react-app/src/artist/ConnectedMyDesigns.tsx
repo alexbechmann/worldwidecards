@@ -9,4 +9,4 @@ function mapStateToProps(state: AppState): MyDesignsProps {
   };
 }
 
-export const MyDesignsContainer = connect(mapStateToProps, null)(MyDesigns);
+export const ConnectedMyDesigns = connect(mapStateToProps, null)(MyDesigns);

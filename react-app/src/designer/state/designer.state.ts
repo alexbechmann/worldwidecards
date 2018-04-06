@@ -6,9 +6,6 @@ export interface DesignerState {
   myDesigns: Card[];
   activeCard?: Card;
   activeCardId?: string;
-  savingActiveCard: boolean;
   activePageIndex: number;
   editingShapePosition?: ShapePosition;
-  firestoreUnsubscribeMethods: Function[];
-  activeCardLastSavedDate?: Date;
 }

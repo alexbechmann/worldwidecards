@@ -20,4 +20,4 @@ function mapStateToProps(state: AppState): TextControlsProps {
   };
 }
 
-export const TextControlsContainer = connect(mapStateToProps, mapDispatchToProps)(TextControls);
+export const ConnectedTextControls = connect(mapStateToProps, mapDispatchToProps)(TextControls);
