@@ -6,6 +6,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from '@app/shared/router/routes';
 import { ConnectedMyDesigns } from '@app/artist/ConnectedMyDesigns';
 import { ConnectedArtistCardDesigner } from '@app/artist/ConnectedArtistCardDesigner';
+import { ConnectedCustomerCardDesigner } from '@app/customer';
 
 export interface AppProps {
   isLoggedIn: boolean;
@@ -40,7 +41,8 @@ class App extends React.Component<Props> {
     if (this.props.isLoggedIn && this.props.initialized) {
       return (
         <Switch>
-          <Route exact={true} path={routes.designs.path} component={ConnectedArtistCardDesigner} />
+          <Route exact={true} path={routes.artistDesigner.path} component={ConnectedArtistCardDesigner} />
+          <Route exact={true} path={routes.customerDesigner.path} component={ConnectedCustomerCardDesigner} />
           <Route path={routes.myDesigns.path} component={ConnectedMyDesigns} />
           <Route path="/" component={ConnectedMyDesigns} />
         </Switch>

@@ -18,8 +18,9 @@ import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
 import { TimeAgo } from '@app/shared/ui';
-import { ConnectedArtistCardDesignControls } from '@app/artist/ConnectedArtistCardDesignControls';
 import { ConnectedTextControls } from '@app/designer/controls/ConnectedTextControls';
+import { DesignerMode } from '@app/designer/designer-mode';
+import { ConnectedCardDesignControls } from '@app/designer/ConnectedCardDesignControls';
 
 type StyleClassNames = 'root';
 
@@ -35,6 +36,8 @@ export interface CardDesignerProps {
   currentUser?: UserInfo;
   lastSavedDate?: Date;
   saving: boolean;
+  saveCardDesign: (user: UserInfo, card: Card) => any;
+  mode: DesignerMode;
 }
 
 export interface CardDesignerDispatchProps {
@@ -76,7 +79,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           </Grid>
           <Grid container={true}>
             <Grid item={true} sm={4} xs={12}>
-              <ConnectedArtistCardDesignControls />
+              <ConnectedCardDesignControls saveCardDesign={this.props.saveCardDesign} />
               <CardPageContainer
                 pageIndex={0}
                 page={this.props.card.pages[0]}
@@ -87,7 +90,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
               {this.renderSaveStatus()}
             </Grid>
             <Grid item={true} sm={8} xs={12}>
-              <p>Work area</p>
+              <p>Work area {this.props.mode}</p>
               {this.renderControls()}
             </Grid>
           </Grid>

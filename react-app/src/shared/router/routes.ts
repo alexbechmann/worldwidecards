@@ -1,7 +1,11 @@
 export const routes = {
-  designs: {
-    path: '/designer/:id?',
-    build: (id?: string) => (id ? `/designer/${id}` : `/designer`)
+  artistDesigner: {
+    path: '/artist/designer/:id?',
+    build: (id?: string) => (id ? `/artist/designer/${id}` : `/designer`)
+  },
+  customerDesigner: {
+    path: '/customer/designer/:id?',
+    build: () => `/customer/designer/`
   },
   myDesigns: {
     path: '/my-designs',

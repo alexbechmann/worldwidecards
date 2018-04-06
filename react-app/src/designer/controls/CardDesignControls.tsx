@@ -17,7 +17,6 @@ const styles = (theme: Theme) => ({
 });
 
 export interface CardDesignControlsDispatchProps {
-  saveCardDesign: (user: UserInfo, card: Card) => any;
   addTextShape: (args: AddTextShapeArgs) => any;
 }
 
@@ -26,6 +25,7 @@ export interface CardDesignControlsProps {
   card?: Card;
   saving: boolean;
   activePageIndex: number;
+  saveCardDesign: (user: UserInfo, card: Card) => any;
 }
 
 interface Props extends CardDesignControlsDispatchProps, CardDesignControlsProps {}

@@ -1,0 +1,1 @@
+export { ConnectedCustomerCardDesigner } from './ConnectedCustomerCardDesigner';

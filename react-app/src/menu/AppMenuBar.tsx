@@ -97,6 +97,9 @@ export const AppMenuBar: React.ComponentType<Props> = withStyles(styles, { withT
             <RouteButton color="inherit" to={routes.myDesigns.build()}>
               My Designs
             </RouteButton>
+            <RouteButton color="inherit" to={routes.customerDesigner.build()}>
+              Customer designer
+            </RouteButton>
           </div>
         );
       }
