@@ -1,7 +1,7 @@
 export const routes = {
   artistDesigner: {
     path: '/artist/designer/:id?',
-    build: (id?: string) => (id ? `/artist/designer/${id}` : `/designer`)
+    build: (id?: string) => (id ? `/artist/designer/${id}` : `/artist/designer`)
   },
   customerDesigner: {
     path: '/customer/designer/:id?',

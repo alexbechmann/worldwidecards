@@ -1,6 +1,6 @@
 import { DesignerState } from './designer.state';
 import { AnyAction } from 'redux';
-import { cardFactory } from '@wwc/core';
+import { cardFactory, Card } from '@wwc/core';
 import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
@@ -16,17 +16,17 @@ import {
   UPDATE_SHAPE_WIDTH,
   UpdateShapeWidthPayload,
   TOGGLE_ALLOW_USER_EDIT,
-  ToggleAllowUserEditArgs
+  ToggleAllowUserEditArgs,
+  SetActiveCardPayload
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { UserInfo } from 'firebase';
 import { SET_MY_CARD_DESIGNS_LIST } from '@app/artist/state/artist.action-types';
+import { DesignerMode } from '@app/designer/designer-mode';
 
 const defaultState: DesignerState = {
-  loadingMyDesigns: true,
-  myDesigns: [],
-  activePageIndex: 0
+  activePageIndex: 0,
+  activeCardDesignMode: DesignerMode.Customer
 };
 
 export function designerReducer(state: DesignerState = defaultState, action: AnyAction): DesignerState {
@@ -48,19 +48,17 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     }
     case SET_MY_CARD_DESIGNS_LIST: {
       return createNewState(state, newState => {
-        newState.myDesigns = action.payload;
-        const card = newState.myDesigns.find(design => design.id === state.activeCardId);
+        const cards = action.payload as Card[];
+        const card = cards.find(design => design.id === state.activeCardId);
         if (newState.activeCardId && !newState.activeCard && card) {
           newState.activeCard = card;
         }
-        newState.loadingMyDesigns = false;
       });
     }
     case SET_ACTIVE_CARD: {
       return createNewState(state, newState => {
-        const { cardId, user }: { cardId: string; user: UserInfo } = action.payload;
+        const { cardId, user }: SetActiveCardPayload = action.payload;
         if (cardId) {
-          newState.activeCard = state.myDesigns.find(design => design.id === cardId);
           newState.activeCardId = cardId;
         } else {
           newState.activeCard = cardFactory.createBlankPortraitCard(user);

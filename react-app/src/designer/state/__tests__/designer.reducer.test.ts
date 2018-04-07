@@ -2,11 +2,11 @@ import { designerReducer } from '../designer.reducer';
 import { addTextShape, updateShapePosition, toggleAllowUserEdit } from '../designer.actions';
 import { constants } from '@wwc/core';
 import { DesignerState } from '../designer.state';
+import { DesignerMode } from '@app/designer/designer-mode';
 
 const defaultState: DesignerState = {
   activePageIndex: 0,
-  loadingMyDesigns: false,
-  myDesigns: [],
+  activeCardDesignMode: DesignerMode.Customer,
   activeCard: {
     userId: 'A3KDFSDFL',
     userInfo: {

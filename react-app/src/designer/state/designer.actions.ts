@@ -17,10 +17,11 @@ import {
   UPDATE_SHAPE_WIDTH,
   UpdateShapeWidthPayload,
   ToggleAllowUserEditArgs,
-  TOGGLE_ALLOW_USER_EDIT
+  TOGGLE_ALLOW_USER_EDIT,
+  SetActiveCardArgs,
+  SetActiveCardPayload
 } from './designer.action-types';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { UserInfo } from 'firebase';
 
 export function addTextShape(args: AddTextShapeArgs): AnyAction {
   const textShape: Shape = {
@@ -68,13 +69,10 @@ export function updateShapePosition(args: UpdateShapePositionArgs): AnyAction {
   };
 }
 
-export function setActiveCard(user: UserInfo, cardId?: string) {
+export function setActiveCard(args: SetActiveCardArgs) {
   return {
     type: SET_ACTIVE_CARD,
-    payload: {
-      user,
-      cardId
-    }
+    payload: args as SetActiveCardPayload
   };
 }
 

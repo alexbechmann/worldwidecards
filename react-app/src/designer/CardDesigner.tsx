@@ -22,6 +22,7 @@ import { TimeAgo } from '@app/shared/ui';
 import { ConnectedTextControls } from '@app/designer/controls/ConnectedTextControls';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { ConnectedCardDesignControls } from '@app/designer/ConnectedCardDesignControls';
+import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';
 
 type StyleClassNames = 'root';
 
@@ -42,7 +43,7 @@ export interface CardDesignerProps {
 }
 
 export interface CardDesignerDispatchProps {
-  setActiveCard: (user: UserInfo, cardId?: string) => any;
+  setActiveCard: (args: SetActiveCardArgs) => any;
   unSetActiveCard: () => any;
 }
 
@@ -65,7 +66,11 @@ class CardDesignerComponent extends React.Component<StyledProps> {
 
   componentDidMount() {
     if (!this.props.card || (this.props.card.id !== this.props.match.params.id && this.props.currentUser)) {
-      this.props.setActiveCard(this.props.currentUser!, this.props.match.params.id);
+      this.props.setActiveCard({
+        user: this.props.currentUser!,
+        cardId: this.props.match.params.id,
+        mode: this.props.mode
+      });
     }
   }
 

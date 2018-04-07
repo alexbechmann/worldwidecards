@@ -1,9 +1,15 @@
 import { ArtistState } from './artist.state';
 import { AnyAction } from 'redux';
-import { START_WATCHING_CARD_DESIGNS_FOR_USER, SAVING_CARD_DESIGN, SAVE_CARD_DESIGN } from './artist.action-types';
+import {
+  START_WATCHING_CARD_DESIGNS_FOR_USER,
+  SAVING_CARD_DESIGN,
+  SAVE_CARD_DESIGN,
+  SET_MY_CARD_DESIGNS_LIST
+} from './artist.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { LOGOUT } from '@app/auth/state/auth.action-types';
 import { UNSET_ACTIVE_CARD } from '@app/designer/state/designer.action-types';
+import { Card } from '@wwc/core';
 
 const defaultState: ArtistState = {
   loadingMyDesigns: false,
@@ -39,6 +45,12 @@ export function artistReducer(state: ArtistState = defaultState, action: AnyActi
     case UNSET_ACTIVE_CARD: {
       return createNewState(state, newState => {
         newState.activeCardLastSavedDate = undefined;
+      });
+    }
+    case SET_MY_CARD_DESIGNS_LIST: {
+      return createNewState(state, newState => {
+        newState.myDesigns = action.payload as Card[];
+        newState.loadingMyDesigns = false;
       });
     }
     default: {
