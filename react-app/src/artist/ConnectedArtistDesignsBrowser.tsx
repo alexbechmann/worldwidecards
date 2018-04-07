@@ -1,7 +1,8 @@
 import { AppState } from '@app/shared/state';
 import { connect } from 'react-redux';
-import { CardBrowserProps, CardBrowser } from '@app/cards/CardBrowser';
+import { CardBrowserProps, CardBrowser, CardBrowserDispatchProps } from '@app/cards/CardBrowser';
 import { DesignerMode } from '@app/designer/designer-mode';
+import { startWatchingAllCardDesigns } from '@app/customer/state/customer.actions';
 
 function mapStateToProps(state: AppState): CardBrowserProps {
   return {
@@ -9,8 +10,11 @@ function mapStateToProps(state: AppState): CardBrowserProps {
     loading: state.artist.loadingMyDesigns,
     headline: 'My Designs',
     cardSelectText: 'Edit',
-    mode: DesignerMode.Artist
+    mode: DesignerMode.Artist,
+    isSubscribedToCardChanges: state.customer.isSubscribedToCardChanges // a way to make this not needed ?
   };
 }
 
-export const ConnectedArtistDesignsBrowser = connect(mapStateToProps, null)(CardBrowser);
+const mapDispatchToProps: CardBrowserDispatchProps = { startWatchingAllCardDesigns };
+
+export const ConnectedArtistDesignsBrowser = connect(mapStateToProps, mapDispatchToProps)(CardBrowser);

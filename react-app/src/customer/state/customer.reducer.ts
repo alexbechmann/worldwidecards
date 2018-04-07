@@ -3,7 +3,6 @@ import { AnyAction } from 'redux';
 import { START_WATCHING_ALL_CARD_DESIGNS, SET_CARDS_LIST } from '@app/customer/state/customer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { Card } from '@wwc/core';
-import { LOGOUT } from '@app/auth/state/auth.action-types';
 
 const defaultState: CustomerState = {
   cards: [],

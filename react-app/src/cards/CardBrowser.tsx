@@ -12,16 +12,21 @@ export interface CardBrowserProps {
   headline: string;
   mode: DesignerMode;
   cardSelectText: string;
+  isSubscribedToCardChanges: boolean;
 }
 
-interface Props extends CardBrowserProps {}
+export interface CardBrowserDispatchProps {
+  startWatchingAllCardDesigns: () => any;
+}
+
+interface Props extends CardBrowserProps, CardBrowserDispatchProps {}
 
 export class CardBrowser extends React.Component<Props> {
   render() {
     return (
       <div>
         <Typography variant="headline">{this.props.headline}</Typography>
-        <RouteButton to={routes.artistDesigner.build()}>New Card</RouteButton>
+        {this.renderNewCardButton()}
         <Grid container={true}>
           {this.props.designs.map(card => {
             const to =
@@ -41,6 +46,19 @@ export class CardBrowser extends React.Component<Props> {
         {this.renderLoadingState()}
       </div>
     );
+  }
+
+  componentDidMount() {
+    if (this.props.mode === DesignerMode.Customer && !this.props.isSubscribedToCardChanges) {
+      this.props.startWatchingAllCardDesigns();
+    }
+  }
+
+  renderNewCardButton() {
+    const to =
+      this.props.mode === DesignerMode.Artist ? routes.artistDesigner.build() : routes.customerDesigner.build();
+
+    return <RouteButton to={to}>New Card</RouteButton>;
   }
 
   renderLoadingState() {

@@ -20,7 +20,8 @@ function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): Car
     pageIndex,
     editingShapePosition: state.designer.editingShapePosition,
     cardId: ownProps.cardId,
-    editable: ownProps.editable
+    editable: ownProps.editable,
+    mode: state.designer.activeCardDesignMode
   };
 }
 

@@ -7,6 +7,7 @@ import Measure, { BoundingRect } from 'react-measure';
 import { WithThemeProps } from '@app/shared/styles/with-theme-props';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UpdateShapePositionArgs } from '@app/designer/state/designer.action-types';
+import { DesignerMode } from '@app/designer/designer-mode';
 
 export interface CardPageDispatchProps {
   updateShapePosition: (args: UpdateShapePositionArgs) => any;
@@ -19,6 +20,7 @@ export interface CardPageProps {
   cardId?: string;
   editingShapePosition?: ShapePosition;
   editable: boolean;
+  mode: DesignerMode;
 }
 
 interface State {
@@ -92,6 +94,8 @@ export class CardPage extends React.Component<Props, State> {
 
   renderShapes() {
     return this.props.page.shapes.map((shape: Shape, index: number) => {
+      const draggable =
+        this.props.mode === DesignerMode.Artist ? this.props.editable : this.props.editable && shape.allowUserEdit;
       switch (shape.type) {
         case constants.shapes.types.image: {
           return (
@@ -103,7 +107,7 @@ export class CardPage extends React.Component<Props, State> {
               width={shape.width}
               onClick={() => this.setEditingShape(index)}
               onTap={() => this.setEditingShape(index)}
-              draggable={this.props.editable}
+              draggable={draggable}
               onDragMove={e => this.handleDragEvent(e, index)}
             />
           );
@@ -123,7 +127,7 @@ export class CardPage extends React.Component<Props, State> {
               fontSize={shape.textData!.fontSize}
               text={shape.textData!.text}
               align={'center'}
-              draggable={this.props.editable}
+              draggable={draggable}
               fill={shape.textData!.color}
               onClick={() => this.setEditingShape(index)}
               onTap={() => this.setEditingShape(index)}

@@ -1,10 +1,8 @@
 import { designerReducer } from '../designer.reducer';
-import { addTextShape, updateShapePosition, toggleAllowUserEdit, setActiveCard } from '../designer.actions';
+import { addTextShape, updateShapePosition, toggleAllowUserEdit } from '../designer.actions';
 import { constants } from '@wwc/core';
 import { DesignerState } from '../designer.state';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { setMyCardDesignsList } from '@app/artist/state/artist.actions';
-import { UserInfo } from 'firebase';
 
 const defaultState: DesignerState = {
   activePageIndex: 0,
@@ -83,38 +81,4 @@ it('should toggle user edit', () => {
 
   state = designerReducer(state, action);
   expect(state.activeCard!.pages[0].shapes[1].allowUserEdit).toEqual(false);
-});
-
-it('should load design if navigating after initial load', () => {
-  const user: UserInfo = {
-    displayName: '',
-    email: '',
-    phoneNumber: '',
-    photoURL: '',
-    providerId: '',
-    uid: '123'
-  };
-  var state = defaultState;
-  state = designerReducer(
-    state,
-    setMyCardDesignsList([
-      {
-        pages: [],
-        userId: '123',
-        userInfo: user,
-        id: '1'
-      }
-    ])
-  );
-
-  state = designerReducer(
-    state,
-    setActiveCard({
-      user: user,
-      cardId: '1',
-      mode: DesignerMode.Customer
-    })
-  );
-
-  expect(state.activeCard!.id).toEqual('1');
 });

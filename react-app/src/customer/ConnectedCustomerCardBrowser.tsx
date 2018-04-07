@@ -1,16 +1,20 @@
 import { AppState } from '@app/shared/state';
 import { connect } from 'react-redux';
-import { CardBrowserProps, CardBrowser } from '@app/cards/CardBrowser';
+import { CardBrowserProps, CardBrowser, CardBrowserDispatchProps } from '@app/cards/CardBrowser';
 import { DesignerMode } from '@app/designer/designer-mode';
+import { startWatchingAllCardDesigns } from './state/customer.actions';
 
 function mapStateToProps(state: AppState): CardBrowserProps {
   return {
-    designs: state.artist.myDesigns,
-    loading: state.artist.loadingMyDesigns,
+    designs: state.customer.cards,
+    loading: state.customer.loadingCards,
     headline: 'Cards',
     cardSelectText: 'Select',
-    mode: DesignerMode.Customer
+    mode: DesignerMode.Customer,
+    isSubscribedToCardChanges: state.customer.isSubscribedToCardChanges
   };
 }
 
-export const ConnectedCustomerCardBrowser = connect(mapStateToProps, null)(CardBrowser);
+const mapDispatchToProps: CardBrowserDispatchProps = { startWatchingAllCardDesigns };
+
+export const ConnectedCustomerCardBrowser = connect(mapStateToProps, mapDispatchToProps)(CardBrowser);

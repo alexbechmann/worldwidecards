@@ -47,12 +47,13 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     }
     case SET_ACTIVE_CARD: {
       return createNewState(state, newState => {
-        const { card, user }: SetActiveCardPayload = action.payload;
+        const { card, user, mode }: SetActiveCardPayload = action.payload;
         if (card) {
           newState.activeCard = card;
         } else {
           newState.activeCard = cardFactory.createBlankPortraitCard(user);
         }
+        newState.activeCardDesignMode = mode;
         newState.activePageIndex = 0;
       });
     }

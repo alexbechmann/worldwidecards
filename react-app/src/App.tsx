@@ -39,18 +39,23 @@ class App extends React.Component<Props> {
   }
 
   renderApp() {
-    if (this.props.isLoggedIn && this.props.initialized) {
+    if (this.props.initialized) {
       return (
         <Switch>
-          <Route exact={true} path={routes.artistDesigner.path} component={ConnectedArtistCardDesigner} />
+          <Route
+            exact={true}
+            path={routes.artistDesigner.path}
+            component={this.props.isLoggedIn ? ConnectedArtistCardDesigner : LoginContainer}
+          />
           <Route exact={true} path={routes.customerDesigner.path} component={ConnectedCustomerCardDesigner} />
-          <Route path={routes.myDesigns.path} component={ConnectedArtistDesignsBrowser} />
+          <Route
+            path={routes.myDesigns.path}
+            component={this.props.isLoggedIn ? ConnectedArtistDesignsBrowser : LoginContainer}
+          />
           <Route path={routes.customerCardBrowser.path} component={ConnectedCustomerCardBrowser} />
           <Route path="/" component={ConnectedCustomerCardBrowser} />
         </Switch>
       );
-    } else if (!this.props.isLoggedIn && this.props.initialized) {
-      return <LoginContainer />;
     } else {
       return <LinearProgress variant="query" />;
     }

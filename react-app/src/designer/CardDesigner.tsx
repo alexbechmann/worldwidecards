@@ -137,17 +137,20 @@ class CardDesignerComponent extends React.Component<StyledProps> {
 
   renderCustomerShapeControls() {
     if (this.props.card) {
-      return this.props.card!.pages[0].shapes.map((shape, index) => {
-        return (
-          <div key={index}>
-            {this.renderShapeControl(shape, {
-              pageIndex: 0,
-              shapeIndex: index
-            })}
-            <Divider light={true} />
-          </div>
-        );
-      });
+      return this.props
+        .card!.pages[0].shapes.filter(shape => shape.allowUserEdit)
+        .sort((a, b) => (a.y! < b.y! ? 1 : -1))
+        .map((shape, index) => {
+          return (
+            <div key={index}>
+              {this.renderShapeControl(shape, {
+                pageIndex: 0,
+                shapeIndex: index
+              })}
+              <Divider light={true} />
+            </div>
+          );
+        });
     }
     return null;
   }

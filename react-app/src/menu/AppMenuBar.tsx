@@ -91,22 +91,19 @@ export const AppMenuBar: React.ComponentType<Props> = withStyles(styles, { withT
     }
 
     renderNavButtons() {
-      if (this.props.isLoggedIn) {
-        return (
-          <div>
-            <RouteButton color="inherit" to={routes.customerCardBrowser.build()}>
-              Cards
-            </RouteButton>
-            <RouteButton color="inherit" to={routes.myDesigns.build()}>
-              My Designs
-            </RouteButton>
-            <RouteButton color="inherit" to={routes.customerDesigner.build()}>
-              New Card
-            </RouteButton>
-          </div>
-        );
-      }
-      return null;
+      return (
+        <div>
+          <RouteButton color="inherit" to={routes.customerCardBrowser.build()}>
+            Cards
+          </RouteButton>
+          <RouteButton color="inherit" to={routes.myDesigns.build()}>
+            My Designs
+          </RouteButton>
+          <RouteButton color="inherit" to={routes.customerDesigner.build()}>
+            New Card
+          </RouteButton>
+        </div>
+      );
     }
 
     toggleMenu() {
