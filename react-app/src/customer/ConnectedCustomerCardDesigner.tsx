@@ -6,12 +6,7 @@ import {
 } from '@app/designer/ConnectedCardDesigner';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { AppState } from '@app/shared/state';
-import { UserInfo } from 'firebase';
-import { Card } from '@wwc/core';
-
-const saveCardDesign = (user: UserInfo, card: Card) => {
-  console.log(`Saving fake card`, card);
-};
+import { saveCardDesign } from './state/customer.actions';
 
 const mapDispatchToProps: ConnectedCardDesignerDispatchProps = { saveCardDesign };
 

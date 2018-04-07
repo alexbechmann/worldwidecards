@@ -2,6 +2,22 @@ import { updateText, removeShape, updateShapeWidth, toggleAllowUserEdit } from '
 import { TextControls, TextControlsDispatchProps, TextControlsProps } from './TextControls';
 import { connect } from 'react-redux';
 import { AppState } from '@app/shared/state';
+import { Shape, Page } from '@wwc/core';
+import { ShapePosition } from '@app/cards/shapes/shape-position';
+
+export interface ConnectedTextControlsProps {
+  shape: Shape;
+  shapePosition: ShapePosition;
+  page: Page;
+}
+
+function mapStateToProps(state: AppState, ownProps: ConnectedTextControlsProps): TextControlsProps {
+  return {
+    shape: ownProps.shape,
+    shapePosition: ownProps.shapePosition,
+    page: ownProps.page
+  };
+}
 
 const mapDispatchToProps: TextControlsDispatchProps = {
   updateText,
@@ -10,14 +26,7 @@ const mapDispatchToProps: TextControlsDispatchProps = {
   toggleAllowUserEdit
 };
 
-function mapStateToProps(state: AppState): TextControlsProps {
-  return {
-    textShape: state.designer.activeCard!.pages[state.designer.editingShapePosition!.pageIndex].shapes[
-      state.designer.editingShapePosition!.shapeIndex
-    ],
-    shapePosition: state.designer.editingShapePosition!,
-    page: state.designer.activeCard!.pages[state.designer.editingShapePosition!.pageIndex]
-  };
-}
-
-export const ConnectedTextControls = connect(mapStateToProps, mapDispatchToProps)(TextControls);
+export const ConnectedTextControls: React.ComponentType<ConnectedTextControlsProps> = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TextControls);

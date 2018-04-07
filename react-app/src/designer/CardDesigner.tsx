@@ -9,7 +9,8 @@ import {
   withStyles,
   WithStyles,
   CircularProgress,
-  Typography
+  Typography,
+  Divider
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
 import { ImageControls } from './controls/ImageControls';
@@ -91,7 +92,9 @@ class CardDesignerComponent extends React.Component<StyledProps> {
             </Grid>
             <Grid item={true} sm={8} xs={12}>
               <p>Work area {this.props.mode}</p>
-              {this.renderControls()}
+              {this.props.mode === DesignerMode.Artist
+                ? this.renderArtistShapeControls()
+                : this.renderCustomerShapeControls()}
             </Grid>
           </Grid>
         </div>
@@ -114,27 +117,48 @@ class CardDesignerComponent extends React.Component<StyledProps> {
     }
   }
 
-  renderControls() {
+  renderArtistShapeControls() {
     const { editingShapePosition } = this.props;
     if (editingShapePosition && this.props.card) {
       const editingShape: Shape = this.props.card.pages[editingShapePosition.pageIndex].shapes[
         editingShapePosition.shapeIndex
       ];
       if (editingShape) {
-        switch (editingShape.type) {
-          case constants.shapes.types.image: {
-            return <ImageControls />;
-          }
-          case constants.shapes.types.text: {
-            return <ConnectedTextControls />;
-          }
-          default: {
-            return null;
-          }
-        }
+        return this.renderShapeControl(editingShape, editingShapePosition);
       }
     }
     return null;
+  }
+
+  renderCustomerShapeControls() {
+    if (this.props.card) {
+      return this.props.card!.pages[0].shapes.map((shape, index) => {
+        return (
+          <div key={index}>
+            {this.renderShapeControl(shape, {
+              pageIndex: 0,
+              shapeIndex: index
+            })}
+            <Divider light={true} />
+          </div>
+        );
+      });
+    }
+    return null;
+  }
+
+  renderShapeControl(shape: Shape, shapePosition: ShapePosition) {
+    switch (shape.type) {
+      case constants.shapes.types.image: {
+        return <ImageControls />;
+      }
+      case constants.shapes.types.text: {
+        return <ConnectedTextControls shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
+      }
+      default: {
+        return null;
+      }
+    }
   }
 
   renderStepper() {

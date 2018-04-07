@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
 import { FormControl, FormLabel, TextField, Button, Switch } from 'material-ui';
-// import * as Icons from 'material-ui-icons';
-import { Shape, Page } from '@wwc/core';
+import { Shape, Page, constants } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import {
   UpdateTextArgs,
@@ -30,7 +29,7 @@ export interface TextControlsDispatchProps {
 }
 
 export interface TextControlsProps {
-  textShape: Shape;
+  shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
 }
@@ -43,20 +42,12 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
   class TextControlsComponent extends React.Component<StyledProps> {
     render() {
       const { classes } = this.props;
-      return (
+      return this.props.shape.type === constants.shapes.types.text ? (
         <div>
-          {/* <div>
-            <IconButton className={classes.button} aria-label="Copy">
-              <Icons.ContentCopy />
-            </IconButton>
-            <IconButton className={classes.button} aria-label="Delete">
-              <Icons.Delete />
-            </IconButton>
-          </div> */}
           <FormControl>
             <FormLabel>Allow user edit?</FormLabel>
             <Switch
-              checked={this.props.textShape.allowUserEdit}
+              checked={this.props.shape.allowUserEdit}
               onChange={e => {
                 this.props.toggleAllowUserEdit({
                   shapeIndex: this.props.shapePosition.shapeIndex,
@@ -71,7 +62,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             fullWidth={true}
             multiline={true}
             rowsMax={5}
-            value={this.props.textShape.textData!.text}
+            value={this.props.shape.textData!.text}
             onChange={e =>
               this.props.updateText({
                 pageIndex: this.props.shapePosition.pageIndex,
@@ -84,7 +75,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             className={classes.formControl}
             label="Edit width"
             fullWidth={true}
-            value={this.props.textShape.width}
+            value={this.props.shape.width}
             onChange={e =>
               this.props.updateShapeWidth({
                 position: {
@@ -92,7 +83,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
                   shapeIndex: this.props.shapePosition.shapeIndex
                 },
                 newWidth: parseInt(e.target.value, 10),
-                shape: this.props.textShape,
+                shape: this.props.shape,
                 page: this.props.page
               })
             }
@@ -110,6 +101,8 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             Remove
           </Button>
         </div>
+      ) : (
+        <span>Not a text box</span>
       );
     }
   }
