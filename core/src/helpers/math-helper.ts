@@ -4,15 +4,8 @@ export class MathHelper {
     return decreaseValue / oldNumber * 100;
   }
 
-  calculateHeight(args: {
-    width: number,
-    originalWidth: number,
-    originalHeight: number
-  }): number {
-    const percentageBetweenWidthAndHeight = this.getPercentageChange(
-      args.originalWidth,
-      args.originalHeight
-    );
+  calculateHeight(args: { width: number; originalWidth: number; originalHeight: number }): number {
+    const percentageBetweenWidthAndHeight = this.getPercentageChange(args.originalWidth, args.originalHeight);
     const ratio = 1 + -percentageBetweenWidthAndHeight / 100;
     return args.width * ratio;
   }
