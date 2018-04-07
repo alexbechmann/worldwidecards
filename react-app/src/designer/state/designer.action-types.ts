@@ -1,4 +1,4 @@
-import { Shape, Page } from '@wwc/core';
+import { Shape, Page, Card } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UserInfo } from 'firebase';
 import { DesignerMode } from '@app/designer/designer-mode';
@@ -24,7 +24,7 @@ export type UpdateShapePositionArgs = { pageIndex: number; shapeIndex: number; x
 
 export const SET_ACTIVE_CARD = 'WWC/SET_ACTIVE_CARD';
 export type SetActiveCardArgs = { user: UserInfo; cardId?: string; mode: DesignerMode };
-export type SetActiveCardPayload = SetActiveCardArgs;
+export type SetActiveCardPayload = { user: UserInfo; card?: Card; mode: DesignerMode };
 
 export const UNSET_ACTIVE_CARD = 'WWC/UNSET_ACTIVE_CARD';
 

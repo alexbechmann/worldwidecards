@@ -15,7 +15,8 @@ function mapStateToProps(state: AppState, ownProps: ConnectedTextControlsProps):
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
-    page: ownProps.page
+    page: ownProps.page,
+    mode: state.designer.activeCardDesignMode
   };
 }
 

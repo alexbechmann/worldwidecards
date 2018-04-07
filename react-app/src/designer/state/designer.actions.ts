@@ -1,4 +1,4 @@
-import { Shape, constants } from '@wwc/core';
+import { Shape, constants, Card } from '@wwc/core';
 import { AnyAction } from 'redux';
 import {
   ADD_TEXT_SHAPE,
@@ -22,6 +22,7 @@ import {
   SetActiveCardPayload
 } from './designer.action-types';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
+import { cardService } from '@app/cards/services/card.service';
 
 export function addTextShape(args: AddTextShapeArgs): AnyAction {
   const textShape: Shape = {
@@ -70,9 +71,29 @@ export function updateShapePosition(args: UpdateShapePositionArgs): AnyAction {
 }
 
 export function setActiveCard(args: SetActiveCardArgs) {
+  var actionPayload: any;
+  if (args.cardId) {
+    actionPayload = new Promise(async (resolve, reject) => {
+      const card: Card = await cardService.getCardDesignById(args.cardId!);
+      const payload: SetActiveCardPayload = {
+        user: args.user,
+        mode: args.mode,
+        card: card
+      };
+      resolve(payload);
+    });
+  } else {
+    const p: SetActiveCardPayload = {
+      user: args.user,
+      mode: args.mode,
+      card: undefined
+    };
+    actionPayload = p;
+  }
+
   return {
     type: SET_ACTIVE_CARD,
-    payload: args as SetActiveCardPayload
+    payload: actionPayload
   };
 }
 

@@ -1,6 +1,6 @@
 import { DesignerState } from './designer.state';
 import { AnyAction } from 'redux';
-import { cardFactory, Card } from '@wwc/core';
+import { cardFactory } from '@wwc/core';
 import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
@@ -21,7 +21,6 @@ import {
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { SET_MY_CARD_DESIGNS_LIST } from '@app/artist/state/artist.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
 
 const defaultState: DesignerState = {
@@ -46,20 +45,11 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
         newState.editingShapePosition = action.payload as ShapePosition;
       });
     }
-    case SET_MY_CARD_DESIGNS_LIST: {
-      return createNewState(state, newState => {
-        const cards = action.payload as Card[];
-        const card = cards.find(design => design.id === state.activeCardId);
-        if (newState.activeCardId && !newState.activeCard && card) {
-          newState.activeCard = card;
-        }
-      });
-    }
     case SET_ACTIVE_CARD: {
       return createNewState(state, newState => {
-        const { cardId, user }: SetActiveCardPayload = action.payload;
-        if (cardId) {
-          newState.activeCardId = cardId;
+        const { card, user }: SetActiveCardPayload = action.payload;
+        if (card) {
+          newState.activeCard = card;
         } else {
           newState.activeCard = cardFactory.createBlankPortraitCard(user);
         }
@@ -70,7 +60,6 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
       return createNewState(state, newState => {
         newState.editingShapePosition = undefined;
         newState.activeCard = undefined;
-        newState.activeCardId = undefined;
       });
     }
     case UPDATE_TEXT: {

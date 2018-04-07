@@ -9,6 +9,7 @@ import {
   UpdateShapeWidthArgs,
   ToggleAllowUserEditArgs
 } from '@app/designer/state/designer.action-types';
+import { DesignerMode } from '@app/designer/designer-mode';
 
 type ClassNames = 'button' | 'formControl';
 
@@ -32,6 +33,7 @@ export interface TextControlsProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
+  mode: DesignerMode;
 }
 
 interface Props extends TextControlsProps, TextControlsDispatchProps {}
@@ -44,18 +46,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
       const { classes } = this.props;
       return this.props.shape.type === constants.shapes.types.text ? (
         <div>
-          <FormControl>
-            <FormLabel>Allow user edit?</FormLabel>
-            <Switch
-              checked={this.props.shape.allowUserEdit}
-              onChange={e => {
-                this.props.toggleAllowUserEdit({
-                  shapeIndex: this.props.shapePosition.shapeIndex,
-                  pageIndex: this.props.shapePosition.pageIndex
-                });
-              }}
-            />
-          </FormControl>
+          {this.renderArtistOnlyControls()}
           <TextField
             className={classes.formControl}
             label="Edit text"
@@ -103,6 +94,25 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
         </div>
       ) : (
         <span>Not a text box</span>
+      );
+    }
+
+    renderArtistOnlyControls() {
+      return this.props.mode === DesignerMode.Artist ? (
+        <FormControl>
+          <FormLabel>Allow user edit?</FormLabel>
+          <Switch
+            checked={this.props.shape.allowUserEdit}
+            onChange={e => {
+              this.props.toggleAllowUserEdit({
+                shapeIndex: this.props.shapePosition.shapeIndex,
+                pageIndex: this.props.shapePosition.pageIndex
+              });
+            }}
+          />
+        </FormControl>
+      ) : (
+        <span />
       );
     }
   }
