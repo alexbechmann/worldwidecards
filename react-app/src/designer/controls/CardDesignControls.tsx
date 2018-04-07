@@ -4,6 +4,10 @@ import { Button } from 'material-ui';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
 import { AddTextShapeArgs } from '@app/designer/state/designer.action-types';
+import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
+import { DesignerMode } from '@app/designer/designer-mode';
+import { RouterProps } from 'react-router';
+import { routes } from '@app/shared/router/routes';
 
 type ClassNames = 'button' | 'input';
 
@@ -18,6 +22,7 @@ const styles = (theme: Theme) => ({
 
 export interface CardDesignControlsDispatchProps {
   addTextShape: (args: AddTextShapeArgs) => any;
+  deleteCardDesign: (args: DeleteCardDesignArgs) => any;
 }
 
 export interface CardDesignControlsProps {
@@ -26,9 +31,10 @@ export interface CardDesignControlsProps {
   saving: boolean;
   activePageIndex: number;
   saveCardDesign: (user: UserInfo, card: Card) => any;
+  mode: DesignerMode;
 }
 
-interface Props extends CardDesignControlsDispatchProps, CardDesignControlsProps {}
+interface Props extends CardDesignControlsDispatchProps, CardDesignControlsProps, RouterProps {}
 
 interface StyledProps extends Props, WithStyles<ClassNames> {}
 
@@ -58,6 +64,27 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
             >
               Save
             </Button>
+            {this.props.mode === DesignerMode.Artist && (
+              <Button
+                disabled={this.props.saving}
+                className={classes.button}
+                aria-label="Delete"
+                onClick={() => {
+                  console.log('hi', this.props.card);
+                  if (this.props.card && this.props.card.id) {
+                    this.props
+                      .deleteCardDesign({
+                        id: this.props.card.id
+                      })
+                      .then(() => {
+                        this.props.history.push(routes.myDesigns.build());
+                      });
+                  }
+                }}
+              >
+                Delete
+              </Button>
+            )}
           </div>
         </div>
       );

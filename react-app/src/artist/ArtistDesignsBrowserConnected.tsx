@@ -17,4 +17,4 @@ function mapStateToProps(state: AppState): CardBrowserProps {
 
 const mapDispatchToProps: CardBrowserDispatchProps = { startWatchingAllCardDesigns };
 
-export const ConnectedArtistDesignsBrowser = connect(mapStateToProps, mapDispatchToProps)(CardBrowser);
+export const ArtistDesignsBrowserConnected = connect(mapStateToProps, mapDispatchToProps)(CardBrowser);

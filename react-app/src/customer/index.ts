@@ -1,2 +1,2 @@
-export { ConnectedCustomerCardDesigner } from './ConnectedCustomerCardDesigner';
+export { CustomerCardDesignerConnected } from './CustomerCardDesignerConnected';
 export { CustomerState } from './state/customer.state';

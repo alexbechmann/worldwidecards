@@ -6,16 +6,19 @@ import { CardDesigner } from '@app/designer';
 import { UserInfo } from 'firebase';
 import { Card } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
+import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
 
-export interface ConnectedCardDesignerDispatchProps {
+export interface CardDesignerConnectedDispatchProps {
   saveCardDesign: (user: UserInfo, card: Card) => any;
+  deleteCardDesign?: (args: DeleteCardDesignArgs) => any;
 }
 
-export interface ConnectedCardDesignerProps {
+export interface CardDesignerConnectedProps {
   mode: DesignerMode;
+  deleting: boolean;
 }
 
-interface Props extends ConnectedCardDesignerDispatchProps, ConnectedCardDesignerProps {}
+interface Props extends CardDesignerConnectedDispatchProps, CardDesignerConnectedProps {}
 
 function mapStateToProps(state: AppState, ownProps: Props): CardDesignerProps {
   return {
@@ -24,11 +27,13 @@ function mapStateToProps(state: AppState, ownProps: Props): CardDesignerProps {
     currentUser: state.auth.currentUser,
     lastSavedDate: state.artist.activeCardLastSavedDate,
     saving: state.artist.savingActiveCard,
+    deleting: ownProps.deleting,
     saveCardDesign: ownProps.saveCardDesign,
+    deleteCardDesign: ownProps.deleteCardDesign,
     mode: ownProps.mode
   };
 }
 
 const mapDispatchToProps: CardDesignerDispatchProps = { setActiveCard, unSetActiveCard };
 
-export const ConnectedCardDesigner = connect(mapStateToProps, mapDispatchToProps)(CardDesigner);
+export const CardDesignerConnected = connect(mapStateToProps, mapDispatchToProps)(CardDesigner);

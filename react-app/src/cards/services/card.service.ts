@@ -21,7 +21,6 @@ class CardService {
       providerId: user.providerId,
       uid: user.uid
     };
-
     const cardRef = card.id
       ? this.db.collection('card-designs').doc(card.id)
       : this.db.collection('card-designs').doc();
@@ -34,8 +33,17 @@ class CardService {
   getCardDesignById(id: string): Promise<Card> {
     const cardRef = this.db.collection('card-designs').doc(id);
     return cardRef.get().then(snapshot => {
-      return snapshot.data() as Card;
+      const card = snapshot.data() as Card;
+      if (card) {
+        card.id = snapshot.id;
+      }
+      return card;
     });
+  }
+
+  deleteCardDesignById(id: string): Promise<void> {
+    const cardRef = this.db.collection('card-designs').doc(id);
+    return cardRef.delete();
   }
 
   subscribeAndDispatchCardDesigns(userId: string): Function {

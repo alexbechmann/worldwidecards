@@ -4,7 +4,9 @@ import {
   START_WATCHING_CARD_DESIGNS_FOR_USER,
   SAVING_CARD_DESIGN,
   SAVE_CARD_DESIGN,
-  SET_MY_CARD_DESIGNS_LIST
+  SET_MY_CARD_DESIGNS_LIST,
+  DELETE_CARD_DESIGN,
+  DELETING_CARD_DESIGN
 } from './artist.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { LOGOUT } from '@app/auth/state/auth.action-types';
@@ -15,7 +17,8 @@ const defaultState: ArtistState = {
   loadingMyDesigns: true,
   myDesigns: [],
   firestoreUnsubscribeMethods: [],
-  savingActiveCard: false
+  savingActiveCard: false,
+  deletingActiveCardDesign: false
 };
 
 export function artistReducer(state: ArtistState = defaultState, action: AnyAction): ArtistState {
@@ -51,6 +54,16 @@ export function artistReducer(state: ArtistState = defaultState, action: AnyActi
       return createNewState(state, newState => {
         newState.myDesigns = action.payload as Card[];
         newState.loadingMyDesigns = false;
+      });
+    }
+    case DELETING_CARD_DESIGN: {
+      return createNewState(state, newState => {
+        newState.deletingActiveCardDesign = true;
+      });
+    }
+    case DELETE_CARD_DESIGN: {
+      return createNewState(state, newState => {
+        newState.deletingActiveCardDesign = false;
       });
     }
     default: {

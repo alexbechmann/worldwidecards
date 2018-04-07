@@ -5,13 +5,13 @@ import { AppState } from '@app/shared/state';
 import { Shape, Page } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 
-export interface ConnectedTextControlsProps {
+export interface TextControlsConnectedProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: ConnectedTextControlsProps): TextControlsProps {
+function mapStateToProps(state: AppState, ownProps: TextControlsConnectedProps): TextControlsProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
@@ -27,7 +27,7 @@ const mapDispatchToProps: TextControlsDispatchProps = {
   toggleAllowUserEdit
 };
 
-export const ConnectedTextControls: React.ComponentType<ConnectedTextControlsProps> = connect(
+export const TextControlsConnected: React.ComponentType<TextControlsConnectedProps> = connect(
   mapStateToProps,
   mapDispatchToProps
 )(TextControls);

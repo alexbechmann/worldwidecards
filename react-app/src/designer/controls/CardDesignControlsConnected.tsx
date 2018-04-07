@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
 import { addTextShape } from '@app/designer/state/designer.actions';
 import { AppState } from '@app/shared/state';
-import {
-  CardDesignControlsDispatchProps,
-  CardDesignControlsProps,
-  CardDesignControls
-} from '@app/designer/controls/CardDesignControls';
+import { CardDesignControlsDispatchProps, CardDesignControlsProps, CardDesignControls } from './CardDesignControls';
 import { UserInfo } from 'firebase';
 import { Card } from '@wwc/core';
+import { deleteCardDesign } from '@app/artist/state/artist.actions';
+import { combineContainers } from '@app/shared/helpers/combine-containers';
+import { withRouter } from 'react-router';
 
 export interface ConnectedCardDesignControlsDispatchProps {
   saveCardDesign: (user: UserInfo, card: Card) => any;
@@ -21,12 +20,14 @@ function mapStateToProps(state: AppState, ownProps: Props): CardDesignControlsPr
     saving: state.artist.savingActiveCard,
     currentUser: state.auth.currentUser,
     activePageIndex: state.designer.activePageIndex,
-    saveCardDesign: ownProps.saveCardDesign
+    saveCardDesign: ownProps.saveCardDesign,
+    mode: state.designer.activeCardDesignMode
   };
 }
 
-const mapDispatchToProps: CardDesignControlsDispatchProps = { addTextShape };
+const mapDispatchToProps: CardDesignControlsDispatchProps = { addTextShape, deleteCardDesign };
 
-export const ConnectedCardDesignControls: React.ComponentType<Props> = connect(mapStateToProps, mapDispatchToProps)(
-  CardDesignControls
-);
+export const CardDesignControlsConnected: React.ComponentType<Props> = combineContainers(CardDesignControls, [
+  c => connect(mapStateToProps, mapDispatchToProps)(c),
+  c => withRouter(c)
+]);

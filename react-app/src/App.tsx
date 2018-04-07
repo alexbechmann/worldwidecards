@@ -4,10 +4,10 @@ import { LinearProgress } from 'material-ui';
 import { AppMenuBarContainer } from '@app/menu';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from '@app/shared/router/routes';
-import { ConnectedArtistDesignsBrowser } from '@app/artist/ConnectedArtistDesignsBrowser';
-import { ConnectedArtistCardDesigner } from '@app/artist/ConnectedArtistCardDesigner';
-import { ConnectedCustomerCardDesigner } from '@app/customer';
-import { ConnectedCustomerCardBrowser } from '@app/customer/ConnectedCustomerCardBrowser';
+import { ArtistDesignsBrowserConnected } from '@app/artist/ArtistDesignsBrowserConnected';
+import { ArtistCardDesignerConnected } from '@app/artist/ArtistCardDesignerConnected';
+import { CustomerCardDesignerConnected } from '@app/customer';
+import { CustomerCardBrowserConnected } from '@app/customer/CustomerCardBrowserConnected';
 
 export interface AppProps {
   isLoggedIn: boolean;
@@ -45,15 +45,15 @@ class App extends React.Component<Props> {
           <Route
             exact={true}
             path={routes.artistDesigner.path}
-            component={this.props.isLoggedIn ? ConnectedArtistCardDesigner : LoginContainer}
+            component={this.props.isLoggedIn ? ArtistCardDesignerConnected : LoginContainer}
           />
-          <Route exact={true} path={routes.customerDesigner.path} component={ConnectedCustomerCardDesigner} />
+          <Route exact={true} path={routes.customerDesigner.path} component={CustomerCardDesignerConnected} />
           <Route
             path={routes.myDesigns.path}
-            component={this.props.isLoggedIn ? ConnectedArtistDesignsBrowser : LoginContainer}
+            component={this.props.isLoggedIn ? ArtistDesignsBrowserConnected : LoginContainer}
           />
-          <Route path={routes.customerCardBrowser.path} component={ConnectedCustomerCardBrowser} />
-          <Route path="/" component={ConnectedCustomerCardBrowser} />
+          <Route path={routes.customerCardBrowser.path} component={CustomerCardBrowserConnected} />
+          <Route path="/" component={CustomerCardBrowserConnected} />
         </Switch>
       );
     } else {

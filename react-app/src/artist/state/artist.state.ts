@@ -6,4 +6,5 @@ export interface ArtistState {
   firestoreUnsubscribeMethods: Function[];
   savingActiveCard: boolean;
   activeCardLastSavedDate?: Date;
+  deletingActiveCardDesign: boolean;
 }

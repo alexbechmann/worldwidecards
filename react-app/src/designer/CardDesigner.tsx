@@ -19,10 +19,11 @@ import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
 import { TimeAgo } from '@app/shared/ui';
-import { ConnectedTextControls } from '@app/designer/controls/ConnectedTextControls';
+import { TextControlsConnected } from './controls/TextControlsConnected';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { ConnectedCardDesignControls } from '@app/designer/ConnectedCardDesignControls';
+import { CardDesignControlsConnected } from '@app/designer/controls/CardDesignControlsConnected';
 import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';
+import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
 
 type StyleClassNames = 'root';
 
@@ -38,7 +39,9 @@ export interface CardDesignerProps {
   currentUser?: UserInfo;
   lastSavedDate?: Date;
   saving: boolean;
+  deleting: boolean;
   saveCardDesign: (user: UserInfo, card: Card) => any;
+  deleteCardDesign?: (args: DeleteCardDesignArgs) => any;
   mode: DesignerMode;
 }
 
@@ -57,6 +60,9 @@ interface StyledProps extends Props, WithStyles<StyleClassNames> {}
 
 class CardDesignerComponent extends React.Component<StyledProps> {
   render() {
+    if (this.props.deleting) {
+      return <CircularProgress />;
+    }
     return this.props.currentUser != null || this.props.mode === DesignerMode.Customer ? (
       <div className={this.props.classes.root}>{this.props.card ? this.renderDesigner() : <CircularProgress />}</div>
     ) : (
@@ -85,7 +91,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           </Grid>
           <Grid container={true}>
             <Grid item={true} sm={4} xs={12}>
-              <ConnectedCardDesignControls saveCardDesign={this.props.saveCardDesign} />
+              <CardDesignControlsConnected saveCardDesign={this.props.saveCardDesign} />
               <CardPageContainer
                 pageIndex={0}
                 page={this.props.card.pages[0]}
@@ -164,7 +170,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
         return <ImageControls />;
       }
       case constants.shapes.types.text: {
-        return <ConnectedTextControls shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
+        return <TextControlsConnected shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
       }
       default: {
         return null;
