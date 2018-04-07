@@ -5,10 +5,14 @@ export const routes = {
   },
   customerDesigner: {
     path: '/customer/designer/:id?',
-    build: () => `/customer/designer/`
+    build: (id?: string) => (id ? `/customer/designer/${id}` : `/customer/designer`)
   },
   myDesigns: {
     path: '/my-designs',
     build: () => `/my-designs`
+  },
+  customerCardBrowser: {
+    path: '/cards',
+    build: () => `/cards`
   }
 };

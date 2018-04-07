@@ -1,4 +1,3 @@
-import * as firebase from 'firebase';
 import { store } from '@app/shared/state';
 import { cardService } from '@app/cards/services/card.service';
 import { UserInfo } from 'firebase';
@@ -29,17 +28,7 @@ export function setMyCardDesignsList(cards: Card[]): AnyAction {
 }
 
 export function startWatchingCardDesignsForUser(user: UserInfo): AnyAction {
-  const db = firebase.firestore();
-  const cardDesigns = db.collection('card-designs').where('userId', '==', user.uid);
-  const unsubscribe = cardDesigns.onSnapshot(snapshot => {
-    const cards: Card[] = snapshot.docs.map(doc => {
-      const card = doc.data() as Card;
-      card.id = doc.id;
-      return card;
-    });
-    const action = setMyCardDesignsList(cards);
-    store.dispatch(action);
-  });
+  const unsubscribe: Function = cardService.subscribeAndDispatchCardDesigns(user.uid);
   return {
     type: START_WATCHING_CARD_DESIGNS_FOR_USER,
     payload: unsubscribe

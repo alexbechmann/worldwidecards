@@ -2,6 +2,9 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
+import { store } from '@app/shared/state';
+import { setMyCardDesignsList } from '@app/artist/state/artist.actions';
+import { setCardsList } from '@app/customer/state/customer.actions';
 
 class CardService {
   get db(): firebase.firestore.Firestore {
@@ -33,6 +36,36 @@ class CardService {
     return cardRef.get().then(snapshot => {
       return snapshot.data() as Card;
     });
+  }
+
+  subscribeAndDispatchCardDesigns(userId: string): Function {
+    const db = firebase.firestore();
+    const cardDesigns = db.collection('card-designs').where('userId', '==', userId);
+    const unsubscribe: Function = cardDesigns.onSnapshot(snapshot => {
+      const cards: Card[] = snapshot.docs.map(doc => {
+        const card = doc.data() as Card;
+        card.id = doc.id;
+        return card;
+      });
+      const action = setMyCardDesignsList(cards);
+      store.dispatch(action);
+    });
+    return unsubscribe;
+  }
+
+  subscribeAndDispatchAllCardDesigns(): Function {
+    const db = firebase.firestore();
+    const cardDesigns = db.collection('card-designs');
+    const unsubscribe: Function = cardDesigns.onSnapshot(snapshot => {
+      const cards: Card[] = snapshot.docs.map(doc => {
+        const card = doc.data() as Card;
+        card.id = doc.id;
+        return card;
+      });
+      const action = setCardsList(cards);
+      store.dispatch(action);
+    });
+    return unsubscribe;
   }
 }
 

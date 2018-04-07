@@ -12,7 +12,7 @@ import { UNSET_ACTIVE_CARD } from '@app/designer/state/designer.action-types';
 import { Card } from '@wwc/core';
 
 const defaultState: ArtistState = {
-  loadingMyDesigns: false,
+  loadingMyDesigns: true,
   myDesigns: [],
   firestoreUnsubscribeMethods: [],
   savingActiveCard: false
