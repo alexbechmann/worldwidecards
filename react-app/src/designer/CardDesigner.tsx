@@ -57,7 +57,7 @@ interface StyledProps extends Props, WithStyles<StyleClassNames> {}
 
 class CardDesignerComponent extends React.Component<StyledProps> {
   render() {
-    return this.props.currentUser != null ? (
+    return this.props.currentUser != null || this.props.mode === DesignerMode.Customer ? (
       <div className={this.props.classes.root}>{this.props.card ? this.renderDesigner() : <CircularProgress />}</div>
     ) : (
       <div>Must be logged in.</div>
