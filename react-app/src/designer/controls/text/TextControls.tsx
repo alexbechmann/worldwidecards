@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { FormControl, FormLabel, TextField, Button, Switch } from 'material-ui';
+import { Grid, FormControl, FormLabel, TextField, Button, Switch } from 'material-ui';
 import { Shape, Page, constants } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@app/designer/state/designer.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { DialogPopup } from '@app/shared/ui/DialogPopup';
+import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
 
 type ClassNames = 'button' | 'formControl';
 
@@ -51,7 +52,14 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
           handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
           dialogTitle="Edit textbox"
         >
-          {this.renderForm()}
+          <Grid container={true}>
+            <Grid item={true} xs={12} lg={8}>
+              {this.renderForm()}
+            </Grid>
+            <Grid item={true} xs={12} lg={4}>
+              <CardPageContainer page={this.props.page} pageIndex={0} editable={false} />
+            </Grid>
+          </Grid>
         </DialogPopup>
       ) : (
         <span>Not a text box</span>
@@ -78,23 +86,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
               })
             }
           />
-          <TextField
-            className={classes.formControl}
-            label="Edit width"
-            fullWidth={true}
-            value={this.props.shape.width}
-            onChange={e =>
-              this.props.updateShapeWidth({
-                position: {
-                  pageIndex: this.props.shapePosition.pageIndex,
-                  shapeIndex: this.props.shapePosition.shapeIndex
-                },
-                newWidth: parseInt(e.target.value, 10),
-                shape: this.props.shape,
-                page: this.props.page
-              })
-            }
-          />
+
           <Button
             className={this.props.classes.button}
             onClick={() =>
@@ -112,19 +104,39 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
     }
 
     renderArtistOnlyControls() {
+      const { classes } = this.props;
       return this.props.mode === DesignerMode.Artist ? (
-        <FormControl>
-          <FormLabel>Allow user edit?</FormLabel>
-          <Switch
-            checked={this.props.shape.allowUserEdit}
-            onChange={e => {
-              this.props.toggleAllowUserEdit({
-                shapeIndex: this.props.shapePosition.shapeIndex,
-                pageIndex: this.props.shapePosition.pageIndex
-              });
-            }}
+        <div>
+          <FormControl>
+            <FormLabel>Allow customer edit?</FormLabel>
+            <Switch
+              checked={this.props.shape.allowUserEdit}
+              onChange={e => {
+                this.props.toggleAllowUserEdit({
+                  shapeIndex: this.props.shapePosition.shapeIndex,
+                  pageIndex: this.props.shapePosition.pageIndex
+                });
+              }}
+            />
+          </FormControl>
+          <TextField
+            className={classes.formControl}
+            label="Edit width"
+            fullWidth={true}
+            value={this.props.shape.width}
+            onChange={e =>
+              this.props.updateShapeWidth({
+                position: {
+                  pageIndex: this.props.shapePosition.pageIndex,
+                  shapeIndex: this.props.shapePosition.shapeIndex
+                },
+                newWidth: parseInt(e.target.value, 10),
+                shape: this.props.shape,
+                page: this.props.page
+              })
+            }
           />
-        </FormControl>
+        </div>
       ) : (
         <span />
       );

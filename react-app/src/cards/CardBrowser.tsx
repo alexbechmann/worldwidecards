@@ -35,7 +35,7 @@ export class CardBrowser extends React.Component<Props> {
                 : routes.customerDesigner.build(card.id);
             return (
               <Grid key={card.id} item={true} xs={12} sm={3} xl={2}>
-                <CardPageContainer page={card.pages[0]} pageIndex={0} cardId={card.id!} editable={false} />
+                <CardPageContainer page={card.pages[0]} pageIndex={0} editable={false} />
                 <RouteButton fullWidth={true} to={to}>
                   {this.props.cardSelectText}
                 </RouteButton>

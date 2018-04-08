@@ -89,12 +89,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           <Grid container={true}>
             <Grid item={true} sm={4} xs={12}>
               <CardDesignControlsConnected saveCardDesign={this.props.saveCardDesign} />
-              <CardPageContainer
-                pageIndex={0}
-                page={this.props.card.pages[0]}
-                cardId={this.props.card.id!}
-                editable={true}
-              />
+              <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} editable={true} />
               <br />
               {this.renderSaveStatus()}
             </Grid>

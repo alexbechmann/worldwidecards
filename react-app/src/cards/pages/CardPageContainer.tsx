@@ -9,18 +9,16 @@ import { setEditingShape, updateShapePosition } from '@app/designer/state/design
 interface CardPageContainerProps {
   page: Page;
   pageIndex: number;
-  cardId: string;
   editable: boolean;
 }
 
 function mapStateToProps(state: AppState, ownProps: CardPageContainerProps): CardPageProps {
-  const { page, pageIndex } = ownProps;
+  const { page, pageIndex, editable } = ownProps;
   return {
     page,
     pageIndex,
+    editable,
     editingShapePosition: state.designer.editingShapePosition,
-    cardId: ownProps.cardId,
-    editable: ownProps.editable,
     mode: state.designer.activeCardDesignMode
   };
 }

@@ -17,7 +17,6 @@ export interface CardPageDispatchProps {
 export interface CardPageProps {
   page: Page;
   pageIndex: number;
-  cardId?: string;
   editingShapePosition?: ShapePosition;
   editable: boolean;
   mode: DesignerMode;
