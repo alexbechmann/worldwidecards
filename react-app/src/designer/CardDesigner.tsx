@@ -9,7 +9,8 @@ import {
   withStyles,
   WithStyles,
   CircularProgress,
-  Typography
+  Typography,
+  Button
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
 import { ImageControlsConnected } from './controls/images/ImageControlsConnected';
@@ -23,11 +24,14 @@ import { DesignerMode } from '@app/designer/designer-mode';
 import { CardDesignControlsConnected } from '@app/designer/controls/CardDesignControlsConnected';
 import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';
 
-type StyleClassNames = 'root';
+type StyleClassNames = 'root' | 'button';
 
 const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   root: {
     margin: theme.spacing.unit * 2
+  },
+  button: {
+    margin: theme.spacing.unit
   }
 });
 
@@ -44,6 +48,7 @@ export interface CardDesignerProps {
 
 export interface CardDesignerDispatchProps {
   setActiveCard: (args: SetActiveCardArgs) => any;
+  setEditingShape: (position: ShapePosition) => any;
   unSetActiveCard: () => any;
 }
 
@@ -96,6 +101,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
             <Grid item={true} sm={8} xs={12}>
               <p>Work area {this.props.mode}</p>
               {this.renderArtistShapeControls()}
+              {this.renderSelectShapeButtons()}
             </Grid>
           </Grid>
         </div>
@@ -124,7 +130,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
       const editingShape: Shape = this.props.card.pages[editingShapePosition.pageIndex].shapes[
         editingShapePosition.shapeIndex
       ];
-      if (editingShape && !(this.props.mode === DesignerMode.Customer && !editingShape.allowUserEdit)) {
+      if (this.canEditShape(editingShape)) {
         return this.renderShapeControl(editingShape, editingShapePosition);
       }
     }
@@ -143,6 +149,40 @@ class CardDesignerComponent extends React.Component<StyledProps> {
         return null;
       }
     }
+  }
+
+  canEditShape(shape: Shape) {
+    return shape && !(this.props.mode === DesignerMode.Customer && !shape.allowUserEdit);
+  }
+
+  renderSelectShapeButtons() {
+    if (this.props.card) {
+      return this.props.card!.pages[0].shapes.map((shape, index) => {
+        return (
+          <div key={index}>
+            {this.canEditShape(shape) ? (
+              <div>
+                <Button
+                  className={this.props.classes.button}
+                  variant="raised"
+                  onClick={() =>
+                    this.props.setEditingShape({
+                      pageIndex: 0,
+                      shapeIndex: index
+                    })
+                  }
+                >
+                  Edit {shape.type} {index}
+                </Button>
+              </div>
+            ) : (
+              <span />
+            )}
+          </div>
+        );
+      });
+    }
+    return null;
   }
 
   renderStepper() {

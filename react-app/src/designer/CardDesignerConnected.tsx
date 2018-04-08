@@ -1,6 +1,6 @@
 import { AppState } from '@app/shared/state';
 import { connect } from 'react-redux';
-import { setActiveCard, unSetActiveCard } from '@app/designer/state/designer.actions';
+import { setActiveCard, unSetActiveCard, setEditingShape } from '@app/designer/state/designer.actions';
 import { CardDesignerDispatchProps, CardDesignerProps } from '@app/designer/CardDesigner';
 import { CardDesigner } from '@app/designer';
 import { UserInfo } from 'firebase';
@@ -31,6 +31,6 @@ function mapStateToProps(state: AppState, ownProps: Props): CardDesignerProps {
   };
 }
 
-const mapDispatchToProps: CardDesignerDispatchProps = { setActiveCard, unSetActiveCard };
+const mapDispatchToProps: CardDesignerDispatchProps = { setActiveCard, unSetActiveCard, setEditingShape };
 
 export const CardDesignerConnected = connect(mapStateToProps, mapDispatchToProps)(CardDesigner);
