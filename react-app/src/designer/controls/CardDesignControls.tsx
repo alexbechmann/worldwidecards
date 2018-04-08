@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { Button } from 'material-ui';
+import { IconButton } from 'material-ui';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
 import { AddTextShapeArgs } from '@app/designer/state/designer.action-types';
@@ -8,6 +8,7 @@ import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { RouterProps } from 'react-router';
 import { routes } from '@app/shared/router/routes';
+import * as Icons from 'material-ui-icons';
 
 type ClassNames = 'button' | 'input';
 
@@ -45,30 +46,30 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
       return (
         <div>
           <div>
-            <Button
+            <IconButton
               className={classes.button}
-              aria-label="Add text box"
+              aria-label="Save"
+              color="primary"
+              onClick={() => this.props.saveCardDesign(this.props.currentUser!, this.props.card!)}
+            >
+              <Icons.Save />
+            </IconButton>
+            <IconButton
+              className={classes.button}
+              aria-label="Add"
               onClick={() =>
                 this.props.addTextShape({
                   pageIndex: this.props.activePageIndex
                 })
               }
             >
-              Add text box
-            </Button>
-            <Button
-              disabled={this.props.saving}
-              className={classes.button}
-              aria-label="Save design"
-              onClick={() => this.props.saveCardDesign(this.props.currentUser!, this.props.card!)}
-            >
-              Save
-            </Button>
+              <Icons.AddCircle />
+            </IconButton>
             {this.props.mode === DesignerMode.Artist && (
-              <Button
-                disabled={this.props.saving}
+              <IconButton
                 className={classes.button}
                 aria-label="Delete"
+                disabled={this.props.saving}
                 onClick={() => {
                   if (this.props.card && this.props.card.id && window.confirm('Are you sure?')) {
                     this.props
@@ -81,8 +82,8 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
                   }
                 }}
               >
-                Delete
-              </Button>
+                <Icons.Delete />
+              </IconButton>
             )}
           </div>
         </div>

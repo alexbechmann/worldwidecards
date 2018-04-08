@@ -51,6 +51,21 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
           open={true}
           handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
           dialogTitle="Edit textbox"
+          dialogDescription="Edit the properties of the text box here. Click close and drag the text to move it's position"
+          extraDialogButtons={[
+            () => (
+              <Button
+                onClick={() =>
+                  this.props.removeShape({
+                    position: this.props.shapePosition
+                  })
+                }
+                autoFocus={true}
+              >
+                Remove
+              </Button>
+            )
+          ]}
         >
           <Grid container={true}>
             <Grid item={true} xs={12} lg={8}>
@@ -86,19 +101,6 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
               })
             }
           />
-
-          <Button
-            className={this.props.classes.button}
-            onClick={() =>
-              this.props.removeShape({
-                position: this.props.shapePosition
-              })
-            }
-            variant="raised"
-            color="secondary"
-          >
-            Remove
-          </Button>
         </div>
       );
     }

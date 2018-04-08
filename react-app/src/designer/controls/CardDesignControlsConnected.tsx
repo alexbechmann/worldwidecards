@@ -17,7 +17,7 @@ interface Props extends ConnectedCardDesignControlsDispatchProps {}
 function mapStateToProps(state: AppState, ownProps: Props): CardDesignControlsProps {
   return {
     card: state.designer.activeCard,
-    saving: state.artist.savingActiveCard,
+    saving: state.artist.savingActiveCard || state.artist.deletingActiveCardDesign,
     currentUser: state.auth.currentUser,
     activePageIndex: state.designer.activePageIndex,
     saveCardDesign: ownProps.saveCardDesign,
