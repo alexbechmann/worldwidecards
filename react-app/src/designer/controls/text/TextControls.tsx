@@ -60,7 +60,6 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
                     position: this.props.shapePosition
                   })
                 }
-                autoFocus={true}
               >
                 Remove
               </Button>
@@ -92,6 +91,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             fullWidth={true}
             multiline={true}
             rowsMax={5}
+            autoFocus={true}
             value={this.props.shape.textData!.text}
             onChange={e =>
               this.props.updateText({

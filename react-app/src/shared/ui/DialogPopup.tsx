@@ -30,7 +30,7 @@ class TextControlsComponent extends React.Component<Props> {
         <DialogActions>
           {this.props.extraDialogButtons &&
             this.props.extraDialogButtons.map((ExtraButton, index) => <ExtraButton key={index} />)}
-          <Button onClick={this.props.handleClose} color="primary" autoFocus={true}>
+          <Button onClick={this.props.handleClose} color="primary">
             Close
           </Button>
         </DialogActions>
