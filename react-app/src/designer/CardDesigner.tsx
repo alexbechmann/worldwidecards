@@ -9,8 +9,7 @@ import {
   withStyles,
   WithStyles,
   CircularProgress,
-  Typography,
-  Divider
+  Typography
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
 import { ImageControlsConnected } from './controls/images/ImageControlsConnected';
@@ -101,9 +100,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
             </Grid>
             <Grid item={true} sm={8} xs={12}>
               <p>Work area {this.props.mode}</p>
-              {this.props.mode === DesignerMode.Artist
-                ? this.renderArtistShapeControls()
-                : this.renderCustomerShapeControls()}
+              {this.renderArtistShapeControls()}
             </Grid>
           </Grid>
         </div>
@@ -132,32 +129,9 @@ class CardDesignerComponent extends React.Component<StyledProps> {
       const editingShape: Shape = this.props.card.pages[editingShapePosition.pageIndex].shapes[
         editingShapePosition.shapeIndex
       ];
-      if (editingShape) {
+      if (editingShape && !(this.props.mode === DesignerMode.Customer && !editingShape.allowUserEdit)) {
         return this.renderShapeControl(editingShape, editingShapePosition);
       }
-    }
-    return null;
-  }
-
-  renderCustomerShapeControls() {
-    if (this.props.card) {
-      return this.props.card!.pages[0].shapes.sort((a, b) => (a.y! < b.y! ? 1 : -1)).map((shape, index) => {
-        return (
-          <div key={index}>
-            {shape.allowUserEdit ? (
-              <div>
-                {this.renderShapeControl(shape, {
-                  pageIndex: 0,
-                  shapeIndex: index
-                })}
-                <Divider light={true} />
-              </div>
-            ) : (
-              <span />
-            )}
-          </div>
-        );
-      });
     }
     return null;
   }
