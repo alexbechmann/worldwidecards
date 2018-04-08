@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { IconButton } from 'material-ui';
+import { IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText } from 'material-ui';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
 import { AddTextShapeArgs } from '@app/designer/state/designer.action-types';
@@ -35,12 +35,19 @@ export interface CardDesignControlsProps {
   mode: DesignerMode;
 }
 
+interface State {
+  addShapeDrawerOpen: boolean;
+}
+
 interface Props extends CardDesignControlsDispatchProps, CardDesignControlsProps, RouterProps {}
 
 interface StyledProps extends Props, WithStyles<ClassNames> {}
 
 export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)(
-  class CardDesignControlsComponent extends React.Component<StyledProps> {
+  class CardDesignControlsComponent extends React.Component<StyledProps, State> {
+    state = {
+      addShapeDrawerOpen: false
+    };
     render() {
       const { classes } = this.props;
       return (
@@ -54,15 +61,7 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
             >
               <Icons.Save />
             </IconButton>
-            <IconButton
-              className={classes.button}
-              aria-label="Add"
-              onClick={() =>
-                this.props.addTextShape({
-                  pageIndex: this.props.activePageIndex
-                })
-              }
-            >
+            <IconButton className={classes.button} aria-label="Add" onClick={() => this.toggleDrawer()}>
               <Icons.AddCircle />
             </IconButton>
             {this.props.mode === DesignerMode.Artist && (
@@ -85,9 +84,43 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
                 <Icons.Delete />
               </IconButton>
             )}
+            {this.renderAddShapeDialog()}
           </div>
         </div>
       );
+    }
+
+    toggleDrawer() {
+      this.setState({
+        addShapeDrawerOpen: !this.state.addShapeDrawerOpen
+      });
+    }
+
+    renderAddShapeDialog() {
+      if (this.state.addShapeDrawerOpen) {
+        return (
+          <Drawer anchor="bottom" open={this.state.addShapeDrawerOpen} onClose={() => this.toggleDrawer()}>
+            <List>
+              <ListItem
+                button={true}
+                onClick={() => {
+                  this.props.addTextShape({
+                    pageIndex: this.props.activePageIndex
+                  });
+                  this.toggleDrawer();
+                }}
+              >
+                <ListItemIcon>
+                  <Icons.Textsms />
+                </ListItemIcon>
+                <ListItemText primary="Add textbox" />
+              </ListItem>
+            </List>
+          </Drawer>
+        );
+      } else {
+        return null;
+      }
     }
   }
 );
