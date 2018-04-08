@@ -18,9 +18,9 @@ export class CardFactory {
               y: 25,
               width: 300,
               textData: {
-                text: 'Test text alskdjf lkasjdf lkasjdf lkajsdf klasjdf klajskldf jaskldf jaklsfd ',
+                text: 'Happy Birthday!!', 
                 fontSize: 24,
-                color: 'blue',
+                color: 'red',
                 font: ''
               },
               allowUserEdit: false
@@ -29,7 +29,7 @@ export class CardFactory {
               type: constants.shapes.types.image,
               allowUserEdit: false,
               imageData: {
-                href: 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/182198.jpg'
+                href: 'https://picsum.photos/1000/600?image=0'
               },
               x: 0,
               y: 200,

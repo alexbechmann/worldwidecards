@@ -7,3 +7,4 @@ export { nameof } from './shared/tools/nameof';
 export { constants } from './shared/contants';
 export { cardFactory } from './cards/card-factory';
 export { mathHelper } from './helpers/math-helper';
+export { CropData } from './shared/crop-data';

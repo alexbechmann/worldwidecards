@@ -20,7 +20,10 @@ import {
   TOGGLE_ALLOW_USER_EDIT,
   SetActiveCardArgs,
   SetActiveCardPayload,
-  REMOVE_EDITING_SHAPE
+  REMOVE_EDITING_SHAPE,
+  SET_IMAGE_CROP,
+  SetImageCropPayload,
+  SetImageCropArgs
 } from './designer.action-types';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { cardService } from '@app/cards/services/card.service';
@@ -135,5 +138,12 @@ export function toggleAllowUserEdit(args: ToggleAllowUserEditArgs) {
   return {
     type: TOGGLE_ALLOW_USER_EDIT,
     payload: args
+  };
+}
+
+export function setImageCrop(args: SetImageCropArgs) {
+  return {
+    type: SET_IMAGE_CROP,
+    payload: args as SetImageCropPayload
   };
 }

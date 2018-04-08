@@ -10,14 +10,11 @@ import { RouterProps } from 'react-router';
 import { routes } from '@app/shared/router/routes';
 import * as Icons from 'material-ui-icons';
 
-type ClassNames = 'button' | 'input';
+type ClassNames = 'button';
 
 const styles = (theme: Theme) => ({
   button: {
     margin: theme.spacing.unit
-  },
-  input: {
-    display: 'none'
   }
 });
 
