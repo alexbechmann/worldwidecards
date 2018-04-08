@@ -10,6 +10,7 @@ import {
   ToggleAllowUserEditArgs
 } from '@app/designer/state/designer.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
+import { DialogPopup } from '@app/shared/ui/DialogPopup';
 
 type ClassNames = 'button' | 'formControl';
 
@@ -27,6 +28,7 @@ export interface TextControlsDispatchProps {
   removeShape: (args: RemoveShapeArgs) => any;
   updateShapeWidth: (args: UpdateShapeWidthArgs) => any;
   toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
+  removeEditingShape: (position: ShapePosition) => any;
 }
 
 export interface TextControlsProps {
@@ -43,8 +45,22 @@ interface StyledProps extends Props, WithStyles<ClassNames> {}
 export const TextControls: React.ComponentType<Props> = withStyles(styles)(
   class TextControlsComponent extends React.Component<StyledProps> {
     render() {
-      const { classes } = this.props;
       return this.props.shape.type === constants.shapes.types.text ? (
+        <DialogPopup
+          open={true}
+          handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
+          dialogTitle="Edit textbox"
+        >
+          {this.renderForm()}
+        </DialogPopup>
+      ) : (
+        <span>Not a text box</span>
+      );
+    }
+
+    renderForm() {
+      const { classes } = this.props;
+      return (
         <div>
           {this.renderArtistOnlyControls()}
           <TextField
@@ -92,8 +108,6 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             Remove
           </Button>
         </div>
-      ) : (
-        <span>Not a text box</span>
       );
     }
 

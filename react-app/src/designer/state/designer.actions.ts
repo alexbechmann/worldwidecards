@@ -19,10 +19,17 @@ import {
   ToggleAllowUserEditArgs,
   TOGGLE_ALLOW_USER_EDIT,
   SetActiveCardArgs,
-  SetActiveCardPayload
+  SetActiveCardPayload,
+  REMOVE_EDITING_SHAPE
 } from './designer.action-types';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { cardService } from '@app/cards/services/card.service';
+
+export function removeEditingShape(position: ShapePosition): AnyAction {
+  return {
+    type: REMOVE_EDITING_SHAPE
+  };
+}
 
 export function addTextShape(args: AddTextShapeArgs): AnyAction {
   const textShape: Shape = {

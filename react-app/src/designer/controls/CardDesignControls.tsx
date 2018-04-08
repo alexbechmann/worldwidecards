@@ -70,8 +70,7 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
                 className={classes.button}
                 aria-label="Delete"
                 onClick={() => {
-                  console.log('hi', this.props.card);
-                  if (this.props.card && this.props.card.id) {
+                  if (this.props.card && this.props.card.id && window.confirm('Are you sure?')) {
                     this.props
                       .deleteCardDesign({
                         id: this.props.card.id

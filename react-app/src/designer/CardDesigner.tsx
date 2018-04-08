@@ -13,17 +13,16 @@ import {
   Divider
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
-import { ImageControls } from './controls/ImageControls';
+import { ImageControlsConnected } from './controls/images/ImageControlsConnected';
 import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
 import { TimeAgo } from '@app/shared/ui';
-import { TextControlsConnected } from './controls/TextControlsConnected';
+import { TextControlsConnected } from './controls/text/TextControlsConnected';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { CardDesignControlsConnected } from '@app/designer/controls/CardDesignControlsConnected';
 import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';
-import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
 
 type StyleClassNames = 'root';
 
@@ -41,7 +40,6 @@ export interface CardDesignerProps {
   saving: boolean;
   deleting: boolean;
   saveCardDesign: (user: UserInfo, card: Card) => any;
-  deleteCardDesign?: (args: DeleteCardDesignArgs) => any;
   mode: DesignerMode;
 }
 
@@ -167,7 +165,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
   renderShapeControl(shape: Shape, shapePosition: ShapePosition) {
     switch (shape.type) {
       case constants.shapes.types.image: {
-        return <ImageControls />;
+        return <ImageControlsConnected shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
       }
       case constants.shapes.types.text: {
         return <TextControlsConnected shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;

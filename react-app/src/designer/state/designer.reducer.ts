@@ -17,7 +17,8 @@ import {
   UpdateShapeWidthPayload,
   TOGGLE_ALLOW_USER_EDIT,
   ToggleAllowUserEditArgs,
-  SetActiveCardPayload
+  SetActiveCardPayload,
+  REMOVE_EDITING_SHAPE
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -43,6 +44,11 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     case SET_EDITING_SHAPE: {
       return createNewState(state, newState => {
         newState.editingShapePosition = action.payload as ShapePosition;
+      });
+    }
+    case REMOVE_EDITING_SHAPE: {
+      return createNewState(state, newState => {
+        newState.editingShapePosition = undefined;
       });
     }
     case SET_ACTIVE_CARD: {

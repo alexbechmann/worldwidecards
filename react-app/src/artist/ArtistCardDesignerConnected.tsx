@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { saveCardDesign, deleteCardDesign } from './state/artist.actions';
+import { saveCardDesign } from './state/artist.actions';
 import {
   CardDesignerConnected,
   CardDesignerConnectedDispatchProps,
@@ -8,7 +8,7 @@ import {
 import { DesignerMode } from '@app/designer/designer-mode';
 import { AppState } from '@app/shared/state';
 
-const mapDispatchToProps: CardDesignerConnectedDispatchProps = { saveCardDesign, deleteCardDesign };
+const mapDispatchToProps: CardDesignerConnectedDispatchProps = { saveCardDesign };
 
 function mapStateToProps(state: AppState): CardDesignerConnectedProps {
   return {

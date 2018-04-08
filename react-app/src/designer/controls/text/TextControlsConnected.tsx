@@ -1,4 +1,10 @@
-import { updateText, removeShape, updateShapeWidth, toggleAllowUserEdit } from '@app/designer/state/designer.actions';
+import {
+  updateText,
+  removeShape,
+  updateShapeWidth,
+  toggleAllowUserEdit,
+  removeEditingShape
+} from '@app/designer/state/designer.actions';
 import { TextControls, TextControlsDispatchProps, TextControlsProps } from './TextControls';
 import { connect } from 'react-redux';
 import { AppState } from '@app/shared/state';
@@ -24,7 +30,8 @@ const mapDispatchToProps: TextControlsDispatchProps = {
   updateText,
   removeShape,
   updateShapeWidth,
-  toggleAllowUserEdit
+  toggleAllowUserEdit,
+  removeEditingShape
 };
 
 export const TextControlsConnected: React.ComponentType<TextControlsConnectedProps> = connect(
