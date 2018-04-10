@@ -29,7 +29,11 @@ export class CardFactory {
               type: constants.shapes.types.image,
               allowUserEdit: false,
               imageData: {
-                href: 'https://picsum.photos/1000/600?image=0'
+                href: 'https://picsum.photos/1000/600?image=0',
+                ratio: {
+                  width: 16,
+                  height: 9
+                }
               },
               x: 0,
               y: 200,

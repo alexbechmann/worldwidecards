@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactKonva from 'react-konva';
 import { ImageConfig } from 'konva';
-import { mathHelper, CropData } from '@wwc/core';
+import { CropData } from '@wwc/core';
 
 interface State {
   image?: HTMLImageElement;
@@ -9,7 +9,8 @@ interface State {
 
 interface Props extends Partial<ImageConfig>, ReactKonva.KonvaNodeProps {
   href: string;
-  crop?: CropData;
+  cropData?: CropData;
+  ratio: number;
 }
 
 export class ImageRect extends React.Component<Props, State> {
@@ -30,9 +31,16 @@ export class ImageRect extends React.Component<Props, State> {
     return this.state.image ? (
       <ReactKonva.Image
         {...this.props}
-        height={this.props.crop ? this.props.crop.height : this.calculateHeight()}
         image={this.state.image}
-        crop={this.props.crop}
+        crop={
+          this.props.cropData && {
+            x: this.props.cropData!.x,
+            y: this.props.cropData!.y,
+            width: this.props.cropData!.width,
+            height: this.props.cropData!.height
+          }
+        }
+        height={this.calculateHeight()}
       />
     ) : (
       <ReactKonva.Rect {...this.props} />
@@ -40,10 +48,6 @@ export class ImageRect extends React.Component<Props, State> {
   }
 
   calculateHeight(): number {
-    return mathHelper.calculateHeight({
-      originalWidth: this.state.image!.width,
-      originalHeight: this.state.image!.height,
-      width: this.props.width!
-    });
+    return this.props.width! / this.props.ratio;
   }
 }

@@ -3,4 +3,6 @@ export interface CropData {
   y: number;
   width: number;
   height: number;
+  imgHeight: number;
+  imgWidth: number;
 }

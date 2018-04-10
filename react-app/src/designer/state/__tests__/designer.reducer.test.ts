@@ -40,7 +40,11 @@ const defaultState: DesignerState = {
             type: constants.shapes.types.image,
             allowUserEdit: true,
             imageData: {
-              href: 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/182198.jpg'
+              href: 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/182198.jpg',
+              ratio: {
+                width: 16,
+                height: 9
+              }
             },
             x: 0,
             y: 200,

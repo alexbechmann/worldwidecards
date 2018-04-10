@@ -67,10 +67,10 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
           ]}
         >
           <Grid container={true}>
-            <Grid item={true} xs={12} lg={8}>
+            <Grid item={true} xs={12} sm={8}>
               {this.renderForm()}
             </Grid>
-            <Grid item={true} xs={12} lg={4}>
+            <Grid item={true} xs={12} sm={4}>
               <CardPageContainer page={this.props.page} pageIndex={0} editable={false} />
             </Grid>
           </Grid>

@@ -7,18 +7,10 @@ import {
   ToggleAllowUserEditArgs,
   SetImageCropArgs
 } from '@app/designer/state/designer.action-types';
-import { Shape, Page } from '@wwc/core';
+import { Shape, Page, mathHelper } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { Ref } from 'react';
-const Cropper: React.ComponentType<{
-  src: string;
-  ref?: (ref: Ref<any>) => void;
-  onChange?: (values: any) => any;
-  originX?: number;
-  originY?: number;
-  width?: number;
-  height?: number;
-}> = require('react-image-cropper').Cropper;
+import { Cropper } from '@app/shared/ui/Cropper';
+import Measure, { BoundingRect } from 'react-measure';
 
 export interface ImageControlsProps {
   shape: Shape;
@@ -37,8 +29,23 @@ export interface ImageControlsDispatchProps {
 
 interface Props extends ImageControlsProps, ImageControlsDispatchProps {}
 
-export class ImageControls extends React.Component<Props> {
-  cropper: Ref<any>;
+interface State {
+  bounds: Partial<BoundingRect>;
+  ratio: number;
+}
+
+export class ImageControls extends React.Component<Props, State> {
+  cropper: any;
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      bounds: {
+        width: -1,
+        height: -1
+      },
+      ratio: 1
+    };
+  }
   render() {
     return (
       <DialogPopup
@@ -46,24 +53,74 @@ export class ImageControls extends React.Component<Props> {
         handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
         dialogTitle="Edit image"
       >
-        <Cropper
-          src={`${this.props.shape.imageData!.href}`}
-          ref={ref => {
-            this.cropper = ref;
-          }}
-          onChange={values => {
-            console.log(values);
-            this.props.setImageCrop({
-              shapePosition: this.props.shapePosition,
-              cropData: values.display
-            });
-          }}
-          originX={this.props.shape.imageData!.crop ? this.props.shape.imageData!.crop!.x : undefined}
-          originY={this.props.shape.imageData!.crop ? this.props.shape.imageData!.crop!.y : undefined}
-          width={this.props.shape.imageData!.crop ? this.props.shape.imageData!.crop!.width : undefined}
-          height={this.props.shape.imageData!.crop ? this.props.shape.imageData!.crop!.height : undefined}
-        />
+        <div style={{ width: '100%', position: 'relative' }}>
+          <Measure
+            bounds={true}
+            onResize={contentRect => {
+              var ratio = 1;
+              if (this.props.shape.imageData && this.props.shape.imageData.crop) {
+                ratio = this.getRatio(this.props.shape.imageData!.crop!.imgWidth, contentRect.bounds!.width!);
+                console.log(this.state.bounds.width);
+              }
+              this.setState({ bounds: contentRect.bounds!, ratio: ratio });
+            }}
+          >
+            {({ measureRef }) => (
+              <div ref={measureRef}>
+                <Cropper
+                  src={`${this.props.shape.imageData!.href}`}
+                  ref={ref => {
+                    this.cropper = ref;
+                  }}
+                  onImgLoad={() => {
+                    if (!this.props.shape!.imageData!.crop) {
+                      const values = this.cropper.values();
+                      this.props.setImageCrop({
+                        shapePosition: this.props.shapePosition,
+                        cropData: values.original
+                      });
+                    }
+                  }}
+                  onChange={values => {
+                    // console.log(values.display, values.original);
+                    this.props.setImageCrop({
+                      shapePosition: this.props.shapePosition,
+                      cropData: values.original
+                    });
+                  }}
+                  originX={
+                    this.props.shape.imageData!.crop
+                      ? this.props.shape.imageData!.crop!.x * this.state.ratio
+                      : undefined
+                  }
+                  originY={
+                    this.props.shape.imageData!.crop
+                      ? this.props.shape.imageData!.crop!.y * this.state.ratio
+                      : undefined
+                  }
+                  width={
+                    this.props.shape.imageData!.crop
+                      ? this.props.shape.imageData!.crop!.width * this.state.ratio
+                      : undefined
+                  }
+                  height={
+                    this.props.shape.imageData!.crop
+                      ? this.props.shape.imageData!.crop!.height * this.state.ratio
+                      : undefined
+                  }
+                  ratio={this.props.shape.imageData!.ratio.width / this.props.shape.imageData!.ratio.height}
+                />
+              </div>
+            )}
+          </Measure>
+        </div>
       </DialogPopup>
     );
+  }
+
+  getRatio(a: number, b: number): number {
+    const change = mathHelper.getPercentageChange(a, b);
+    const ratio = 1 + -change / 100;
+    return ratio;
   }
 }

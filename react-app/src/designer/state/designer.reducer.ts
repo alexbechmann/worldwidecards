@@ -112,8 +112,6 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
           payload.shapePosition.shapeIndex
         ].imageData!.crop =
           payload.cropData;
-        newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[payload.shapePosition.shapeIndex].width =
-          payload.cropData.width;
       });
     }
     default: {
