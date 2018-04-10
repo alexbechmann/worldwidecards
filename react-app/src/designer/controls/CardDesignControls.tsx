@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText } from 'material-ui';
+import { Tooltip, IconButton, MenuItem, Menu } from 'material-ui';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
 import { AddTextShapeArgs } from '@app/designer/state/designer.action-types';
@@ -34,6 +34,7 @@ export interface CardDesignControlsProps {
 
 interface State {
   addShapeDrawerOpen: boolean;
+  addShapeDrawerAnchorElement?: HTMLElement;
 }
 
 interface Props
@@ -46,14 +47,19 @@ interface StyledProps extends Props, WithStyles<ClassNames> {}
 
 export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)(
   class CardDesignControlsComponent extends React.Component<StyledProps, State> {
-    state = {
-      addShapeDrawerOpen: false
-    };
+    constructor(props: StyledProps) {
+      super(props);
+      this.state = {
+        addShapeDrawerOpen: false
+      };
+      this.toggleDrawer = this.toggleDrawer.bind(this);
+    }
+
     render() {
       const { classes } = this.props;
       return (
         <div>
-          <div>
+          <Tooltip title="Save" placement="top">
             <IconButton
               className={classes.button}
               aria-label="Save"
@@ -68,10 +74,14 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
             >
               <Icons.Save />
             </IconButton>
-            <IconButton className={classes.button} aria-label="Add" onClick={() => this.toggleDrawer()}>
+          </Tooltip>
+          <Tooltip title="Add shape" placement="top">
+            <IconButton className={classes.button} aria-label="Add" onClick={this.toggleDrawer}>
               <Icons.AddCircle />
             </IconButton>
-            {this.props.mode === DesignerMode.Artist && (
+          </Tooltip>
+          {this.props.mode === DesignerMode.Artist && (
+            <Tooltip title="Delete design" placement="top">
               <IconButton
                 className={classes.button}
                 aria-label="Delete"
@@ -90,40 +100,39 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
               >
                 <Icons.Delete />
               </IconButton>
-            )}
-            {this.renderAddShapeDialog()}
-          </div>
+            </Tooltip>
+          )}
+          {this.renderAddShapeDialog()}
         </div>
       );
     }
 
-    toggleDrawer() {
+    toggleDrawer(e?: React.MouseEvent<HTMLElement>) {
       this.setState({
-        addShapeDrawerOpen: !this.state.addShapeDrawerOpen
+        addShapeDrawerOpen: !this.state.addShapeDrawerOpen,
+        addShapeDrawerAnchorElement: e ? e.currentTarget : undefined
       });
     }
 
     renderAddShapeDialog() {
       if (this.state.addShapeDrawerOpen) {
         return (
-          <Drawer anchor="bottom" open={this.state.addShapeDrawerOpen} onClose={() => this.toggleDrawer()}>
-            <List>
-              <ListItem
-                button={true}
-                onClick={() => {
-                  this.props.addTextShape({
-                    pageIndex: this.props.activePageIndex
-                  });
-                  this.toggleDrawer();
-                }}
-              >
-                <ListItemIcon>
-                  <Icons.Textsms />
-                </ListItemIcon>
-                <ListItemText primary="Add textbox" />
-              </ListItem>
-            </List>
-          </Drawer>
+          <Menu
+            anchorEl={this.state.addShapeDrawerAnchorElement}
+            open={this.state.addShapeDrawerOpen}
+            onClose={() => this.toggleDrawer()}
+          >
+            <MenuItem
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
+                this.props.addTextShape({
+                  pageIndex: this.props.activePageIndex
+                });
+                this.toggleDrawer();
+              }}
+            >
+              Add textbox
+            </MenuItem>
+          </Menu>
         );
       } else {
         return null;
