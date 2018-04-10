@@ -1,4 +1,4 @@
-import { Shape, Page, Card } from '@wwc/core';
+import { Shape, Page, Card, CropData } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UserInfo } from 'firebase';
 import { DesignerMode } from '@app/designer/designer-mode';
@@ -31,3 +31,10 @@ export const UNSET_ACTIVE_CARD = 'WWC/UNSET_ACTIVE_CARD';
 
 export const TOGGLE_ALLOW_USER_EDIT = 'TOGGLE_ALLOW_USER_EDIT';
 export type ToggleAllowUserEditArgs = { pageIndex: number; shapeIndex: number };
+
+export const SET_IMAGE_CROP = 'WWC/SET_IMAGE_CROP';
+export type SetImageCropArgs = {
+  cropData: CropData;
+  shapePosition: ShapePosition;
+};
+export type SetImageCropPayload = SetImageCropArgs;

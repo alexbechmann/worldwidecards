@@ -2,7 +2,8 @@ import {
   removeShape,
   updateShapeWidth,
   toggleAllowUserEdit,
-  removeEditingShape
+  removeEditingShape,
+  setImageCrop
 } from '@app/designer/state/designer.actions';
 import { ImageControls, ImageControlsDispatchProps, ImageControlsProps } from './ImageControls';
 import { connect } from 'react-redux';
@@ -29,7 +30,8 @@ const mapDispatchToProps: ImageControlsDispatchProps = {
   removeShape,
   updateShapeWidth,
   toggleAllowUserEdit,
-  removeEditingShape
+  removeEditingShape,
+  setImageCrop
 };
 
 export const ImageControlsConnected: React.ComponentType<ImageControlsConnectedProps> = connect(

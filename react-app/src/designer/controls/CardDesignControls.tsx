@@ -6,18 +6,15 @@ import { UserInfo } from 'firebase';
 import { AddTextShapeArgs } from '@app/designer/state/designer.action-types';
 import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { RouterProps } from 'react-router';
+import { RouterProps, RouteComponentProps } from 'react-router';
 import { routes } from '@app/shared/router/routes';
 import * as Icons from 'material-ui-icons';
 
-type ClassNames = 'button' | 'input';
+type ClassNames = 'button';
 
 const styles = (theme: Theme) => ({
   button: {
     margin: theme.spacing.unit
-  },
-  input: {
-    display: 'none'
   }
 });
 
@@ -39,7 +36,11 @@ interface State {
   addShapeDrawerOpen: boolean;
 }
 
-interface Props extends CardDesignControlsDispatchProps, CardDesignControlsProps, RouterProps {}
+interface Props
+  extends CardDesignControlsDispatchProps,
+    CardDesignControlsProps,
+    RouterProps,
+    RouteComponentProps<{ id: string }> {}
 
 interface StyledProps extends Props, WithStyles<ClassNames> {}
 
@@ -57,7 +58,13 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
               className={classes.button}
               aria-label="Save"
               color="primary"
-              onClick={() => this.props.saveCardDesign(this.props.currentUser!, this.props.card!)}
+              onClick={() =>
+                this.props.saveCardDesign(this.props.currentUser!, this.props.card!).then((c: any) => {
+                  if (this.props.mode === DesignerMode.Artist && !this.props.match.params.id) {
+                    this.props.history.push(routes.myDesigns.build());
+                  }
+                })
+              }
             >
               <Icons.Save />
             </IconButton>

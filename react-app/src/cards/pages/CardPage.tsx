@@ -108,6 +108,8 @@ export class CardPage extends React.Component<Props, State> {
               onTap={() => this.setEditingShape(index)}
               draggable={draggable}
               onDragMove={e => this.handleDragEvent(e, index)}
+              cropData={shape.imageData!.crop}
+              ratio={shape.imageData!.ratio.width / shape.imageData!.ratio.height}
             />
           );
         }
