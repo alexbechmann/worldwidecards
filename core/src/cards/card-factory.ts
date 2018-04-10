@@ -18,7 +18,7 @@ export class CardFactory {
               y: 25,
               width: 300,
               textData: {
-                text: 'Happy Birthday!!', 
+                text: 'Happy Birthday!!',
                 fontSize: 24,
                 color: 'red',
                 font: ''
