@@ -62,12 +62,15 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
           <Tooltip title="Save" placement="top">
             <IconButton
               className={classes.button}
+              disabled={this.props.saving}
               aria-label="Save"
-              color="primary"
+              color="secondary"
               onClick={() =>
                 this.props.saveCardDesign(this.props.currentUser!, this.props.card!).then((c: any) => {
-                  if (this.props.mode === DesignerMode.Artist && !this.props.match.params.id) {
+                  if (this.props.mode === DesignerMode.Artist) {
                     this.props.history.push(routes.myDesigns.build());
+                  } else if (this.props.mode === DesignerMode.Customer) {
+                    // redirect to basket
                   }
                 })
               }

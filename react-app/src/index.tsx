@@ -7,6 +7,8 @@ import { AppContainer } from './AppContainer';
 import { Provider } from 'react-redux';
 import { store } from '@app/shared/state';
 import 'typeface-roboto';
+import { MuiThemeProvider } from 'material-ui';
+import { theme } from '@app/shared/styles/theme';
 
 var config = {
   apiKey: process.env.REACT_APP_FIREBASE_CONFIG_API_KEY,
@@ -19,9 +21,11 @@ var config = {
 firebase.initializeApp(config);
 
 const Root = () => (
-  <Provider store={store}>
-    <AppContainer />
-  </Provider>
+  <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  </MuiThemeProvider>
 );
 
 ReactDOM.render(<Root />, document.getElementById('root') as HTMLElement);

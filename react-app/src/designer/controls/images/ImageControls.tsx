@@ -89,10 +89,18 @@ export class ImageControls extends React.Component<Props, State> {
               }}
               onImgLoad={() => {
                 if (!this.props.shape!.imageData!.crop) {
-                  const values = this.cropper.values();
+                  const { imgWidth, imgHeight } = this.cropper.values().original;
+                  var ratio = this.props.shape.imageData!.ratio.height / this.props.shape.imageData!.ratio.width;
                   this.props.setImageCrop({
                     shapePosition: this.props.shapePosition,
-                    cropData: values.original
+                    cropData: {
+                      x: 0,
+                      y: 0,
+                      width: 300,
+                      height: 300 * ratio,
+                      imgHeight,
+                      imgWidth
+                    }
                   });
                 }
               }}

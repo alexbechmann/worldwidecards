@@ -16,10 +16,10 @@ export class CardFactory {
               type: constants.shapes.types.text,
               x: 25,
               y: 25,
-              width: 300,
+              width: constants.card.dimensions.portrait.width - 50,
               textData: {
                 text: 'Happy Birthday!!',
-                fontSize: 24,
+                fontSize: 45,
                 color: 'red',
                 font: ''
               },
@@ -29,14 +29,14 @@ export class CardFactory {
               type: constants.shapes.types.image,
               allowUserEdit: false,
               imageData: {
-                href: 'https://picsum.photos/1000/600?image=0',
+                href: `https://picsum.photos/1000/600?image=${((Math.random() * 1000) | 0) + 1}`,
                 ratio: {
                   width: 16,
-                  height: 9
+                  height: 13
                 }
               },
               x: 0,
-              y: 200,
+              y: 120,
               width: constants.card.dimensions.portrait.width
             }
           ]
