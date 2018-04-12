@@ -69,15 +69,15 @@ export class ImageControls extends React.Component<Props, State> {
         open={true}
         handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
         dialogTitle="Edit image"
-        fullScreen={true}
+        dialogDescription="Edit the properties of the image here. Click close and drag the text to move it's position."
       >
         <Grid container={true}>
-          <Grid item={true} xs={12} sm={8} lg={10}>
+          <Grid item={true} xs={12} sm={8}>
             <div>
               {this.state.imgLoaded === this.props.shape.imageData!.href ? this.renderCropper() : <CircularProgress />}
             </div>
           </Grid>
-          <Grid item={true} xs={12} sm={4} lg={2}>
+          <Grid item={true} xs={6} sm={4}>
             <CardPageContainer page={this.props.page} pageIndex={0} editable={false} />
           </Grid>
         </Grid>

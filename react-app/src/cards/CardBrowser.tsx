@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card } from '@wwc/core';
 import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
-import { Grid, Typography, CircularProgress } from 'material-ui';
+import { Grid, Typography, CircularProgress, StyleRulesCallback, Theme, WithStyles, withStyles } from 'material-ui';
 import { routes } from '@app/shared/router/routes';
 import { RouteButton } from '@app/shared/ui';
 import { DesignerMode } from '@app/designer/designer-mode';
@@ -19,14 +19,29 @@ export interface CardBrowserDispatchProps {
   startWatchingAllCardDesigns: () => any;
 }
 
-interface Props extends CardBrowserProps, CardBrowserDispatchProps {}
+type StyleClassNames = 'root' | 'bottomMargin';
 
-export class CardBrowser extends React.Component<Props> {
+const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
+  root: {
+    margin: theme.spacing.unit * 2
+  },
+  bottomMargin: {
+    marginBottom: theme.spacing.unit * 2
+  }
+});
+
+interface Props extends CardBrowserProps, CardBrowserDispatchProps, WithStyles<StyleClassNames> {}
+
+class CardBrowserComponent extends React.Component<Props> {
   render() {
     return (
-      <div>
-        <Typography variant="headline">{this.props.headline}</Typography>
-        {this.renderNewCardButton()}
+      <div className={this.props.classes.root}>
+        <div className={this.props.classes.bottomMargin}>
+          <Typography className={this.props.classes.bottomMargin} variant="headline">
+            {this.props.headline}
+          </Typography>
+          {this.renderNewCardButton()}
+        </div>
         <Grid container={true}>
           {this.props.designs.map(card => {
             const to =
@@ -71,3 +86,5 @@ export class CardBrowser extends React.Component<Props> {
     );
   }
 }
+
+export const CardBrowser = withStyles(styles)(CardBrowserComponent);

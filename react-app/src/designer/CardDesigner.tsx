@@ -66,7 +66,7 @@ class CardDesignerComponent extends React.Component<StyledProps> {
       return <CircularProgress />;
     }
     return this.props.currentUser != null || this.props.mode === DesignerMode.Customer ? (
-      <div className={this.props.classes.root}>{this.props.card ? this.renderDesigner() : <CircularProgress />}</div>
+      <div>{this.props.card ? this.renderDesigner() : <CircularProgress />}</div>
     ) : (
       <div>Must be logged in.</div>
     );
@@ -86,24 +86,22 @@ class CardDesignerComponent extends React.Component<StyledProps> {
     if (this.props.card) {
       return (
         <div>
-          <Grid container={true}>
-            <Grid item={true} xs={12}>
-              {this.renderStepper()}
+          {this.renderStepper()}
+          <div className={this.props.classes.root}>
+            <Grid container={true}>
+              <Grid item={true} xs={8} sm={5} lg={3}>
+                <CardDesignControlsConnected saveCardDesign={this.props.saveCardDesign} />
+                <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} editable={true} />
+                <br />
+                {this.renderSaveStatus()}
+              </Grid>
+              <Grid item={true} xs={12} sm={7} lg={9}>
+                <p>Work area {this.props.mode}</p>
+                {this.renderArtistShapeControls()}
+                {this.renderSelectShapeButtons()}
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container={true}>
-            <Grid item={true} sm={4} xs={12}>
-              <CardDesignControlsConnected saveCardDesign={this.props.saveCardDesign} />
-              <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} editable={true} />
-              <br />
-              {this.renderSaveStatus()}
-            </Grid>
-            <Grid item={true} sm={8} xs={12}>
-              <p>Work area {this.props.mode}</p>
-              {this.renderArtistShapeControls()}
-              {this.renderSelectShapeButtons()}
-            </Grid>
-          </Grid>
+          </div>
         </div>
       );
     }
@@ -164,7 +162,6 @@ class CardDesignerComponent extends React.Component<StyledProps> {
               <div>
                 <Button
                   className={this.props.classes.button}
-                  variant="raised"
                   onClick={() =>
                     this.props.setEditingShape({
                       pageIndex: 0,

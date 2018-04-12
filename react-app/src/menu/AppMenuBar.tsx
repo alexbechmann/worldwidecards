@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  Hidden,
   Avatar,
   AppBar,
   MenuItem,
@@ -18,6 +19,7 @@ import { routes } from '@app/shared/router/routes';
 import { RouteButton } from '@app/shared/ui';
 import withStyles, { WithStyles } from 'material-ui/styles/withStyles';
 import { UserInfo } from 'firebase';
+import { RouteMenuItem } from '@app/shared/ui/RouteMenuItem';
 
 export interface AppMenuBarProps {
   isLoggedIn: boolean;
@@ -72,7 +74,17 @@ export const AppMenuBar: React.ComponentType<Props> = withStyles(styles, { withT
               <Typography variant="title" color="inherit" className={classes.flex}>
                 Worldwidecards
               </Typography>
-              {this.renderNavButtons()}
+              <Hidden smDown={true}>
+                <RouteButton color="inherit" to={routes.customerCardBrowser.build()}>
+                  Cards
+                </RouteButton>
+                <RouteButton color="inherit" to={routes.myDesigns.build()}>
+                  My Designs
+                </RouteButton>
+                <RouteButton color="inherit" to={routes.customerDesigner.build()}>
+                  New Card
+                </RouteButton>
+              </Hidden>
               {this.renderAvatar()}
             </Toolbar>
           </AppBar>
@@ -90,22 +102,6 @@ export const AppMenuBar: React.ComponentType<Props> = withStyles(styles, { withT
       return null;
     }
 
-    renderNavButtons() {
-      return (
-        <div>
-          <RouteButton color="inherit" to={routes.customerCardBrowser.build()}>
-            Cards
-          </RouteButton>
-          <RouteButton color="inherit" to={routes.myDesigns.build()}>
-            My Designs
-          </RouteButton>
-          <RouteButton color="inherit" to={routes.customerDesigner.build()}>
-            New Card
-          </RouteButton>
-        </div>
-      );
-    }
-
     toggleMenu() {
       this.setState({
         showDrawer: !this.state.showDrawer
@@ -115,12 +111,21 @@ export const AppMenuBar: React.ComponentType<Props> = withStyles(styles, { withT
     renderSideDrawer() {
       return this.props.isLoggedIn ? (
         <Drawer open={this.state.showDrawer} onClose={this.toggleMenu}>
-          <MenuItem onClick={this.toggleMenu}>
+          <RouteMenuItem onClick={this.toggleMenu} to={routes.customerCardBrowser.build()}>
             <ListItemIcon>
               <Icons.Home />
             </ListItemIcon>
             <ListItemText primary="Home" />
-          </MenuItem>
+          </RouteMenuItem>
+          <RouteMenuItem color="inherit" to={routes.customerCardBrowser.build()} onClick={this.toggleMenu}>
+            Cards
+          </RouteMenuItem>
+          <RouteMenuItem color="inherit" to={routes.myDesigns.build()} onClick={this.toggleMenu}>
+            My Designs
+          </RouteMenuItem>
+          <RouteMenuItem color="inherit" to={routes.customerDesigner.build()} onClick={this.toggleMenu}>
+            New Card
+          </RouteMenuItem>
           <Divider />
           <MenuItem onClick={this.logout}>Logout</MenuItem>
           <Divider />

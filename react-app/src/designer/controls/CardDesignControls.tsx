@@ -59,6 +59,11 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
       const { classes } = this.props;
       return (
         <div>
+          <Tooltip title="Add shape" placement="top">
+            <IconButton className={classes.button} aria-label="Add" onClick={this.toggleDrawer} color="primary">
+              <Icons.AddCircle />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Save" placement="top">
             <IconButton
               className={classes.button}
@@ -78,11 +83,7 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
               <Icons.Save />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Add shape" placement="top">
-            <IconButton className={classes.button} aria-label="Add" onClick={this.toggleDrawer}>
-              <Icons.AddCircle />
-            </IconButton>
-          </Tooltip>
+
           {this.props.mode === DesignerMode.Artist && (
             <Tooltip title="Delete design" placement="top">
               <IconButton

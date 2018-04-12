@@ -51,7 +51,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
           open={true}
           handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
           dialogTitle="Edit textbox"
-          dialogDescription="Edit the properties of the text box here. Click close and drag the text to move it's position"
+          dialogDescription="Edit the properties of the text box here. Click close and drag the text to move it's position."
           extraDialogButtons={[
             () => (
               <Button
@@ -70,7 +70,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             <Grid item={true} xs={12} sm={8}>
               {this.renderForm()}
             </Grid>
-            <Grid item={true} xs={12} sm={4}>
+            <Grid item={true} xs={6} sm={4}>
               <CardPageContainer page={this.props.page} pageIndex={0} editable={false} />
             </Grid>
           </Grid>
