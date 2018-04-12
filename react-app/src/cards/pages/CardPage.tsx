@@ -110,6 +110,7 @@ export class CardPage extends React.Component<Props, State> {
               onDragMove={e => this.handleDragEvent(e, index)}
               cropData={shape.imageData!.crop}
               ratio={shape.imageData!.ratio.width / shape.imageData!.ratio.height}
+              preventDefault={this.props.editable}
             />
           );
         }
@@ -133,6 +134,7 @@ export class CardPage extends React.Component<Props, State> {
               onClick={() => this.setEditingShape(index)}
               onTap={() => this.setEditingShape(index)}
               onDragMove={e => this.handleDragEvent(e, index)}
+              preventDefault={this.props.editable}
             />
           );
         }
