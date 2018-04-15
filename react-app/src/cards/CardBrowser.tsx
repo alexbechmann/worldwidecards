@@ -42,7 +42,7 @@ class CardBrowserComponent extends React.Component<Props> {
           </Typography>
           {this.renderNewCardButton()}
         </div>
-        <Grid container={true}>
+        <Grid container={true} spacing={16}>
           {this.props.designs.map(card => {
             const to =
               this.props.mode === DesignerMode.Artist

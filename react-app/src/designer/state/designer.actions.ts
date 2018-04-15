@@ -23,7 +23,13 @@ import {
   REMOVE_EDITING_SHAPE,
   SET_IMAGE_CROP,
   SetImageCropPayload,
-  SetImageCropArgs
+  SetImageCropArgs,
+  UPDATE_IMAGE_HREF,
+  UpdateImageHrefPayload,
+  UpdateImageHrefArgs,
+  UpdateImageRatioArgs,
+  UPDATE_IMAGE_RATIO,
+  UpdateImageRatioPayload
 } from './designer.action-types';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { cardService } from '@app/cards/services/card.service';
@@ -145,5 +151,19 @@ export function setImageCrop(args: SetImageCropArgs) {
   return {
     type: SET_IMAGE_CROP,
     payload: args as SetImageCropPayload
+  };
+}
+
+export function updateImageHref(args: UpdateImageHrefArgs) {
+  return {
+    type: UPDATE_IMAGE_HREF,
+    payload: args as UpdateImageHrefPayload
+  };
+}
+
+export function updateImageRatio(args: UpdateImageRatioArgs) {
+  return {
+    type: UPDATE_IMAGE_RATIO,
+    payload: args as UpdateImageRatioPayload
   };
 }

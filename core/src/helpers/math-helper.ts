@@ -5,9 +5,14 @@ export class MathHelper {
   }
 
   calculateHeight(args: { width: number; originalWidth: number; originalHeight: number }): number {
-    const percentageBetweenWidthAndHeight = this.getPercentageChange(args.originalWidth, args.originalHeight);
-    const ratio = 1 + -percentageBetweenWidthAndHeight / 100;
+    const ratio = this.getRatio(args.originalWidth, args.originalHeight);
     return args.width * ratio;
+  }
+
+  getRatio(a: number, b: number): number {
+    const change = mathHelper.getPercentageChange(a, b);
+    const ratio = 1 + -change / 100;
+    return ratio;
   }
 }
 

@@ -5,13 +5,15 @@ import {
   RemoveShapeArgs,
   UpdateShapeWidthArgs,
   ToggleAllowUserEditArgs,
-  SetImageCropArgs
+  SetImageCropArgs,
+  UpdateImageHrefArgs,
+  UpdateImageRatioArgs
 } from '@app/designer/state/designer.action-types';
-import { Shape, Page, mathHelper } from '@wwc/core';
+import { Shape, Page } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { Cropper } from '@app/shared/ui/Cropper';
-import Measure, { BoundingRect } from 'react-measure';
-import { Grid, CircularProgress } from 'material-ui';
+import { Grid, Theme, TextField, FormControl, Select, MenuItem, InputLabel, FormLabel, Switch } from 'material-ui';
+import { withStyles, WithStyles } from 'material-ui/styles';
 import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
 
 export interface ImageControlsProps {
@@ -27,39 +29,29 @@ export interface ImageControlsDispatchProps {
   toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
   removeEditingShape: (position: ShapePosition) => any;
   setImageCrop: (args: SetImageCropArgs) => any;
+  updateImageHref: (args: UpdateImageHrefArgs) => any;
+  updateImageRatio: (args: UpdateImageRatioArgs) => any;
 }
 
-interface Props extends ImageControlsProps, ImageControlsDispatchProps {}
+type ClassNames = 'formControl';
+
+const styles = (theme: Theme) => ({
+  formControl: {
+    marginBottom: theme.spacing.unit
+  }
+});
 
 interface State {
-  bounds: Partial<BoundingRect>;
-  boundsToImgRatio: number;
-  imgLoaded: string;
-  imgCropperLoaded: boolean;
+  cropperImgLoading: boolean;
 }
 
-export class ImageControls extends React.Component<Props, State> {
-  cropper: any;
+interface Props extends ImageControlsProps, ImageControlsDispatchProps, WithStyles<ClassNames> {}
+
+class ImageControlsComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      bounds: {
-        width: -1,
-        height: -1
-      },
-      boundsToImgRatio: 1,
-      imgLoaded: '',
-      imgCropperLoaded: false
-    };
-  }
-
-  componentDidMount() {
-    var img = new Image();
-    img.src = this.props.shape.imageData!.href;
-    img.onload = () => {
-      this.setState({
-        imgLoaded: img.src
-      });
+      cropperImgLoading: false
     };
   }
 
@@ -69,13 +61,11 @@ export class ImageControls extends React.Component<Props, State> {
         open={true}
         handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
         dialogTitle="Edit image"
-        dialogDescription="Edit the properties of the image here. Click close and drag the text to move it's position."
+        dialogDescription="Edit the properties of the image here. Click close and drag the image to move it's position."
       >
-        <Grid container={true}>
+        <Grid container={true} spacing={16}>
           <Grid item={true} xs={12} sm={8}>
-            <div>
-              {this.state.imgLoaded === this.props.shape.imageData!.href ? this.renderCropper() : <CircularProgress />}
-            </div>
+            <div>{this.renderForm()}</div>
           </Grid>
           <Grid item={true} xs={6} sm={4}>
             <CardPageContainer page={this.props.page} pageIndex={0} editable={false} />
@@ -85,83 +75,129 @@ export class ImageControls extends React.Component<Props, State> {
     );
   }
 
-  renderCropper() {
+  renderForm() {
+    const { classes } = this.props;
     return (
-      <Measure
-        bounds={true}
-        onResize={contentRect => {
-          var ratio = 1;
-          if (this.props.shape.imageData && this.props.shape.imageData.crop) {
-            ratio = this.getRatio(this.props.shape.imageData!.crop!.imgWidth, contentRect.bounds!.width!);
+      <div>
+        <TextField
+          className={classes.formControl}
+          disabled={this.state.cropperImgLoading}
+          label="Edit image url"
+          fullWidth={true}
+          multiline={true}
+          rowsMax={5}
+          autoFocus={true}
+          value={this.props.shape.imageData!.href}
+          onChange={e => {
+            this.props.updateImageHref({
+              url: e.target.value,
+              shapePosition: this.props.shapePosition
+            });
+          }}
+        />
+        <Grid container={true} spacing={8}>
+          <Grid item={true} xs={6}>
+            <FormControl className={classes.formControl} fullWidth={true}>
+              <InputLabel>Ratio width</InputLabel>
+              <Select
+                value={this.props.shape.imageData!.ratio.width}
+                onChange={e =>
+                  this.props.updateImageRatio({
+                    ratio: {
+                      height: this.props.shape.imageData!.ratio.height,
+                      width: parseInt(e.target.value, 10)
+                    },
+                    shapePosition: this.props.shapePosition
+                  })
+                }
+              >
+                {this.renderMenuItems(16)}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item={true} xs={6}>
+            <FormControl className={classes.formControl} fullWidth={true}>
+              <InputLabel>Ratio height</InputLabel>
+              <Select
+                value={this.props.shape.imageData!.ratio.height}
+                onChange={e =>
+                  this.props.updateImageRatio({
+                    ratio: {
+                      width: this.props.shape.imageData!.ratio.width,
+                      height: parseInt(e.target.value, 10)
+                    },
+                    shapePosition: this.props.shapePosition
+                  })
+                }
+              >
+                {this.renderMenuItems(16)}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        {this.renderArtistOnlyControls()}
+        <Cropper
+          onCropChange={crop => {
+            this.props.setImageCrop({
+              shapePosition: this.props.shapePosition,
+              cropData: crop
+            });
+          }}
+          imageData={this.props.shape.imageData!}
+        />
+      </div>
+    );
+  }
+
+  renderArtistOnlyControls() {
+    const { classes } = this.props;
+    return this.props.mode === DesignerMode.Artist ? (
+      <div>
+        <FormControl>
+          <FormLabel>Allow customer edit?</FormLabel>
+          <Switch
+            checked={this.props.shape.allowUserEdit}
+            onChange={e => {
+              this.props.toggleAllowUserEdit({
+                shapeIndex: this.props.shapePosition.shapeIndex,
+                pageIndex: this.props.shapePosition.pageIndex
+              });
+            }}
+          />
+        </FormControl>
+        <TextField
+          className={classes.formControl}
+          label="Edit width on card"
+          fullWidth={true}
+          value={this.props.shape.width}
+          onChange={e =>
+            this.props.updateShapeWidth({
+              position: {
+                pageIndex: this.props.shapePosition.pageIndex,
+                shapeIndex: this.props.shapePosition.shapeIndex
+              },
+              newWidth: parseInt(e.target.value, 10),
+              shape: this.props.shape,
+              page: this.props.page
+            })
           }
-          this.setState({ bounds: contentRect.bounds!, boundsToImgRatio: ratio });
-        }}
-      >
-        {({ measureRef }) => {
-          const { crop, ratio } = this.props.shape.imageData!;
-          return (
-            <div ref={measureRef}>
-              <Cropper
-                src={`${this.props.shape.imageData!.href}`}
-                ref={ref => {
-                  this.cropper = ref;
-                }}
-                onImgLoad={() => {
-                  if (!this.props.shape!.imageData!.crop) {
-                    const { imgWidth, imgHeight } = this.cropper.values().original;
-                    var ratioNumber = ratio.height / ratio.width;
-                    this.props.setImageCrop({
-                      shapePosition: this.props.shapePosition,
-                      cropData: {
-                        x: 0,
-                        y: 0,
-                        width: 300,
-                        height: 300 * ratioNumber,
-                        imgHeight,
-                        imgWidth
-                      }
-                    });
-                    this.workAroundToForceRerenderAndFixIncorrectCrop();
-                  }
-                }}
-                onChange={values => {
-                  this.props.setImageCrop({
-                    shapePosition: this.props.shapePosition,
-                    cropData: values.original
-                  });
-                }}
-                originX={crop ? crop.x * this.state.boundsToImgRatio : undefined}
-                originY={crop ? crop.y * this.state.boundsToImgRatio : undefined}
-                width={crop ? crop.width * this.state.boundsToImgRatio : undefined}
-                height={crop ? crop.height * this.state.boundsToImgRatio : undefined}
-                ratio={ratio.width / ratio.height}
-              />
-            </div>
-          );
-        }}
-      </Measure>
+        />
+      </div>
+    ) : (
+      <span />
     );
   }
 
-  workAroundToForceRerenderAndFixIncorrectCrop() {
-    const i = this.state.imgLoaded;
-    this.setState(
-      {
-        imgLoaded: '',
-        imgCropperLoaded: false
-      },
-      () => {
-        this.setState({
-          imgLoaded: i,
-          imgCropperLoaded: true
-        });
-      }
-    );
-  }
-
-  getRatio(a: number, b: number): number {
-    const change = mathHelper.getPercentageChange(a, b);
-    const ratio = 1 + -change / 100;
-    return ratio;
+  renderMenuItems(max: number) {
+    return new Array(max).fill(undefined).map((_, index) => {
+      const value = index + 1;
+      return (
+        <MenuItem key={index} value={value}>
+          {value}
+        </MenuItem>
+      );
+    });
   }
 }
+
+export const ImageControls = withStyles(styles, { withTheme: true })(ImageControlsComponent);

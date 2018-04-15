@@ -8,7 +8,7 @@ import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { RouterProps, RouteComponentProps } from 'react-router';
 import { routes } from '@app/shared/router/routes';
-import * as Icons from 'material-ui-icons';
+import * as Icons from '@material-ui/icons';
 
 type ClassNames = 'button';
 
