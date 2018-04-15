@@ -26,7 +26,10 @@ import {
   SetImageCropArgs,
   UPDATE_IMAGE_HREF,
   UpdateImageHrefPayload,
-  UpdateImageHrefArgs
+  UpdateImageHrefArgs,
+  UpdateImageRatioArgs,
+  UPDATE_IMAGE_RATIO,
+  UpdateImageRatioPayload
 } from './designer.action-types';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { cardService } from '@app/cards/services/card.service';
@@ -155,5 +158,12 @@ export function updateImageHref(args: UpdateImageHrefArgs) {
   return {
     type: UPDATE_IMAGE_HREF,
     payload: args as UpdateImageHrefPayload
+  };
+}
+
+export function updateImageRatio(args: UpdateImageRatioArgs) {
+  return {
+    type: UPDATE_IMAGE_RATIO,
+    payload: args as UpdateImageRatioPayload
   };
 }
