@@ -82,7 +82,7 @@ class ImageControlsComponent extends React.Component<Props, State> {
         <TextField
           className={classes.formControl}
           disabled={this.state.cropperImgLoading}
-          label="Edit image url"
+          label="Image url"
           fullWidth={true}
           multiline={true}
           rowsMax={5}
@@ -167,7 +167,7 @@ class ImageControlsComponent extends React.Component<Props, State> {
         </FormControl>
         <TextField
           className={classes.formControl}
-          label="Edit width on card"
+          label="Width on card"
           fullWidth={true}
           value={this.props.shape.width}
           onChange={e =>
