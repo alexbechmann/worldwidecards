@@ -14,7 +14,7 @@ import {
   Theme,
   StyleRulesCallback
 } from 'material-ui';
-import * as Icons from 'material-ui-icons';
+import * as Icons from '@material-ui/icons';
 import { routes } from '@app/shared/router/routes';
 import { RouteButton } from '@app/shared/ui';
 import withStyles, { WithStyles } from 'material-ui/styles/withStyles';

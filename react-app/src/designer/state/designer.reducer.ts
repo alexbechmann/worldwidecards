@@ -20,7 +20,9 @@ import {
   SetActiveCardPayload,
   REMOVE_EDITING_SHAPE,
   SetImageCropPayload,
-  SET_IMAGE_CROP
+  SET_IMAGE_CROP,
+  UpdateImageHrefPayload,
+  UPDATE_IMAGE_HREF
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -114,6 +116,19 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
           payload.cropData;
       });
     }
+    case UPDATE_IMAGE_HREF: {
+      const payload: UpdateImageHrefPayload = action.payload;
+      return createNewState(state, newState => {
+        newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
+          payload.shapePosition.shapeIndex
+        ].imageData!.href =
+          payload.url;
+        newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
+          payload.shapePosition.shapeIndex
+        ].imageData!.crop = undefined;
+      });
+    }
+
     default: {
       return state;
     }

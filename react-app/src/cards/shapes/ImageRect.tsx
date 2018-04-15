@@ -18,8 +18,18 @@ export class ImageRect extends React.Component<Props, State> {
     image: undefined
   };
   componentDidMount() {
+    this.loadImage(this.props.href);
+  }
+
+  componentWillReceiveProps(props: Props) {
+    if (this.state.image && this.state.image!.src !== props.href) {
+      this.loadImage(props.href);
+    }
+  }
+
+  loadImage(href: string) {
     const image = new Image();
-    image.src = this.props.href;
+    image.src = href;
     image.onload = () => {
       this.setState({
         image: image

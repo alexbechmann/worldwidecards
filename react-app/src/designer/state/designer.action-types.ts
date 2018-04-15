@@ -38,3 +38,7 @@ export type SetImageCropArgs = {
   shapePosition: ShapePosition;
 };
 export type SetImageCropPayload = SetImageCropArgs;
+
+export const UPDATE_IMAGE_HREF = 'WWC/UPDATE_IMAGE_HREF';
+export type UpdateImageHrefArgs = { shapePosition: ShapePosition; url: string };
+export type UpdateImageHrefPayload = UpdateImageHrefArgs;

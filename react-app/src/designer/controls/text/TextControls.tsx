@@ -66,7 +66,7 @@ export const TextControls: React.ComponentType<Props> = withStyles(styles)(
             )
           ]}
         >
-          <Grid container={true}>
+          <Grid container={true} spacing={16}>
             <Grid item={true} xs={12} sm={8}>
               {this.renderForm()}
             </Grid>
