@@ -45,13 +45,13 @@ export function addTextShape(args: AddTextShapeArgs): AnyAction {
     type: constants.shapes.types.text,
     textData: {
       text: args.text || 'New text box',
-      fontSize: 24,
-      color: 'black'
+      fontSize: 34,
+      color: 'navy'
     },
     allowUserEdit: false,
     x: 0,
     y: 0,
-    width: 300
+    width: args.page.width
   };
   const payload: AddTextShapePayload = {
     pageIndex: args.pageIndex,

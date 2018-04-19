@@ -105,7 +105,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     case UPDATE_SHAPE_POSITION: {
       const payload: UpdateShapePositionArgs = action.payload;
       return createNewState(state, newState => {
-        newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].x = payload.x;
+        // newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].x = payload.x;
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].y = payload.y;
       });
     }

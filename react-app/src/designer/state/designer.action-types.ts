@@ -4,7 +4,7 @@ import { UserInfo } from 'firebase';
 import { DesignerMode } from '@app/designer/designer-mode';
 
 export const ADD_TEXT_SHAPE = 'WWC/ADD_TEXT_SHAPE';
-export type AddTextShapeArgs = { pageIndex: number; text?: string };
+export type AddTextShapeArgs = { pageIndex: number; text?: string; page: Page };
 export type AddTextShapePayload = { pageIndex: number; textShape: Shape };
 
 export const UPDATE_SHAPE_WIDTH = 'WWC/UPDATE_SHAPE_WIDTH';

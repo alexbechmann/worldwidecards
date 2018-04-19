@@ -57,7 +57,15 @@ const defaultState: DesignerState = {
 };
 
 it('Add text', () => {
-  const action = addTextShape({ pageIndex: 0, text: 'test1' });
+  const action = addTextShape({
+    pageIndex: 0,
+    text: 'test1',
+    page: {
+      shapes: [],
+      width: 400,
+      height: 300
+    }
+  });
   const state = designerReducer(defaultState, action);
   expect(state.activeCard!.pages[0].shapes[2].textData!.text).toEqual('test1');
 });
@@ -70,7 +78,7 @@ it('Update shape position', () => {
     y: 33
   });
   const state = designerReducer(defaultState, action);
-  expect(state.activeCard!.pages[0].shapes[1].x).toEqual(49);
+  expect(state.activeCard!.pages[0].shapes[1].x).toEqual(0);
   expect(state.activeCard!.pages[0].shapes[1].y).toEqual(33);
 });
 

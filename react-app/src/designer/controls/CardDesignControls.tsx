@@ -129,7 +129,8 @@ export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)
             <MenuItem
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 this.props.addTextShape({
-                  pageIndex: this.props.activePageIndex
+                  pageIndex: this.props.activePageIndex,
+                  page: this.props.card!.pages[this.props.activePageIndex]
                 });
                 this.toggleDrawer();
               }}
