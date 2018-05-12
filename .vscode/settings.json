@@ -10,10 +10,7 @@
     "**/*.js": {
         "when": "$(basename).ts"
     },
-    "**/*.d.ts": {
-        "when": "$(basename).ts"
-    },
-    "**/dist/**": true
+    "**/dist/**": false
   },
   "editor.tabSize": 2
 }
