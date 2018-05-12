@@ -1,4 +1,4 @@
-import { AppState } from '@app/shared/state';
+import { AppState } from '@app/state';
 import { connect } from 'react-redux';
 import { setActiveCard, unSetActiveCard, setEditingShape } from '@app/designer/state/designer.actions';
 import { CardDesignerDispatchProps, CardDesignerProps } from '@app/designer/CardDesigner';

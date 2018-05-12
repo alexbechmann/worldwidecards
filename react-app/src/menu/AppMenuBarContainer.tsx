@@ -1,5 +1,5 @@
 import { AppMenuBar, AppMenuBarProps, AppMenuBarDispatchProps } from './AppMenuBar';
-import { AppState } from '@app/shared/state';
+import { AppState } from '@app/state';
 import { logout } from '@app/auth/state/auth.actions';
 import { connect } from 'react-redux';
 

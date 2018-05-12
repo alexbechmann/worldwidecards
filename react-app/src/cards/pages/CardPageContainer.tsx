@@ -1,4 +1,4 @@
-import { AppState } from '@app/shared/state';
+import { AppState } from '@app/state';
 import { CardPage, CardPageProps, CardPageDispatchProps } from './CardPage';
 import { connect } from 'react-redux';
 import { Page } from '@wwc/core';

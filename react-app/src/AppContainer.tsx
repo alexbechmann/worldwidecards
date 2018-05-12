@@ -1,4 +1,4 @@
-import { AppState } from '@app/shared/state';
+import { AppState } from '@app/state';
 import App, { AppProps, AppDispatchProps } from './App';
 import { connect } from 'react-redux';
 import { initAuth } from './auth/state/auth.actions';

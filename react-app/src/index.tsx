@@ -5,7 +5,7 @@ import 'src/shared/styles/index.css';
 import * as firebase from 'firebase';
 import { AppContainer } from './AppContainer';
 import { Provider } from 'react-redux';
-import { store } from '@app/shared/state';
+import { store } from '@app/state';
 import 'typeface-roboto';
 import { MuiThemeProvider } from 'material-ui';
 import { theme } from '@app/shared/styles/theme';

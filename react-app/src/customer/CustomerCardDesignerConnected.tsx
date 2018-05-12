@@ -5,7 +5,7 @@ import {
   CardDesignerConnectedProps
 } from '@app/designer/CardDesignerConnected';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { AppState } from '@app/shared/state';
+import { AppState } from '@app/state';
 import { saveCardDesign } from './state/customer.actions';
 
 const mapDispatchToProps: CardDesignerConnectedDispatchProps = { saveCardDesign };

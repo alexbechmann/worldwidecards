@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { addTextShape } from '@app/designer/state/designer.actions';
-import { AppState } from '@app/shared/state';
+import { AppState } from '@app/state';
 import { CardDesignControlsDispatchProps, CardDesignControlsProps, CardDesignControls } from './CardDesignControls';
 import { UserInfo } from 'firebase';
 import { Card } from '@wwc/core';

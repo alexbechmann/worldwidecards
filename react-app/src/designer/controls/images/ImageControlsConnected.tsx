@@ -9,7 +9,7 @@ import {
 } from '@app/designer/state/designer.actions';
 import { ImageControls, ImageControlsDispatchProps, ImageControlsProps } from './ImageControls';
 import { connect } from 'react-redux';
-import { AppState } from '@app/shared/state';
+import { AppState } from '@app/state';
 import { Shape, Page } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 

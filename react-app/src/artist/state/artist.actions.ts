@@ -1,4 +1,4 @@
-import { store } from '@app/shared/state';
+import { store } from '@app/state';
 import { cardService } from '@app/cards/services/card.service';
 import { UserInfo } from 'firebase';
 import {
