@@ -10,7 +10,7 @@ import { RouterProps, RouteComponentProps } from 'react-router';
 import { routes } from '@app/shared/router/routes';
 import * as Icons from '@material-ui/icons';
 
-type ClassNames = 'button';
+type StyleClassNames = 'button';
 
 const styles = (theme: Theme) => ({
   button: {
@@ -41,13 +41,12 @@ interface Props
   extends CardDesignControlsDispatchProps,
     CardDesignControlsProps,
     RouterProps,
-    RouteComponentProps<{ id: string }> {}
-
-interface StyledProps extends Props, WithStyles<ClassNames> {}
+    RouteComponentProps<{ id: string }> ,
+    WithStyles<StyleClassNames> {}
 
 export const CardDesignControls: React.ComponentType<Props> = withStyles(styles)(
-  class CardDesignControlsComponent extends React.Component<StyledProps, State> {
-    constructor(props: StyledProps) {
+  class CardDesignControlsComponent extends React.Component<Props, State> {
+    constructor(props: Props) {
       super(props);
       this.state = {
         addShapeDrawerOpen: false
