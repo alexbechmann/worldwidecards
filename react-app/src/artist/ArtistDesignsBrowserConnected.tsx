@@ -1,4 +1,4 @@
-import { AppState } from '@app/state';
+import { AppState } from '@app/state/app.state';
 import { connect } from 'react-redux';
 import { CardBrowserProps, CardBrowser, CardBrowserDispatchProps } from '@app/cards/CardBrowser';
 import { DesignerMode } from '@app/designer/designer-mode';

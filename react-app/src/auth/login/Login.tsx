@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { Button } from 'material-ui';
+import { loginWithFacebook } from '@app/auth/state/auth.actions';
+import { connect } from 'react-redux';
 
-export interface LoginDispatchProps {
+interface LoginLoginComponentDispatchProps {
   loginWithFacebook: () => any;
 }
 
-export class Login extends React.Component<LoginDispatchProps> {
+interface Props extends LoginLoginComponentDispatchProps {}
+
+class LoginComponent extends React.Component<Props> {
   render() {
     return (
       <div>
@@ -14,3 +18,7 @@ export class Login extends React.Component<LoginDispatchProps> {
     );
   }
 }
+
+const mapDispatchToProps: LoginLoginComponentDispatchProps = { loginWithFacebook };
+
+export const Login = connect(null, mapDispatchToProps)(LoginComponent);

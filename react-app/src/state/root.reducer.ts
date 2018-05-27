@@ -1,7 +1,7 @@
 import { combineReducers, Reducer } from 'redux';
 import { AppState } from './app.state';
-import { designerReducer } from '@app/designer';
-import { authReducer } from '@app/auth';
+import { designerReducer } from '@app/designer/state/designer.reducer';
+import { authReducer } from '@app/auth/state/auth.reducer';
 import { artistReducer } from '@app/artist/state/artist.reducer';
 import { customerReducer } from '@app/customer/state/customer.reducer';
 

@@ -2,7 +2,7 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
-import { store } from '@app/state';
+import { store } from '@app/state/root.store';
 import { setMyCardDesignsList } from '@app/artist/state/artist.actions';
 import { setCardsList } from '@app/customer/state/customer.actions';
 
