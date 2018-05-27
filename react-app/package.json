@@ -6,6 +6,7 @@
     "@material-ui/icons": "^1.0.0-beta.43",
     "@types/immutability-helper": "^2.6.3",
     "@wwc/core": "file:../core",
+    "combine-containers": "0.0.3-alpha",
     "deep-freeze": "0.0.1",
     "firebase": "^4.13.1",
     "konva": "^2.0.3",

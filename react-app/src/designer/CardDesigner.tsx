@@ -13,16 +13,20 @@ import {
   Button
 } from 'material-ui';
 import { Card, constants, Shape } from '@wwc/core';
-import { ImageControlsConnected } from './controls/images/ImageControlsConnected';
-import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
+import { ImageControls } from './controls/images/ImageControls';
+import { CardPage } from '@app/cards/pages/CardPage';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
 import { TimeAgo } from '@app/shared/ui';
-import { TextControlsConnected } from './controls/text/TextControlsConnected';
+import { TextControls } from './controls/text/TextControls';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { CardDesignControlsConnected } from '@app/designer/controls/CardDesignControlsConnected';
+import { CardDesignControls } from '@app/designer/controls/CardDesignControls';
 import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';
+import { AppState } from '@app/state/app.state';
+import { setActiveCard, unSetActiveCard, setEditingShape } from '@app/designer/state/designer.actions';
+import { combineContainers } from 'combine-containers';
+import { connect } from 'react-redux';
 
 type StyleClassNames = 'root' | 'button';
 
@@ -35,18 +39,18 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   }
 });
 
-export interface CardDesignerProps {
+interface CardDesignerComponentProps {
   card?: Card;
   editingShapePosition?: ShapePosition;
   currentUser?: UserInfo;
   lastSavedDate?: Date;
   saving: boolean;
   deleting: boolean;
-  saveCardDesign: (user: UserInfo, card: Card) => any;
   mode: DesignerMode;
+  saveCardDesign: (user: UserInfo, card: Card) => any;
 }
 
-export interface CardDesignerDispatchProps {
+interface CardDesignerComponentDispatchProps {
   setActiveCard: (args: SetActiveCardArgs) => any;
   setEditingShape: (position: ShapePosition) => any;
   unSetActiveCard: () => any;
@@ -56,11 +60,13 @@ interface RouteParameters {
   id: string;
 }
 
-interface Props extends CardDesignerProps, CardDesignerDispatchProps, RouteComponentProps<RouteParameters> {}
+interface Props
+  extends CardDesignerComponentProps,
+    CardDesignerComponentDispatchProps,
+    RouteComponentProps<RouteParameters>,
+    WithStyles<StyleClassNames> {}
 
-interface StyledProps extends Props, WithStyles<StyleClassNames> {}
-
-class CardDesignerComponent extends React.Component<StyledProps> {
+class CardDesignerComponent extends React.Component<Props> {
   render() {
     if (this.props.deleting) {
       return <CircularProgress />;
@@ -90,8 +96,8 @@ class CardDesignerComponent extends React.Component<StyledProps> {
           <div className={this.props.classes.root}>
             <Grid container={true}>
               <Grid item={true} xs={8} sm={5} lg={3}>
-                <CardDesignControlsConnected saveCardDesign={this.props.saveCardDesign} />
-                <CardPageContainer pageIndex={0} page={this.props.card.pages[0]} editable={true} />
+                <CardDesignControls saveCardDesign={this.props.saveCardDesign} />
+                <CardPage pageIndex={0} page={this.props.card.pages[0]} editable={true} />
                 <br />
                 {this.renderSaveStatus()}
               </Grid>
@@ -138,10 +144,10 @@ class CardDesignerComponent extends React.Component<StyledProps> {
   renderShapeControl(shape: Shape, shapePosition: ShapePosition) {
     switch (shape.type) {
       case constants.shapes.types.image: {
-        return <ImageControlsConnected shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
+        return <ImageControls shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
       }
       case constants.shapes.types.text: {
-        return <TextControlsConnected shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
+        return <TextControls shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
       }
       default: {
         return null;
@@ -204,4 +210,33 @@ class CardDesignerComponent extends React.Component<StyledProps> {
   }
 }
 
-export const CardDesigner: React.ComponentType<Props> = withStyles(styles, { withTheme: true })(CardDesignerComponent);
+export interface CardDesignerConnectProps {
+  mode: DesignerMode;
+  deleting: boolean;
+}
+
+export interface CardDesignerDispatchProps {
+  saveCardDesign: (user: UserInfo, card: Card) => any;
+}
+
+export interface CardDesignerProps extends CardDesignerConnectProps, CardDesignerDispatchProps {}
+
+function mapStateToProps(state: AppState, ownProps: CardDesignerProps): CardDesignerComponentProps {
+  return {
+    card: state.designer.activeCard,
+    editingShapePosition: state.designer.editingShapePosition,
+    currentUser: state.auth.currentUser,
+    lastSavedDate: state.artist.activeCardLastSavedDate,
+    saving: state.artist.savingActiveCard,
+    deleting: ownProps.deleting,
+    mode: ownProps.mode,
+    saveCardDesign: ownProps.saveCardDesign
+  };
+}
+
+const mapDispatchToProps: CardDesignerComponentDispatchProps = { setActiveCard, unSetActiveCard, setEditingShape };
+
+export const CardDesigner: React.ComponentType<CardDesignerProps> = combineContainers(CardDesignerComponent, [
+  withStyles(styles, { withTheme: true }),
+  connect(mapStateToProps, mapDispatchToProps)
+]);

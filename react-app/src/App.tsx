@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { LoginContainer } from '@app/auth';
 import { LinearProgress } from 'material-ui';
-import { AppMenuBarContainer } from '@app/menu';
+import { AppMenuBar } from '@app/menu/AppMenuBar';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from '@app/shared/router/routes';
 import { ArtistDesignsBrowserConnected } from '@app/artist/ArtistDesignsBrowserConnected';
-import { ArtistCardDesignerConnected } from '@app/artist/ArtistCardDesignerConnected';
-import { CustomerCardDesignerConnected } from '@app/customer';
-import { CustomerCardBrowserConnected } from '@app/customer/CustomerCardBrowserConnected';
+import { ArtistCardDesigner } from '@app/artist/ArtistCardDesigner';
+import { CustomerCardDesigner } from '@app/customer/CustomerCardDesigner';
+import { CustomerCardBrowser } from '@app/customer/CustomerCardBrowser';
 
 export interface AppProps {
   isLoggedIn: boolean;
@@ -30,7 +30,7 @@ class App extends React.Component<Props> {
       <div className="App">
         <BrowserRouter>
           <div>
-            <AppMenuBarContainer />
+            <AppMenuBar />
             {this.renderApp()}
           </div>
         </BrowserRouter>
@@ -45,15 +45,15 @@ class App extends React.Component<Props> {
           <Route
             exact={true}
             path={routes.artistDesigner.path}
-            component={this.props.isLoggedIn ? ArtistCardDesignerConnected : LoginContainer}
+            component={this.props.isLoggedIn ? ArtistCardDesigner : LoginContainer}
           />
-          <Route exact={true} path={routes.customerDesigner.path} component={CustomerCardDesignerConnected} />
+          <Route exact={true} path={routes.customerDesigner.path} component={CustomerCardDesigner} />
           <Route
             path={routes.myDesigns.path}
             component={this.props.isLoggedIn ? ArtistDesignsBrowserConnected : LoginContainer}
           />
-          <Route path={routes.customerCardBrowser.path} component={CustomerCardBrowserConnected} />
-          <Route path="/" component={CustomerCardBrowserConnected} />
+          <Route path={routes.customerCardBrowser.path} component={CustomerCardBrowser} />
+          <Route path="/" component={CustomerCardBrowser} />
         </Switch>
       );
     } else {

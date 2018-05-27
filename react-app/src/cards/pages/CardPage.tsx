@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Paper } from 'material-ui';
+import { Paper, withTheme } from 'material-ui';
 import { Stage, Layer, Text } from 'react-konva';
 import { Shape, Page, constants, mathHelper } from '@wwc/core';
 import { ImageRect } from '../shapes/ImageRect';
@@ -8,13 +8,17 @@ import { WithThemeProps } from '@app/shared/styles/with-theme-props';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UpdateShapePositionArgs } from '@app/designer/state/designer.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
+import { combineContainers } from 'combine-containers';
+import { setEditingShape, updateShapePosition } from '@app/designer/state/designer.actions';
+import { connect } from 'react-redux';
+import { AppState } from '@app/state/app.state';
 
-export interface CardPageDispatchProps {
+export interface DispatchProps {
   updateShapePosition: (args: UpdateShapePositionArgs) => any;
   setEditingShape: (position: ShapePosition) => any;
 }
 
-export interface CardPageProps {
+interface ConnectProps {
   page: Page;
   pageIndex: number;
   editingShapePosition?: ShapePosition;
@@ -26,9 +30,9 @@ interface State {
   bounds: Partial<BoundingRect>;
 }
 
-interface Props extends CardPageProps, CardPageDispatchProps, WithThemeProps {}
+interface Props extends ConnectProps, DispatchProps, WithThemeProps {}
 
-export class CardPage extends React.Component<Props, State> {
+class CardPageComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -187,3 +191,27 @@ export class CardPage extends React.Component<Props, State> {
     });
   };
 }
+
+interface CardPageProps {
+  page: Page;
+  pageIndex: number;
+  editable: boolean;
+}
+
+function mapStateToProps(state: AppState, ownProps: CardPageProps): ConnectProps {
+  const { page, pageIndex, editable } = ownProps;
+  return {
+    page,
+    pageIndex,
+    editable,
+    editingShapePosition: state.designer.editingShapePosition,
+    mode: state.designer.activeCardDesignMode
+  };
+}
+
+const mapDispatchToProps: DispatchProps = { setEditingShape, updateShapePosition };
+
+export const CardPage: React.ComponentType<CardPageProps> = combineContainers(CardPageComponent, [
+  withTheme(),
+  connect(mapStateToProps, mapDispatchToProps)
+]);
