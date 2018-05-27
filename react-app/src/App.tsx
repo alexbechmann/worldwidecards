@@ -4,7 +4,7 @@ import { LinearProgress } from 'material-ui';
 import { AppMenuBar } from '@app/menu/AppMenuBar';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from '@app/shared/router/routes';
-import { ArtistDesignsBrowserConnected } from '@app/artist/ArtistDesignsBrowserConnected';
+import { ArtistDesignsBrowser } from '@app/artist/ArtistDesignsBrowser';
 import { ArtistCardDesigner } from '@app/artist/ArtistCardDesigner';
 import { CustomerCardDesigner } from '@app/customer/CustomerCardDesigner';
 import { CustomerCardBrowser } from '@app/customer/CustomerCardBrowser';
@@ -51,10 +51,7 @@ class AppComponent extends React.Component<Props> {
             component={this.props.isLoggedIn ? ArtistCardDesigner : Login}
           />
           <Route exact={true} path={routes.customerDesigner.path} component={CustomerCardDesigner} />
-          <Route
-            path={routes.myDesigns.path}
-            component={this.props.isLoggedIn ? ArtistDesignsBrowserConnected : Login}
-          />
+          <Route path={routes.myDesigns.path} component={this.props.isLoggedIn ? ArtistDesignsBrowser : Login} />
           <Route path={routes.customerCardBrowser.path} component={CustomerCardBrowser} />
           <Route path="/" component={CustomerCardBrowser} />
         </Switch>
