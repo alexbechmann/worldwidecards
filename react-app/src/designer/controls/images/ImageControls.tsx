@@ -14,16 +14,28 @@ import { DesignerMode } from '@app/designer/designer-mode';
 import { Cropper } from '@app/shared/ui/Cropper';
 import { Grid, Theme, TextField, FormControl, Select, MenuItem, InputLabel, FormLabel, Switch } from 'material-ui';
 import { withStyles, WithStyles } from 'material-ui/styles';
-import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
+import { CardPage } from '@app/cards/pages/CardPage';
+import { AppState } from '@app/state/app.state';
+import {
+  removeShape,
+  updateShapeWidth,
+  toggleAllowUserEdit,
+  removeEditingShape,
+  setImageCrop,
+  updateImageHref,
+  updateImageRatio
+} from '@app/designer/state/designer.actions';
+import { connect } from 'react-redux';
+import { combineContainers } from 'combine-containers';
 
-export interface ImageControlsProps {
+export interface ImageControlsComponentProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
 }
 
-export interface ImageControlsDispatchProps {
+export interface ImageControlsComponentDispatchProps {
   removeShape: (args: RemoveShapeArgs) => any;
   updateShapeWidth: (args: UpdateShapeWidthArgs) => any;
   toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
@@ -45,7 +57,7 @@ interface State {
   cropperImgLoading: boolean;
 }
 
-interface Props extends ImageControlsProps, ImageControlsDispatchProps, WithStyles<ClassNames> {}
+interface Props extends ImageControlsComponentProps, ImageControlsComponentDispatchProps, WithStyles<ClassNames> {}
 
 class ImageControlsComponent extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -68,7 +80,7 @@ class ImageControlsComponent extends React.Component<Props, State> {
             <div>{this.renderForm()}</div>
           </Grid>
           <Grid item={true} xs={6} sm={4}>
-            <CardPageContainer page={this.props.page} pageIndex={0} editable={false} />
+            <CardPage page={this.props.page} pageIndex={0} editable={false} />
           </Grid>
         </Grid>
       </DialogPopup>
@@ -200,4 +212,32 @@ class ImageControlsComponent extends React.Component<Props, State> {
   }
 }
 
-export const ImageControls = withStyles(styles, { withTheme: true })(ImageControlsComponent);
+export interface ImageControlsProps {
+  shape: Shape;
+  shapePosition: ShapePosition;
+  page: Page;
+}
+
+function mapStateToProps(state: AppState, ownProps: ImageControlsProps): ImageControlsComponentProps {
+  return {
+    shape: ownProps.shape,
+    shapePosition: ownProps.shapePosition,
+    page: ownProps.page,
+    mode: state.designer.activeCardDesignMode
+  };
+}
+
+const mapDispatchToProps: ImageControlsComponentDispatchProps = {
+  removeShape,
+  updateShapeWidth,
+  toggleAllowUserEdit,
+  removeEditingShape,
+  setImageCrop,
+  updateImageHref,
+  updateImageRatio
+};
+
+export const ImageControls: React.ComponentType<ImageControlsProps> = combineContainers(ImageControlsComponent, [
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(styles, { withTheme: true })
+]);

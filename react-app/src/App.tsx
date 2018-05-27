@@ -1,26 +1,29 @@
 import * as React from 'react';
-import { LoginContainer } from '@app/auth';
+import { Login } from '@app/auth/login/Login';
 import { LinearProgress } from 'material-ui';
-import { AppMenuBarContainer } from '@app/menu';
+import { AppMenuBar } from '@app/menu/AppMenuBar';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from '@app/shared/router/routes';
-import { ArtistDesignsBrowserConnected } from '@app/artist/ArtistDesignsBrowserConnected';
-import { ArtistCardDesignerConnected } from '@app/artist/ArtistCardDesignerConnected';
-import { CustomerCardDesignerConnected } from '@app/customer';
-import { CustomerCardBrowserConnected } from '@app/customer/CustomerCardBrowserConnected';
+import { ArtistDesignsBrowser } from '@app/artist/ArtistDesignsBrowser';
+import { ArtistCardDesigner } from '@app/artist/ArtistCardDesigner';
+import { CustomerCardDesigner } from '@app/customer/CustomerCardDesigner';
+import { CustomerCardBrowser } from '@app/customer/CustomerCardBrowser';
+import { initAuth } from '@app/auth/state/auth.actions';
+import { AppState } from '@app/state/app.state';
+import { connect } from 'react-redux';
 
-export interface AppProps {
+export interface AppComponentProps {
   isLoggedIn: boolean;
   initialized: boolean;
 }
 
-export interface AppDispatchProps {
+export interface AppComponentDispatchProps {
   initAuth: () => any;
 }
 
-interface Props extends AppProps, AppDispatchProps {}
+interface Props extends AppComponentProps, AppComponentDispatchProps {}
 
-class App extends React.Component<Props> {
+class AppComponent extends React.Component<Props> {
   componentDidMount() {
     this.props.initAuth();
   }
@@ -30,7 +33,7 @@ class App extends React.Component<Props> {
       <div className="App">
         <BrowserRouter>
           <div>
-            <AppMenuBarContainer />
+            <AppMenuBar />
             {this.renderApp()}
           </div>
         </BrowserRouter>
@@ -45,15 +48,12 @@ class App extends React.Component<Props> {
           <Route
             exact={true}
             path={routes.artistDesigner.path}
-            component={this.props.isLoggedIn ? ArtistCardDesignerConnected : LoginContainer}
+            component={this.props.isLoggedIn ? ArtistCardDesigner : Login}
           />
-          <Route exact={true} path={routes.customerDesigner.path} component={CustomerCardDesignerConnected} />
-          <Route
-            path={routes.myDesigns.path}
-            component={this.props.isLoggedIn ? ArtistDesignsBrowserConnected : LoginContainer}
-          />
-          <Route path={routes.customerCardBrowser.path} component={CustomerCardBrowserConnected} />
-          <Route path="/" component={CustomerCardBrowserConnected} />
+          <Route exact={true} path={routes.customerDesigner.path} component={CustomerCardDesigner} />
+          <Route path={routes.myDesigns.path} component={this.props.isLoggedIn ? ArtistDesignsBrowser : Login} />
+          <Route path={routes.customerCardBrowser.path} component={CustomerCardBrowser} />
+          <Route path="/" component={CustomerCardBrowser} />
         </Switch>
       );
     } else {
@@ -62,4 +62,13 @@ class App extends React.Component<Props> {
   }
 }
 
-export default App;
+function mapStateToProps(state: AppState): AppComponentProps {
+  return {
+    isLoggedIn: state.auth.currentUser != null,
+    initialized: state.auth.initialized
+  };
+}
+
+const mapDispatchToProps: AppComponentDispatchProps = { initAuth };
+
+export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);

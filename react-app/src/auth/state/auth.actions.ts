@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { User, UserInfo } from 'firebase';
-import { store } from '@app/shared/state';
+import { store } from '@app/state/root.store';
 import * as firebase from 'firebase';
 import { UPDATE_CURRENT_USER, INIT_AUTH, LOGOUT } from './auth.action-types';
 import { startWatchingCardDesignsForUser } from '@app/artist/state/artist.actions';

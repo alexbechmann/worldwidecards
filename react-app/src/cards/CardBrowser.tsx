@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card } from '@wwc/core';
-import { CardPageContainer } from '@app/cards/pages/CardPageContainer';
+import { CardPage } from '@app/cards/pages/CardPage';
 import { Grid, Typography, CircularProgress, StyleRulesCallback, Theme, WithStyles, withStyles } from 'material-ui';
 import { routes } from '@app/shared/router/routes';
 import { RouteButton } from '@app/shared/ui';
@@ -50,7 +50,7 @@ class CardBrowserComponent extends React.Component<Props> {
                 : routes.customerDesigner.build(card.id);
             return (
               <Grid key={card.id} item={true} xs={12} sm={3} xl={2}>
-                <CardPageContainer page={card.pages[0]} pageIndex={0} editable={false} />
+                <CardPage page={card.pages[0]} pageIndex={0} editable={false} />
                 <RouteButton fullWidth={true} to={to}>
                   {this.props.cardSelectText}
                 </RouteButton>

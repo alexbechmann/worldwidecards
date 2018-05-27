@@ -3,9 +3,9 @@ import * as ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import 'src/shared/styles/index.css';
 import * as firebase from 'firebase';
-import { AppContainer } from './AppContainer';
+import { App } from './App';
 import { Provider } from 'react-redux';
-import { store } from '@app/shared/state';
+import { store } from '@app/state/root.store';
 import 'typeface-roboto';
 import { MuiThemeProvider } from 'material-ui';
 import { theme } from '@app/shared/styles/theme';
@@ -23,7 +23,7 @@ firebase.initializeApp(config);
 const Root = () => (
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <AppContainer />
+      <App />
     </Provider>
   </MuiThemeProvider>
 );
