@@ -24,7 +24,7 @@ import { DesignerMode } from '@app/designer/designer-mode';
 import { CardDesignControls } from '@app/designer/controls/CardDesignControls';
 import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';
 import { AppState } from '@app/state/app.state';
-import { setActiveCard, unSetActiveCard, setEditingShape } from '@app/designer/state/designer.actions';
+import { setActiveCard, unSetActiveCard, setEditingShape, setActivePage } from '@app/designer/state/designer.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
 
@@ -47,6 +47,7 @@ interface CardDesignerComponentProps {
   saving: boolean;
   deleting: boolean;
   mode: DesignerMode;
+  activePageIndex: number;
   saveCardDesign: (user: UserInfo, card: Card) => any;
 }
 
@@ -54,6 +55,7 @@ interface CardDesignerComponentDispatchProps {
   setActiveCard: (args: SetActiveCardArgs) => any;
   setEditingShape: (position: ShapePosition) => any;
   unSetActiveCard: () => any;
+  setActivePage: (pageIndex: number) => any;
 }
 
 interface RouteParameters {
@@ -97,7 +99,11 @@ class CardDesignerComponent extends React.Component<Props> {
             <Grid container={true}>
               <Grid item={true} xs={8} sm={5} lg={3}>
                 <CardDesignControls saveCardDesign={this.props.saveCardDesign} />
-                <CardPage pageIndex={0} page={this.props.card.pages[0]} editable={true} />
+                <CardPage
+                  pageIndex={this.props.activePageIndex}
+                  page={this.props.card.pages[this.props.activePageIndex]}
+                  editable={true}
+                />
                 <br />
                 {this.renderSaveStatus()}
               </Grid>
@@ -144,10 +150,22 @@ class CardDesignerComponent extends React.Component<Props> {
   renderShapeControl(shape: Shape, shapePosition: ShapePosition) {
     switch (shape.type) {
       case constants.shapes.types.image: {
-        return <ImageControls shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
+        return (
+          <ImageControls
+            shape={shape}
+            shapePosition={shapePosition}
+            page={this.props.card!.pages[this.props.activePageIndex]}
+          />
+        );
       }
       case constants.shapes.types.text: {
-        return <TextControls shape={shape} shapePosition={shapePosition} page={this.props.card!.pages[0]} />;
+        return (
+          <TextControls
+            shape={shape}
+            shapePosition={shapePosition}
+            page={this.props.card!.pages[this.props.activePageIndex]}
+          />
+        );
       }
       default: {
         return null;
@@ -161,7 +179,7 @@ class CardDesignerComponent extends React.Component<Props> {
 
   renderSelectShapeButtons() {
     if (this.props.card) {
-      return this.props.card!.pages[0].shapes.map((shape, index) => {
+      return this.props.card!.pages[this.props.activePageIndex].shapes.map((shape, index) => {
         return (
           <div key={index}>
             {this.canEditShape(shape) ? (
@@ -191,11 +209,11 @@ class CardDesignerComponent extends React.Component<Props> {
   renderStepper() {
     const steps = ['Front page', 'Inner right', 'Inner left', 'Back'];
     return (
-      <Stepper nonLinear={true} activeStep={0}>
+      <Stepper nonLinear={true} activeStep={this.props.activePageIndex}>
         {steps.map((label, index) => {
           return (
             <Step key={label}>
-              <StepButton onClick={() => null} completed={false}>
+              <StepButton onClick={() => this.props.setActivePage(index)} completed={false}>
                 {label}
               </StepButton>
             </Step>
@@ -230,11 +248,17 @@ function mapStateToProps(state: AppState, ownProps: CardDesignerProps): CardDesi
     saving: state.artist.savingActiveCard,
     deleting: ownProps.deleting,
     mode: ownProps.mode,
-    saveCardDesign: ownProps.saveCardDesign
+    saveCardDesign: ownProps.saveCardDesign,
+    activePageIndex: state.designer.activePageIndex
   };
 }
 
-const mapDispatchToProps: CardDesignerComponentDispatchProps = { setActiveCard, unSetActiveCard, setEditingShape };
+const mapDispatchToProps: CardDesignerComponentDispatchProps = {
+  setActiveCard,
+  unSetActiveCard,
+  setEditingShape,
+  setActivePage
+};
 
 export const CardDesigner: React.ComponentType<CardDesignerProps> = combineContainers(CardDesignerComponent, [
   withStyles(styles, { withTheme: true }),

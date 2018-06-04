@@ -29,7 +29,8 @@ import {
   UpdateImageHrefArgs,
   UpdateImageRatioArgs,
   UPDATE_IMAGE_RATIO,
-  UpdateImageRatioPayload
+  UpdateImageRatioPayload,
+  SET_ACTIVE_PAGE
 } from './designer.action-types';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { cardService } from '@app/cards/services/card.service';
@@ -165,5 +166,12 @@ export function updateImageRatio(args: UpdateImageRatioArgs) {
   return {
     type: UPDATE_IMAGE_RATIO,
     payload: args as UpdateImageRatioPayload
+  };
+}
+
+export function setActivePage(pageIndex: number) {
+  return {
+    type: SET_ACTIVE_PAGE,
+    pageIndex
   };
 }

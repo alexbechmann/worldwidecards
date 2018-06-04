@@ -46,3 +46,5 @@ export type UpdateImageHrefPayload = UpdateImageHrefArgs;
 export const UPDATE_IMAGE_RATIO = 'WWC/UPDATE_IMAGE_RATIO';
 export type UpdateImageRatioArgs = { shapePosition: ShapePosition; ratio: { width: number; height: number } };
 export type UpdateImageRatioPayload = UpdateImageRatioArgs;
+
+export const SET_ACTIVE_PAGE = 'WWC/SET_ACTIVE_PAGE';

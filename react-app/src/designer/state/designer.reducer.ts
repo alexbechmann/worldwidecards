@@ -1,6 +1,6 @@
 import { DesignerState } from './designer.state';
 import { AnyAction } from 'redux';
-import { cardFactory } from '@wwc/core';
+import { cardFactory, constants } from '@wwc/core';
 import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
@@ -24,7 +24,8 @@ import {
   UpdateImageHrefPayload,
   UPDATE_IMAGE_HREF,
   UPDATE_IMAGE_RATIO,
-  UpdateImageRatioPayload
+  UpdateImageRatioPayload,
+  SET_ACTIVE_PAGE
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -154,7 +155,18 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
         }
       });
     }
-
+    case SET_ACTIVE_PAGE: {
+      return createNewState(state, newState => {
+        newState.activePageIndex = action.pageIndex;
+        if (!newState.activeCard!.pages[action.pageIndex]) {
+          newState.activeCard!.pages[action.pageIndex] = {
+            shapes: [],
+            height: constants.card.dimensions.portrait.height,
+            width: constants.card.dimensions.portrait.width
+          };
+        }
+      });
+    }
     default: {
       return state;
     }
