@@ -11,7 +11,8 @@ import {
   CircularProgress,
   Typography,
   Button,
-  Paper
+  Paper,
+  Hidden
 } from '@material-ui/core';
 import { Card, constants, Shape } from '@wwc/core';
 import { CardPage } from '@app/cards/pages/CardPage';
@@ -190,20 +191,24 @@ class CardDesignerComponent extends React.Component<Props> {
     switch (shape.type) {
       case constants.shapes.types.image: {
         return (
-          <ImageControlsDialog
-            shape={shape}
-            shapePosition={shapePosition}
-            page={this.props.card!.pages[this.props.activePageIndex]}
-          />
+          <Hidden mdUp>
+            <ImageControlsDialog
+              shape={shape}
+              shapePosition={shapePosition}
+              page={this.props.card!.pages[this.props.activePageIndex]}
+            />
+          </Hidden>
         );
       }
       case constants.shapes.types.text: {
         return (
-          <TextControlsDialog
-            shape={shape}
-            shapePosition={shapePosition}
-            page={this.props.card!.pages[this.props.activePageIndex]}
-          />
+          <Hidden mdUp>
+            <TextControlsDialog
+              shape={shape}
+              shapePosition={shapePosition}
+              page={this.props.card!.pages[this.props.activePageIndex]}
+            />
+          </Hidden>
         );
       }
       default: {

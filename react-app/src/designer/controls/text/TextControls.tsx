@@ -38,6 +38,7 @@ export interface TextControlsComponentProps {
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
+  active: boolean;
 }
 
 interface Props extends WithStyles<ClassNames>, TextControlsComponentProps, TextControlsComponentDispatchProps {}
@@ -54,7 +55,7 @@ class TextControlsComponent extends React.Component<Props> {
           fullWidth={true}
           multiline={true}
           rowsMax={5}
-          autoFocus={true}
+          autoFocus={this.props.active}
           value={this.props.shape.textData!.text}
           onChange={e =>
             this.props.updateText({
@@ -119,7 +120,10 @@ function mapStateToProps(state: AppState, ownProps: TextControlsProps): TextCont
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
     page: ownProps.page,
-    mode: state.designer.activeCardDesignMode
+    mode: state.designer.activeCardDesignMode,
+    active: state.designer.editingShapePosition
+      ? state.designer.editingShapePosition.shapeIndex === ownProps.shapePosition.shapeIndex
+      : false
   };
 }
 

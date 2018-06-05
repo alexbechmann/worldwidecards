@@ -171,6 +171,7 @@ class CardPageComponent extends React.Component<Props, State> {
   //         x={editingShape.x}
   //         y={editingShape.y}
   //         width={editingShape.width}
+  //         height={10}
   //         fill={theme.palette.secondary.main}
   //         opacity={0.5}
   //         draggable={this.props.editable}

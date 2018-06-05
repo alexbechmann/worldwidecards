@@ -40,6 +40,7 @@ export interface ImageControlsComponentProps {
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
+  active: boolean;
 }
 
 export interface ImageControlsComponentDispatchProps {
@@ -84,7 +85,7 @@ class ImageControlsComponent extends React.Component<Props, State> {
           fullWidth={true}
           multiline={true}
           rowsMax={5}
-          autoFocus={true}
+          autoFocus={this.props.active}
           value={this.props.shape.imageData!.href}
           onChange={e => {
             this.props.updateImageHref({
@@ -209,7 +210,10 @@ function mapStateToProps(state: AppState, ownProps: ImageControlsProps): ImageCo
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
     page: ownProps.page,
-    mode: state.designer.activeCardDesignMode
+    mode: state.designer.activeCardDesignMode,
+    active: state.designer.editingShapePosition
+      ? state.designer.editingShapePosition.shapeIndex === ownProps.shapePosition.shapeIndex
+      : false
   };
 }
 
