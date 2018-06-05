@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { DialogPopup } from '@app/shared/ui/DialogPopup';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import {
   RemoveShapeArgs,
@@ -12,15 +11,23 @@ import {
 import { Shape, Page } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { Cropper } from '@app/shared/ui/Cropper';
-import { Grid, Theme, TextField, FormControl, Select, MenuItem, InputLabel, FormLabel, Switch } from 'material-ui';
-import { withStyles, WithStyles } from 'material-ui/styles';
-import { CardPage } from '@app/cards/pages/CardPage';
+import {
+  Grid,
+  Theme,
+  TextField,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormLabel,
+  Switch
+} from '@material-ui/core';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { AppState } from '@app/state/app.state';
 import {
   removeShape,
   updateShapeWidth,
   toggleAllowUserEdit,
-  removeEditingShape,
   setImageCrop,
   updateImageHref,
   updateImageRatio
@@ -39,7 +46,6 @@ export interface ImageControlsComponentDispatchProps {
   removeShape: (args: RemoveShapeArgs) => any;
   updateShapeWidth: (args: UpdateShapeWidthArgs) => any;
   toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
-  removeEditingShape: (position: ShapePosition) => any;
   setImageCrop: (args: SetImageCropArgs) => any;
   updateImageHref: (args: UpdateImageHrefArgs) => any;
   updateImageRatio: (args: UpdateImageRatioArgs) => any;
@@ -68,26 +74,6 @@ class ImageControlsComponent extends React.Component<Props, State> {
   }
 
   render() {
-    return (
-      <DialogPopup
-        open={true}
-        handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
-        dialogTitle="Edit image"
-        dialogDescription="Edit the properties of the image here. Click close and drag the image to move it's position."
-      >
-        <Grid container={true} spacing={16}>
-          <Grid item={true} xs={12} sm={8}>
-            <div>{this.renderForm()}</div>
-          </Grid>
-          <Grid item={true} xs={6} sm={4}>
-            <CardPage page={this.props.page} pageIndex={0} editable={false} />
-          </Grid>
-        </Grid>
-      </DialogPopup>
-    );
-  }
-
-  renderForm() {
     const { classes } = this.props;
     return (
       <div>
@@ -231,7 +217,6 @@ const mapDispatchToProps: ImageControlsComponentDispatchProps = {
   removeShape,
   updateShapeWidth,
   toggleAllowUserEdit,
-  removeEditingShape,
   setImageCrop,
   updateImageHref,
   updateImageRatio

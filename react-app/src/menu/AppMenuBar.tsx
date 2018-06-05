@@ -13,11 +13,11 @@ import {
   ListItemText,
   Theme,
   StyleRulesCallback
-} from 'material-ui';
+} from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { routes } from '@app/shared/router/routes';
 import { RouteButton } from '@app/shared/ui';
-import withStyles, { WithStyles } from 'material-ui/styles/withStyles';
+import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { UserInfo } from 'firebase';
 import { RouteMenuItem } from '@app/shared/ui/RouteMenuItem';
 import { AppState } from '@app/state/app.state';

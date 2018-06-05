@@ -10,16 +10,15 @@ import {
   WithStyles,
   CircularProgress,
   Typography,
-  Button
-} from 'material-ui';
+  Button,
+  Paper
+} from '@material-ui/core';
 import { Card, constants, Shape } from '@wwc/core';
-import { ImageControls } from './controls/images/ImageControls';
 import { CardPage } from '@app/cards/pages/CardPage';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
 import { TimeAgo } from '@app/shared/ui';
-import { TextControls } from './controls/text/TextControls';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { CardDesignControls } from '@app/designer/controls/CardDesignControls';
 import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';
@@ -27,8 +26,12 @@ import { AppState } from '@app/state/app.state';
 import { setActiveCard, unSetActiveCard, setEditingShape, setActivePage } from '@app/designer/state/designer.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
+import { ImageControlsDialog } from '@app/designer/controls/images/ImageControlsDialog';
+import { TextControlsDialog } from '@app/designer/controls/text/TextControlsDialog';
+import { TextControls } from '@app/designer/controls/text/TextControls';
+import { ImageControls } from '@app/designer/controls/images/ImageControls';
 
-type StyleClassNames = 'root' | 'button';
+type StyleClassNames = 'root' | 'button' | 'cardControlsCard' | 'previewArea';
 
 const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   root: {
@@ -36,6 +39,13 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   },
   button: {
     margin: theme.spacing.unit
+  },
+  cardControlsCard: {
+    padding: theme.spacing.unit
+  },
+  previewArea: {
+    padding: '5% 20% 0px 20%',
+    background: 'silver'
   }
 });
 
@@ -91,26 +101,29 @@ class CardDesignerComponent extends React.Component<Props> {
   }
 
   renderDesigner() {
+    const { classes } = this.props;
     if (this.props.card) {
       return (
         <div>
           {this.renderStepper()}
           <div className={this.props.classes.root}>
-            <Grid container={true}>
-              <Grid item={true} xs={8} sm={5} lg={3}>
-                <CardDesignControls saveCardDesign={this.props.saveCardDesign} />
-                <CardPage
-                  pageIndex={this.props.activePageIndex}
-                  page={this.props.card.pages[this.props.activePageIndex]}
-                  editable={true}
-                />
-                <br />
-                {this.renderSaveStatus()}
+            <CardDesignControls saveCardDesign={this.props.saveCardDesign} />
+            <Grid container spacing={24}>
+              <Grid item xs={12} sm={6} lg={8}>
+                <div className={classes.previewArea}>
+                  <CardPage
+                    pageIndex={this.props.activePageIndex}
+                    page={this.props.card.pages[this.props.activePageIndex]}
+                    editable={true}
+                  />
+                  <br />
+                  {this.renderSaveStatus()}
+                </div>
               </Grid>
-              <Grid item={true} xs={12} sm={7} lg={9}>
-                <p>Work area {this.props.mode}</p>
+              <Grid item xs={12} sm={6} lg={4}>
                 {this.renderArtistShapeControls()}
-                {this.renderSelectShapeButtons()}
+                {/* {this.renderSelectShapeButtons()} */}
+                {this.renderInlineControls()}
               </Grid>
             </Grid>
           </div>
@@ -141,7 +154,7 @@ class CardDesignerComponent extends React.Component<Props> {
         editingShapePosition.shapeIndex
       ];
       if (this.canEditShape(editingShape)) {
-        return this.renderShapeControl(editingShape, editingShapePosition);
+        return this.renderShapeControlDialog(editingShape, editingShapePosition);
       }
     }
     return null;
@@ -161,6 +174,32 @@ class CardDesignerComponent extends React.Component<Props> {
       case constants.shapes.types.text: {
         return (
           <TextControls
+            shape={shape}
+            shapePosition={shapePosition}
+            page={this.props.card!.pages[this.props.activePageIndex]}
+          />
+        );
+      }
+      default: {
+        return null;
+      }
+    }
+  }
+
+  renderShapeControlDialog(shape: Shape, shapePosition: ShapePosition) {
+    switch (shape.type) {
+      case constants.shapes.types.image: {
+        return (
+          <ImageControlsDialog
+            shape={shape}
+            shapePosition={shapePosition}
+            page={this.props.card!.pages[this.props.activePageIndex]}
+          />
+        );
+      }
+      case constants.shapes.types.text: {
+        return (
+          <TextControlsDialog
             shape={shape}
             shapePosition={shapePosition}
             page={this.props.card!.pages[this.props.activePageIndex]}
@@ -202,6 +241,33 @@ class CardDesignerComponent extends React.Component<Props> {
           </div>
         );
       });
+    }
+    return null;
+  }
+
+  renderInlineControls() {
+    const { classes } = this.props;
+    if (this.props.card) {
+      return (
+        <Grid container spacing={24}>
+          {this.props.card!.pages[this.props.activePageIndex].shapes.map((shape, index) => {
+            return (
+              <Grid item xs={12} sm={12} md={12} lg={12} key={index}>
+                <Paper className={classes.cardControlsCard}>
+                  {this.canEditShape(shape) ? (
+                    this.renderShapeControl(shape, {
+                      pageIndex: this.props.activePageIndex,
+                      shapeIndex: index
+                    })
+                  ) : (
+                    <span />
+                  )}
+                </Paper>
+              </Grid>
+            );
+          })}
+        </Grid>
+      );
     }
     return null;
   }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from 'material-ui';
+import { Button } from '@material-ui/core';
 import { loginWithFacebook } from '@app/auth/state/auth.actions';
 import { connect } from 'react-redux';
 

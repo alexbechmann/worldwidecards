@@ -7,7 +7,7 @@ import { App } from './App';
 import { Provider } from 'react-redux';
 import { store } from '@app/state/root.store';
 import 'typeface-roboto';
-import { MuiThemeProvider } from 'material-ui';
+import { MuiThemeProvider } from '@material-ui/core';
 import { theme } from '@app/shared/styles/theme';
 
 var config = {

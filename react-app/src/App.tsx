@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Login } from '@app/auth/login/Login';
-import { LinearProgress } from 'material-ui';
+import { LinearProgress } from '@material-ui/core';
 import { AppMenuBar } from '@app/menu/AppMenuBar';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from '@app/shared/router/routes';

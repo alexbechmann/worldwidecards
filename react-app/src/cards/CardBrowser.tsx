@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card } from '@wwc/core';
 import { CardPage } from '@app/cards/pages/CardPage';
-import { Grid, Typography, CircularProgress, StyleRulesCallback, Theme, WithStyles, withStyles } from 'material-ui';
+import { Grid, Typography, CircularProgress, StyleRulesCallback, Theme, WithStyles, withStyles } from '@material-ui/core';
 import { routes } from '@app/shared/router/routes';
 import { RouteButton } from '@app/shared/ui';
 import { DesignerMode } from '@app/designer/designer-mode';

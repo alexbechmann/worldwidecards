@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Paper, withTheme } from 'material-ui';
+import { Paper, withTheme } from '@material-ui/core';
 import { Stage, Layer, Text } from 'react-konva';
 import { Shape, Page, constants, mathHelper } from '@wwc/core';
 import { ImageRect } from '../shapes/ImageRect';
@@ -54,7 +54,7 @@ class CardPageComponent extends React.Component<Props, State> {
           <div>
             <div ref={measureRef}>
               {this.state.bounds.width! > -1 ? (
-                <Paper>
+                <Paper elevation={10}>
                   <Stage
                     scaleX={this.calculateScaleX()}
                     scaleY={this.calculateScaleY()}

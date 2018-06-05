@@ -126,6 +126,9 @@
       "check-separator",
       "check-type",
       "check-typecast"
+    ],
+    "jsx-boolean-value": [
+      false
     ]
   }
 }

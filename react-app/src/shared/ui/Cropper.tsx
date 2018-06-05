@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Ref } from 'react';
 import Measure, { BoundingRect } from 'react-measure';
 import { mathHelper, CropData, ImageData } from '@wwc/core';
-import { CircularProgress } from 'material-ui';
+import { CircularProgress } from '@material-ui/core';
 
 const ReactImageCropper: React.ComponentType<{
   src: string;
