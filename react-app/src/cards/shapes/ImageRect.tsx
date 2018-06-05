@@ -44,10 +44,10 @@ export class ImageRect extends React.Component<Props, State> {
         image={this.state.image}
         crop={
           this.props.cropData && {
-            x: this.props.cropData!.x,
-            y: this.props.cropData!.y,
-            width: this.props.cropData!.width,
-            height: this.props.cropData!.height
+            x: this.state.image.width / 100 * this.props.cropData!.x,
+            y: this.state.image.height / 100 * this.props.cropData!.y,
+            width: this.state.image.width / 100 * this.props.cropData!.width,
+            height: this.state.image.height / 100 * this.props.cropData!.height
           }
         }
         height={this.calculateHeight()}

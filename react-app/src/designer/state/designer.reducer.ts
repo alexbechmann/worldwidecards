@@ -133,26 +133,27 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     }
     case UPDATE_IMAGE_RATIO: {
       const payload: UpdateImageRatioPayload = action.payload;
+      console.log(payload);
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
           payload.shapePosition.shapeIndex
         ].imageData!.ratio =
           payload.ratio;
-        const crop = newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
-          payload.shapePosition.shapeIndex
-        ].imageData!.crop;
-        if (crop) {
-          newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
-            payload.shapePosition.shapeIndex
-          ].imageData!.crop = {
-            imgHeight: crop.imgHeight,
-            imgWidth: crop.imgWidth,
-            width: 300,
-            height: payload.ratio.height / payload.ratio.width * 300,
-            x: 0,
-            y: 0
-          };
-        }
+        // const crop = newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
+        //   payload.shapePosition.shapeIndex
+        // ].imageData!.crop;
+        // if (crop) {
+        //   newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
+        //     payload.shapePosition.shapeIndex
+        //   ].imageData!.crop = {
+        //     imgHeight: crop.imgHeight,
+        //     imgWidth: crop.imgWidth,
+        //     width: 300,
+        //     height: payload.ratio.height / payload.ratio.width * 300,
+        //     x: 0,
+        //     y: 0
+        //   };
+        // }
       });
     }
     case SET_ACTIVE_PAGE: {

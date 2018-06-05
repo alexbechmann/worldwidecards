@@ -10,18 +10,7 @@ import {
 } from '@app/designer/state/designer.action-types';
 import { Shape, Page } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { Cropper } from '@app/shared/ui/Cropper';
-import {
-  Grid,
-  Theme,
-  TextField,
-  FormControl,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormLabel,
-  Switch
-} from '@material-ui/core';
+import { Theme, TextField, FormControl, MenuItem, FormLabel, Switch } from '@material-ui/core';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { AppState } from '@app/state/app.state';
 import {
@@ -34,6 +23,8 @@ import {
 } from '@app/designer/state/designer.actions';
 import { connect } from 'react-redux';
 import { combineContainers } from 'combine-containers';
+import * as ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 export interface ImageControlsComponentProps {
   shape: Shape;
@@ -94,55 +85,31 @@ class ImageControlsComponent extends React.Component<Props, State> {
             });
           }}
         />
-        <Grid container={true} spacing={8}>
-          <Grid item={true} xs={6}>
-            <FormControl className={classes.formControl} fullWidth={true}>
-              <InputLabel>Ratio width</InputLabel>
-              <Select
-                value={this.props.shape.imageData!.ratio.width}
-                onChange={e =>
-                  this.props.updateImageRatio({
-                    ratio: {
-                      height: this.props.shape.imageData!.ratio.height,
-                      width: parseInt(e.target.value, 10)
-                    },
-                    shapePosition: this.props.shapePosition
-                  })
-                }
-              >
-                {this.renderMenuItems(16)}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item={true} xs={6}>
-            <FormControl className={classes.formControl} fullWidth={true}>
-              <InputLabel>Ratio height</InputLabel>
-              <Select
-                value={this.props.shape.imageData!.ratio.height}
-                onChange={e =>
-                  this.props.updateImageRatio({
-                    ratio: {
-                      width: this.props.shape.imageData!.ratio.width,
-                      height: parseInt(e.target.value, 10)
-                    },
-                    shapePosition: this.props.shapePosition
-                  })
-                }
-              >
-                {this.renderMenuItems(16)}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
         {this.renderArtistOnlyControls()}
-        <Cropper
-          onCropChange={crop => {
+        <ReactCrop
+          style={{ width: '100%' }}
+          src={this.props.shape.imageData!.href}
+          onChange={crop => {
             this.props.setImageCrop({
               shapePosition: this.props.shapePosition,
-              cropData: crop
+              cropData: {
+                x: crop.x!,
+                y: crop.y!,
+                width: crop.width!,
+                height: crop.height!,
+                imgHeight: 0,
+                imgWidth: 0
+              }
+            });
+            this.props.updateImageRatio({
+              ratio: {
+                width: crop.width!,
+                height: crop.height!
+              },
+              shapePosition: this.props.shapePosition
             });
           }}
-          imageData={this.props.shape.imageData!}
+          crop={this.props.shape.imageData!.crop || { x: 0, y: 0, width: 100, height: 100 }}
         />
       </div>
     );
