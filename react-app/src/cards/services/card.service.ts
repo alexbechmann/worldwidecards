@@ -12,7 +12,6 @@ class CardService {
   }
 
   saveCardDesign(user: UserInfo, card: Card): Promise<void> {
-    console.log(card);
     card.userId = user.uid;
     card.userInfo = {
       displayName: user.displayName,
@@ -25,10 +24,7 @@ class CardService {
     const cardRef = card.id
       ? this.db.collection('card-designs').doc(card.id)
       : this.db.collection('card-designs').doc();
-    return cardRef
-      .set(card)
-      .then(console.log)
-      .catch(console.log);
+    return cardRef.set(card).catch(console.log);
   }
 
   getCardDesignById(id: string): Promise<Card> {
