@@ -105,13 +105,17 @@ class ImageControlsComponent extends React.Component<Props, State> {
                 width: crop.width!,
                 height: crop.height!
               },
-              ratio: {
-                width: pixelCrop.width!,
-                height: pixelCrop.height!
-              }
+              ratio:
+                this.props.mode === DesignerMode.Artist
+                  ? {
+                      width: pixelCrop.width!,
+                      height: pixelCrop.height!
+                    }
+                  : this.props.shape.imageData!.ratio
             });
           }}
           crop={imageCrop}
+          disabled={!this.state.image}
           onImageLoaded={img => {
             this.setState({
               image: img
