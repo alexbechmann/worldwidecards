@@ -133,8 +133,6 @@ class ImageControlsComponent extends React.Component<Props, State> {
                 img.width / img.height
               );
 
-              console.log(customerCrop);
-
               this.props.setImageCrop({
                 shapePosition: this.props.shapePosition,
                 cropData:
@@ -165,59 +163,6 @@ class ImageControlsComponent extends React.Component<Props, State> {
             }
           }}
         />
-        {/* <ReactCrop
-          style={{ width: '100%' }}
-          src={this.props.shape.imageData!.href}
-          onChange={(crop, pixelCrop) => {
-            this.props.setImageCrop({
-              shapePosition: this.props.shapePosition,
-              cropData: {
-                x: crop.x!,
-                y: crop.y!,
-                width: crop.width!,
-                height: crop.height!
-              }
-            });
-            this.props.updateImageRatio({
-              ratio: {
-                width: pixelCrop.width!,
-                height: pixelCrop.height!
-              },
-              shapePosition: this.props.shapePosition
-            });
-          }}
-          crop={
-            this.props.shape.imageData!.crop
-              ? {
-                  ...this.props.shape.imageData!.crop!,
-                  aspect: this.props.shape.imageData!.ratio!.width! / this.props.shape.imageData!.ratio!.height!
-                }
-              : { x: 0, y: 0, width: 100, height: 100 }
-          }
-          onImageLoaded={img => {
-            this.setState({
-              image: img
-            });
-            if (!this.props.shape.imageData!.crop) {
-              this.props.setImageCrop({
-                shapePosition: this.props.shapePosition,
-                cropData: {
-                  x: 0,
-                  y: 0,
-                  width: 100,
-                  height: 100
-                }
-              });
-              this.props.updateImageRatio({
-                ratio: {
-                  width: img.width!,
-                  height: img.height!
-                },
-                shapePosition: this.props.shapePosition
-              });
-            }
-          }}
-        /> */}
       </div>
     );
   }
