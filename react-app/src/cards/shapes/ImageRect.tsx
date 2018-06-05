@@ -10,7 +10,10 @@ interface State {
 interface Props extends Partial<ImageConfig>, ReactKonva.KonvaNodeProps {
   href: string;
   cropData?: CropData;
-  ratio: number;
+  ratio: {
+    width: number;
+    height: number;
+  };
 }
 
 export class ImageRect extends React.Component<Props, State> {
@@ -58,6 +61,6 @@ export class ImageRect extends React.Component<Props, State> {
   }
 
   calculateHeight(): number {
-    return this.props.width! / this.props.ratio;
+    return this.props.width! * (this.props.ratio.height / this.props.ratio.width);
   }
 }

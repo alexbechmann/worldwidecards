@@ -12,6 +12,7 @@ class CardService {
   }
 
   saveCardDesign(user: UserInfo, card: Card): Promise<void> {
+    console.log(card);
     card.userId = user.uid;
     card.userInfo = {
       displayName: user.displayName,

@@ -52,7 +52,7 @@ const styles = (theme: Theme) => ({
 });
 
 interface State {
-  cropperImgLoading: boolean;
+  image?: HTMLImageElement;
 }
 
 interface Props extends ImageControlsComponentProps, ImageControlsComponentDispatchProps, WithStyles<ClassNames> {}
@@ -60,9 +60,7 @@ interface Props extends ImageControlsComponentProps, ImageControlsComponentDispa
 class ImageControlsComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      cropperImgLoading: false
-    };
+    this.state = {};
   }
 
   render() {
@@ -71,7 +69,7 @@ class ImageControlsComponent extends React.Component<Props, State> {
       <div>
         <TextField
           className={classes.formControl}
-          disabled={this.state.cropperImgLoading}
+          disabled={!this.state.image}
           label="Image url"
           fullWidth={true}
           multiline={true}
@@ -79,6 +77,9 @@ class ImageControlsComponent extends React.Component<Props, State> {
           autoFocus={this.props.active}
           value={this.props.shape.imageData!.href}
           onChange={e => {
+            this.setState({
+              image: undefined
+            });
             this.props.updateImageHref({
               url: e.target.value,
               shapePosition: this.props.shapePosition
@@ -97,8 +98,8 @@ class ImageControlsComponent extends React.Component<Props, State> {
                 y: crop.y!,
                 width: crop.width!,
                 height: crop.height!,
-                imgHeight: 0,
-                imgWidth: 0
+                imgHeight: this.state.image!.height,
+                imgWidth: this.state.image!.width
               }
             });
             this.props.updateImageRatio({
@@ -110,6 +111,31 @@ class ImageControlsComponent extends React.Component<Props, State> {
             });
           }}
           crop={this.props.shape.imageData!.crop || { x: 0, y: 0, width: 100, height: 100 }}
+          onImageLoaded={img => {
+            this.setState({
+              image: img
+            });
+            if (!this.props.shape.imageData!.crop) {
+              this.props.setImageCrop({
+                shapePosition: this.props.shapePosition,
+                cropData: {
+                  x: 0,
+                  y: 0,
+                  width: 100,
+                  height: 100,
+                  imgHeight: img.height,
+                  imgWidth: img.width
+                }
+              });
+              this.props.updateImageRatio({
+                ratio: {
+                  width: img.width!,
+                  height: img.height!
+                },
+                shapePosition: this.props.shapePosition
+              });
+            }
+          }}
         />
       </div>
     );

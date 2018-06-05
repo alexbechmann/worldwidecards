@@ -112,6 +112,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     }
     case SET_IMAGE_CROP: {
       const payload: SetImageCropPayload = action.payload;
+
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
           payload.shapePosition.shapeIndex
@@ -133,7 +134,6 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     }
     case UPDATE_IMAGE_RATIO: {
       const payload: UpdateImageRatioPayload = action.payload;
-      console.log(payload);
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
           payload.shapePosition.shapeIndex
