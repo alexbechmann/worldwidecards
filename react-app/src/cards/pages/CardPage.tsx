@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Paper, withTheme } from 'material-ui';
+import { Paper, withTheme } from '@material-ui/core';
 import { Stage, Layer, Text } from 'react-konva';
 import { Shape, Page, constants, mathHelper } from '@wwc/core';
 import { ImageRect } from '../shapes/ImageRect';
@@ -54,7 +54,7 @@ class CardPageComponent extends React.Component<Props, State> {
           <div>
             <div ref={measureRef}>
               {this.state.bounds.width! > -1 ? (
-                <Paper>
+                <Paper elevation={10}>
                   <Stage
                     scaleX={this.calculateScaleX()}
                     scaleY={this.calculateScaleY()}
@@ -113,7 +113,7 @@ class CardPageComponent extends React.Component<Props, State> {
               draggable={draggable}
               onDragMove={e => this.handleDragEvent(e, index)}
               cropData={shape.imageData!.crop}
-              ratio={shape.imageData!.ratio.width / shape.imageData!.ratio.height}
+              ratio={shape.imageData!.ratio}
               preventDefault={this.props.editable}
             />
           );
@@ -171,6 +171,7 @@ class CardPageComponent extends React.Component<Props, State> {
   //         x={editingShape.x}
   //         y={editingShape.y}
   //         width={editingShape.width}
+  //         height={10}
   //         fill={theme.palette.secondary.main}
   //         opacity={0.5}
   //         draggable={this.props.editable}

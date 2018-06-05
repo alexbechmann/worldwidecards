@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { Grid, FormControl, FormLabel, TextField, Button, Switch } from 'material-ui';
-import { Shape, Page, constants } from '@wwc/core';
+import { withStyles, Theme, WithStyles } from '@material-ui/core/styles';
+import { FormControl, FormLabel, TextField, Switch } from '@material-ui/core';
+import { Shape, Page } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import {
   UpdateTextArgs,
@@ -10,16 +10,8 @@ import {
   ToggleAllowUserEditArgs
 } from '@app/designer/state/designer.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { DialogPopup } from '@app/shared/ui/DialogPopup';
-import { CardPage } from '@app/cards/pages/CardPage';
 import { AppState } from '@app/state/app.state';
-import {
-  updateText,
-  removeShape,
-  updateShapeWidth,
-  toggleAllowUserEdit,
-  removeEditingShape
-} from '@app/designer/state/designer.actions';
+import { updateText, removeShape, updateShapeWidth, toggleAllowUserEdit } from '@app/designer/state/designer.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
 
@@ -39,7 +31,6 @@ export interface TextControlsComponentDispatchProps {
   removeShape: (args: RemoveShapeArgs) => any;
   updateShapeWidth: (args: UpdateShapeWidthArgs) => any;
   toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
-  removeEditingShape: (position: ShapePosition) => any;
 }
 
 export interface TextControlsComponentProps {
@@ -47,47 +38,13 @@ export interface TextControlsComponentProps {
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
+  active: boolean;
 }
 
 interface Props extends WithStyles<ClassNames>, TextControlsComponentProps, TextControlsComponentDispatchProps {}
 
 class TextControlsComponent extends React.Component<Props> {
   render() {
-    return this.props.shape.type === constants.shapes.types.text ? (
-      <DialogPopup
-        open={true}
-        handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
-        dialogTitle="Edit textbox"
-        dialogDescription="Edit the properties of the text box here. Click close and drag the text to move it's position."
-        extraDialogButtons={[
-          () => (
-            <Button
-              onClick={() =>
-                this.props.removeShape({
-                  position: this.props.shapePosition
-                })
-              }
-            >
-              Remove
-            </Button>
-          )
-        ]}
-      >
-        <Grid container={true} spacing={16}>
-          <Grid item={true} xs={12} sm={8}>
-            {this.renderForm()}
-          </Grid>
-          <Grid item={true} xs={6} sm={4}>
-            <CardPage page={this.props.page} pageIndex={0} editable={false} />
-          </Grid>
-        </Grid>
-      </DialogPopup>
-    ) : (
-      <span>Not a text box</span>
-    );
-  }
-
-  renderForm() {
     const { classes } = this.props;
     return (
       <div>
@@ -98,7 +55,7 @@ class TextControlsComponent extends React.Component<Props> {
           fullWidth={true}
           multiline={true}
           rowsMax={5}
-          autoFocus={true}
+          autoFocus={this.props.active}
           value={this.props.shape.textData!.text}
           onChange={e =>
             this.props.updateText({
@@ -152,10 +109,6 @@ class TextControlsComponent extends React.Component<Props> {
   }
 }
 
-// export const TextControls: React.ComponentType<Props> = withStyles(styles)(
-
-// );
-
 export interface TextControlsProps {
   shape: Shape;
   shapePosition: ShapePosition;
@@ -167,7 +120,10 @@ function mapStateToProps(state: AppState, ownProps: TextControlsProps): TextCont
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
     page: ownProps.page,
-    mode: state.designer.activeCardDesignMode
+    mode: state.designer.activeCardDesignMode,
+    active: state.designer.editingShapePosition
+      ? state.designer.editingShapePosition.shapeIndex === ownProps.shapePosition.shapeIndex
+      : false
   };
 }
 
@@ -175,8 +131,7 @@ const mapDispatchToProps: TextControlsComponentDispatchProps = {
   updateText,
   removeShape,
   updateShapeWidth,
-  toggleAllowUserEdit,
-  removeEditingShape
+  toggleAllowUserEdit
 };
 
 export const TextControls: React.ComponentType<TextControlsProps> = combineContainers(TextControlsComponent, [

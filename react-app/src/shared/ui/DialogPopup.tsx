@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Button } from 'material-ui';
-import { DialogProps, withMobileDialog } from 'material-ui/Dialog';
-import { ButtonProps } from 'material-ui/Button';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  DialogContentText,
+  Button,
+  withMobileDialog
+} from '@material-ui/core';
+import { DialogProps } from '@material-ui/core/Dialog';
+import { ButtonProps } from '@material-ui/core/Button';
 
 interface Props extends DialogProps {
   open: boolean;

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { withStyles, Theme, WithStyles } from 'material-ui/styles';
-import { Tooltip, IconButton, MenuItem, Menu } from 'material-ui';
+import { withStyles, Theme, WithStyles } from '@material-ui/core/styles';
+import { Tooltip, IconButton, MenuItem, Menu } from '@material-ui/core';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
 import { AddTextShapeArgs } from '@app/designer/state/designer.action-types';

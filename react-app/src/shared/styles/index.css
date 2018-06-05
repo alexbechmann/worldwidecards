@@ -1,3 +1,5 @@
+@import '~react-image-crop/dist/ReactCrop.css';
+
 body {
   margin: 0;
   padding: 0;

@@ -1,6 +1,6 @@
 import { DesignerState } from './designer.state';
 import { AnyAction } from 'redux';
-import { cardFactory } from '@wwc/core';
+import { cardFactory, constants } from '@wwc/core';
 import {
   ADD_TEXT_SHAPE,
   SET_EDITING_SHAPE,
@@ -24,7 +24,8 @@ import {
   UpdateImageHrefPayload,
   UPDATE_IMAGE_HREF,
   UPDATE_IMAGE_RATIO,
-  UpdateImageRatioPayload
+  UpdateImageRatioPayload,
+  SET_ACTIVE_PAGE
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -111,6 +112,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
     }
     case SET_IMAGE_CROP: {
       const payload: SetImageCropPayload = action.payload;
+
       return createNewState(state, newState => {
         newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
           payload.shapePosition.shapeIndex
@@ -137,24 +139,35 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
           payload.shapePosition.shapeIndex
         ].imageData!.ratio =
           payload.ratio;
-        const crop = newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
-          payload.shapePosition.shapeIndex
-        ].imageData!.crop;
-        if (crop) {
-          newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
-            payload.shapePosition.shapeIndex
-          ].imageData!.crop = {
-            imgHeight: crop.imgHeight,
-            imgWidth: crop.imgWidth,
-            width: 300,
-            height: payload.ratio.height / payload.ratio.width * 300,
-            x: 0,
-            y: 0
+        // const crop = newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
+        //   payload.shapePosition.shapeIndex
+        // ].imageData!.crop;
+        // if (crop) {
+        //   newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
+        //     payload.shapePosition.shapeIndex
+        //   ].imageData!.crop = {
+        //     imgHeight: crop.imgHeight,
+        //     imgWidth: crop.imgWidth,
+        //     width: 300,
+        //     height: payload.ratio.height / payload.ratio.width * 300,
+        //     x: 0,
+        //     y: 0
+        //   };
+        // }
+      });
+    }
+    case SET_ACTIVE_PAGE: {
+      return createNewState(state, newState => {
+        newState.activePageIndex = action.pageIndex;
+        if (!newState.activeCard!.pages[action.pageIndex]) {
+          newState.activeCard!.pages[action.pageIndex] = {
+            shapes: [],
+            height: constants.card.dimensions.portrait.height,
+            width: constants.card.dimensions.portrait.width
           };
         }
       });
     }
-
     default: {
       return state;
     }

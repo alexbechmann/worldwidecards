@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { MenuItem } from 'material-ui';
-import { MenuItemProps } from 'material-ui/Menu';
+import { MenuItem } from '@material-ui/core';
+import { MenuItemProps } from '@material-ui/core/MenuItem';
 
 interface Props extends MenuItemProps {
   to: string;
