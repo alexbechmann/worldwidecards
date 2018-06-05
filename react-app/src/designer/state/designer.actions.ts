@@ -30,7 +30,8 @@ import {
   UpdateImageRatioArgs,
   UPDATE_IMAGE_RATIO,
   UpdateImageRatioPayload,
-  SET_ACTIVE_PAGE
+  SET_ACTIVE_PAGE,
+  SORT_SHAPES
 } from './designer.action-types';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { cardService } from '@app/cards/services/card.service';
@@ -172,6 +173,13 @@ export function updateImageRatio(args: UpdateImageRatioArgs) {
 export function setActivePage(pageIndex: number) {
   return {
     type: SET_ACTIVE_PAGE,
+    pageIndex
+  };
+}
+
+export function sortShapes(pageIndex: number) {
+  return {
+    type: SORT_SHAPES,
     pageIndex
   };
 }

@@ -32,7 +32,14 @@ import { TextControlsDialog } from '@app/designer/controls/text/TextControlsDial
 import { TextControls } from '@app/designer/controls/text/TextControls';
 import { ImageControls } from '@app/designer/controls/images/ImageControls';
 
-type StyleClassNames = 'root' | 'button' | 'cardControlsCard' | 'previewArea';
+type StyleClassNames =
+  | 'root'
+  | 'button'
+  | 'cardControlsCard'
+  | 'previewArea'
+  | 'miniPreview'
+  | 'miniPreviewDesktop'
+  | 'miniPreviewMobile';
 
 const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   root: {
@@ -47,6 +54,21 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   previewArea: {
     padding: '5% 20% 0px 20%',
     background: 'silver'
+  },
+  miniPreview: {
+    position: 'fixed',
+    background: 'white',
+    zIndex: 10000
+  },
+  miniPreviewDesktop: {
+    top: '147px',
+    right: theme.spacing.unit,
+    width: '170px'
+  },
+  miniPreviewMobile: {
+    top: theme.spacing.unit,
+    right: theme.spacing.unit,
+    width: '140px'
   }
 });
 
@@ -79,7 +101,20 @@ interface Props
     RouteComponentProps<RouteParameters>,
     WithStyles<StyleClassNames> {}
 
-class CardDesignerComponent extends React.Component<Props> {
+interface State {
+  showMiniPreviewMobile: boolean;
+}
+
+class CardDesignerComponent extends React.Component<Props, State> {
+  state: State = {
+    showMiniPreviewMobile: false
+  };
+
+  constructor(props: Props) {
+    super(props);
+    this.updateMiniPreviewState = this.updateMiniPreviewState.bind(this);
+  }
+
   render() {
     if (this.props.deleting) {
       return <CircularProgress />;
@@ -99,6 +134,14 @@ class CardDesignerComponent extends React.Component<Props> {
         mode: this.props.mode
       });
     }
+    window.addEventListener('scroll', this.updateMiniPreviewState);
+    window.addEventListener('resize', this.updateMiniPreviewState);
+  }
+
+  updateMiniPreviewState() {
+    this.setState({
+      showMiniPreviewMobile: window.scrollY > 200
+    });
   }
 
   renderDesigner() {
@@ -107,6 +150,7 @@ class CardDesignerComponent extends React.Component<Props> {
       return (
         <div>
           {this.renderStepper()}
+          {this.renderMiniPreview()}
           <div className={this.props.classes.root}>
             <CardDesignControls saveCardDesign={this.props.saveCardDesign} />
             <Grid container spacing={24}>
@@ -118,11 +162,11 @@ class CardDesignerComponent extends React.Component<Props> {
                     editable={true}
                   />
                   <br />
-                  {this.renderSaveStatus()}
                 </div>
+                {this.renderSaveStatus()}
               </Grid>
               <Grid item xs={12} sm={6} lg={4}>
-                {this.renderArtistShapeControls()}
+                {/* {this.renderArtistShapeControls()} */}
                 {/* {this.renderSelectShapeButtons()} */}
                 {this.renderInlineControls()}
               </Grid>
@@ -132,6 +176,34 @@ class CardDesignerComponent extends React.Component<Props> {
       );
     }
     return null;
+  }
+
+  renderMiniPreview() {
+    const { classes } = this.props;
+    return (
+      <div>
+        {this.state.showMiniPreviewMobile && (
+          <Hidden lgUp>
+            <div className={`${classes.miniPreview} ${classes.miniPreviewMobile}`}>
+              <CardPage
+                pageIndex={this.props.activePageIndex}
+                page={this.props.card!.pages[this.props.activePageIndex]}
+                editable={false}
+              />
+            </div>
+          </Hidden>
+        )}
+        <Hidden mdDown>
+          <div className={`${classes.miniPreview} ${classes.miniPreviewDesktop}`}>
+            <CardPage
+              pageIndex={this.props.activePageIndex}
+              page={this.props.card!.pages[this.props.activePageIndex]}
+              editable={true}
+            />
+          </div>
+        </Hidden>
+      </div>
+    );
   }
 
   renderSaveStatus() {
@@ -148,18 +220,18 @@ class CardDesignerComponent extends React.Component<Props> {
     }
   }
 
-  renderArtistShapeControls() {
-    const { editingShapePosition } = this.props;
-    if (editingShapePosition && this.props.card) {
-      const editingShape: Shape = this.props.card.pages[editingShapePosition.pageIndex].shapes[
-        editingShapePosition.shapeIndex
-      ];
-      if (this.canEditShape(editingShape)) {
-        return this.renderShapeControlDialog(editingShape, editingShapePosition);
-      }
-    }
-    return null;
-  }
+  // renderArtistShapeControls() {
+  //   const { editingShapePosition } = this.props;
+  //   if (editingShapePosition && this.props.card) {
+  //     const editingShape: Shape = this.props.card.pages[editingShapePosition.pageIndex].shapes[
+  //       editingShapePosition.shapeIndex
+  //     ];
+  //     if (this.canEditShape(editingShape)) {
+  //       return this.renderShapeControlDialog(editingShape, editingShapePosition);
+  //     }
+  //   }
+  //   return null;
+  // }
 
   renderShapeControl(shape: Shape, shapePosition: ShapePosition) {
     switch (shape.type) {
@@ -258,16 +330,16 @@ class CardDesignerComponent extends React.Component<Props> {
           {this.props.card!.pages[this.props.activePageIndex].shapes.map((shape, index) => {
             return (
               <Grid item xs={12} sm={12} md={12} lg={12} key={index}>
-                <Paper className={classes.cardControlsCard}>
-                  {this.canEditShape(shape) ? (
-                    this.renderShapeControl(shape, {
+                {this.canEditShape(shape) ? (
+                  <Paper className={classes.cardControlsCard}>
+                    {this.renderShapeControl(shape, {
                       pageIndex: this.props.activePageIndex,
                       shapeIndex: index
-                    })
-                  ) : (
-                    <span />
-                  )}
-                </Paper>
+                    })}
+                  </Paper>
+                ) : (
+                  <React.Fragment />
+                )}
               </Grid>
             );
           })}
@@ -296,6 +368,8 @@ class CardDesignerComponent extends React.Component<Props> {
 
   componentWillUnmount() {
     this.props.unSetActiveCard();
+    window.removeEventListener('scroll', this.updateMiniPreviewState);
+    window.removeEventListener('resize', this.updateMiniPreviewState);
   }
 }
 

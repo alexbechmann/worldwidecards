@@ -48,3 +48,5 @@ export type UpdateImageRatioArgs = { shapePosition: ShapePosition; ratio: { widt
 export type UpdateImageRatioPayload = UpdateImageRatioArgs;
 
 export const SET_ACTIVE_PAGE = 'WWC/SET_ACTIVE_PAGE';
+
+export const SORT_SHAPES = 'WWC/SORT_SHAPES';

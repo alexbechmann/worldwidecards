@@ -9,13 +9,14 @@ import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { UpdateShapePositionArgs } from '@app/designer/state/designer.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { combineContainers } from 'combine-containers';
-import { setEditingShape, updateShapePosition } from '@app/designer/state/designer.actions';
+import { setEditingShape, updateShapePosition, sortShapes } from '@app/designer/state/designer.actions';
 import { connect } from 'react-redux';
 import { AppState } from '@app/state/app.state';
 
 export interface DispatchProps {
   updateShapePosition: (args: UpdateShapePositionArgs) => any;
   setEditingShape: (position: ShapePosition) => any;
+  sortShapes: (pageIndex: number) => any;
 }
 
 interface ConnectProps {
@@ -112,6 +113,7 @@ class CardPageComponent extends React.Component<Props, State> {
               onTap={() => this.setEditingShape(index)}
               draggable={draggable}
               onDragMove={e => this.handleDragEvent(e, index)}
+              onDragEnd={() => this.props.sortShapes(this.props.pageIndex)}
               cropData={shape.imageData!.crop}
               ratio={shape.imageData!.ratio}
               preventDefault={this.props.editable}
@@ -139,6 +141,7 @@ class CardPageComponent extends React.Component<Props, State> {
               onTap={() => this.setEditingShape(index)}
               onDragMove={e => this.handleDragEvent(e, index)}
               preventDefault={this.props.editable}
+              onDragEnd={() => this.props.sortShapes(this.props.pageIndex)}
             />
           );
         }
@@ -210,7 +213,7 @@ function mapStateToProps(state: AppState, ownProps: CardPageProps): ConnectProps
   };
 }
 
-const mapDispatchToProps: DispatchProps = { setEditingShape, updateShapePosition };
+const mapDispatchToProps: DispatchProps = { setEditingShape, updateShapePosition, sortShapes };
 
 export const CardPage: React.ComponentType<CardPageProps> = combineContainers(CardPageComponent, [
   withTheme(),

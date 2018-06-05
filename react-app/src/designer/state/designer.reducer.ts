@@ -25,7 +25,8 @@ import {
   UPDATE_IMAGE_HREF,
   UPDATE_IMAGE_RATIO,
   UpdateImageRatioPayload,
-  SET_ACTIVE_PAGE
+  SET_ACTIVE_PAGE,
+  SORT_SHAPES
 } from './designer.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
@@ -108,17 +109,34 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
       return createNewState(state, newState => {
         // newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].x = payload.x;
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].y = payload.y;
+        // newState.activeCard!.pages[payload.pageIndex].shapes = newState.activeCard!.pages[
+        //   payload.pageIndex
+        // ].shapes.sort((a, b) => {
+        //   console.log(a.x, b, a.x! + b.x!);
+        //   return a.y! + b.y!;
+        // });
+      });
+    }
+    case SORT_SHAPES: {
+      const pageIndex: number = action.pageIndex;
+      return createNewState(state, newState => {
+        newState.activeCard!.pages[pageIndex].shapes = newState.activeCard!.pages[pageIndex].shapes.sort((a, b) => {
+          return a.y! - b.y!;
+        });
       });
     }
     case SET_IMAGE_CROP: {
       const payload: SetImageCropPayload = action.payload;
-
-      return createNewState(state, newState => {
-        newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
-          payload.shapePosition.shapeIndex
-        ].imageData!.crop =
-          payload.cropData;
-      });
+      if (payload.cropData.width > 0 && payload.cropData.height > 0) {
+        return createNewState(state, newState => {
+          newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
+            payload.shapePosition.shapeIndex
+          ].imageData!.crop =
+            payload.cropData;
+        });
+      } else {
+        return state;
+      }
     }
     case UPDATE_IMAGE_HREF: {
       const payload: UpdateImageHrefPayload = action.payload;
