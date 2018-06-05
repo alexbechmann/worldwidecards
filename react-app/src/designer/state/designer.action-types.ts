@@ -36,16 +36,13 @@ export const SET_IMAGE_CROP = 'WWC/SET_IMAGE_CROP';
 export type SetImageCropArgs = {
   cropData: CropData;
   shapePosition: ShapePosition;
+  ratio: { width: number; height: number };
 };
 export type SetImageCropPayload = SetImageCropArgs;
 
 export const UPDATE_IMAGE_HREF = 'WWC/UPDATE_IMAGE_HREF';
 export type UpdateImageHrefArgs = { shapePosition: ShapePosition; url: string };
 export type UpdateImageHrefPayload = UpdateImageHrefArgs;
-
-export const UPDATE_IMAGE_RATIO = 'WWC/UPDATE_IMAGE_RATIO';
-export type UpdateImageRatioArgs = { shapePosition: ShapePosition; ratio: { width: number; height: number } };
-export type UpdateImageRatioPayload = UpdateImageRatioArgs;
 
 export const SET_ACTIVE_PAGE = 'WWC/SET_ACTIVE_PAGE';
 

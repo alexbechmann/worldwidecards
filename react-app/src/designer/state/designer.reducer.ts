@@ -23,8 +23,6 @@ import {
   SET_IMAGE_CROP,
   UpdateImageHrefPayload,
   UPDATE_IMAGE_HREF,
-  UPDATE_IMAGE_RATIO,
-  UpdateImageRatioPayload,
   SET_ACTIVE_PAGE,
   SORT_SHAPES
 } from './designer.action-types';
@@ -109,12 +107,6 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
       return createNewState(state, newState => {
         // newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].x = payload.x;
         newState.activeCard!.pages[payload.pageIndex].shapes[payload.shapeIndex].y = payload.y;
-        // newState.activeCard!.pages[payload.pageIndex].shapes = newState.activeCard!.pages[
-        //   payload.pageIndex
-        // ].shapes.sort((a, b) => {
-        //   console.log(a.x, b, a.x! + b.x!);
-        //   return a.y! + b.y!;
-        // });
       });
     }
     case SORT_SHAPES: {
@@ -133,6 +125,10 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
             payload.shapePosition.shapeIndex
           ].imageData!.crop =
             payload.cropData;
+          newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
+            payload.shapePosition.shapeIndex
+          ].imageData!.ratio =
+            payload.ratio;
         });
       } else {
         return state;
@@ -148,30 +144,6 @@ export function designerReducer(state: DesignerState = defaultState, action: Any
         newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
           payload.shapePosition.shapeIndex
         ].imageData!.crop = undefined;
-      });
-    }
-    case UPDATE_IMAGE_RATIO: {
-      const payload: UpdateImageRatioPayload = action.payload;
-      return createNewState(state, newState => {
-        newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
-          payload.shapePosition.shapeIndex
-        ].imageData!.ratio =
-          payload.ratio;
-        // const crop = newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
-        //   payload.shapePosition.shapeIndex
-        // ].imageData!.crop;
-        // if (crop) {
-        //   newState.activeCard!.pages[payload.shapePosition.pageIndex].shapes[
-        //     payload.shapePosition.shapeIndex
-        //   ].imageData!.crop = {
-        //     imgHeight: crop.imgHeight,
-        //     imgWidth: crop.imgWidth,
-        //     width: 300,
-        //     height: payload.ratio.height / payload.ratio.width * 300,
-        //     x: 0,
-        //     y: 0
-        //   };
-        // }
       });
     }
     case SET_ACTIVE_PAGE: {

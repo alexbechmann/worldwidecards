@@ -72,28 +72,3 @@ steps:
   inputs:
     filename: 'firebase'
     arguments: 'deploy --token $(FIREBASE_TOKEN)'
-
-# - task: CopyFiles@2
-#   inputs:
-#     Contents: |
-#      .firebaserc
-#      database.rules.json
-#      firebase.json
-#      firestore.indexes.json
-#      firestore.rules
-#      storage.rules
-#      functions/**
-#      react-app/build/**
-#     TargetFolder: '$(build.artifactstagingdirectory)/prezip/firebase-app/'
-
-# - task: ArchiveFiles@2
-#   inputs:
-#     rootFolderOrFile: '$(build.artifactstagingdirectory)/prezip/firebase-app/'
-#     includeRootFolder: false
-#     archiveFile: '$(Build.ArtifactStagingDirectory)/zip/firebase-app.zip'
-
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: '$(Build.ArtifactStagingDirectory)/zip/firebase-app.zip'
-#     ArtifactName: 'firebase-app'
-#     publishLocation: Container

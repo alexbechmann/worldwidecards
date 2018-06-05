@@ -5,8 +5,7 @@ import {
   UpdateShapeWidthArgs,
   ToggleAllowUserEditArgs,
   SetImageCropArgs,
-  UpdateImageHrefArgs,
-  UpdateImageRatioArgs
+  UpdateImageHrefArgs
 } from '@app/designer/state/designer.action-types';
 import { Shape, Page } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
@@ -18,8 +17,7 @@ import {
   updateShapeWidth,
   toggleAllowUserEdit,
   setImageCrop,
-  updateImageHref,
-  updateImageRatio
+  updateImageHref
 } from '@app/designer/state/designer.actions';
 import { connect } from 'react-redux';
 import { combineContainers } from 'combine-containers';
@@ -40,7 +38,6 @@ export interface ImageControlsComponentDispatchProps {
   toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
   setImageCrop: (args: SetImageCropArgs) => any;
   updateImageHref: (args: UpdateImageHrefArgs) => any;
-  updateImageRatio: (args: UpdateImageRatioArgs) => any;
 }
 
 type ClassNames = 'formControl';
@@ -107,14 +104,11 @@ class ImageControlsComponent extends React.Component<Props, State> {
                 y: crop.y!,
                 width: crop.width!,
                 height: crop.height!
-              }
-            });
-            this.props.updateImageRatio({
+              },
               ratio: {
                 width: pixelCrop.width!,
                 height: pixelCrop.height!
-              },
-              shapePosition: this.props.shapePosition
+              }
             });
           }}
           crop={imageCrop}
@@ -123,43 +117,42 @@ class ImageControlsComponent extends React.Component<Props, State> {
               image: img
             });
             if (!this.props.shape.imageData!.crop) {
-              const customerCrop = ReactCrop.makeAspectCrop(
-                {
-                  x: 0,
-                  y: 0,
-                  width: img.width,
-                  aspect: this.props.shape.imageData!.ratio!.width! / this.props.shape.imageData!.ratio!.height!
-                },
-                img.width / img.height
-              );
+              if (this.props.mode === DesignerMode.Artist) {
+                this.props.setImageCrop({
+                  shapePosition: this.props.shapePosition,
+                  cropData: {
+                    x: 0,
+                    y: 0,
+                    width: 100,
+                    height: 100
+                  },
+                  ratio: {
+                    width: img.width!,
+                    height: img.height!
+                  }
+                });
+              } else if (this.props.mode === DesignerMode.Customer) {
+                const customerCrop = ReactCrop.makeAspectCrop(
+                  {
+                    x: 0,
+                    y: 0,
+                    width: img.width,
+                    aspect: this.props.shape.imageData!.ratio!.width! / this.props.shape.imageData!.ratio!.height!
+                  },
+                  img.width / img.height
+                );
 
-              this.props.setImageCrop({
-                shapePosition: this.props.shapePosition,
-                cropData:
-                  this.props.mode === DesignerMode.Artist
-                    ? {
-                        x: 0,
-                        y: 0,
-                        width: 100,
-                        height: 100
-                      }
-                    : {
-                        x: customerCrop.x,
-                        y: customerCrop.y,
-                        width: customerCrop.width!,
-                        height: customerCrop.height!
-                      }
-              });
-              this.props.updateImageRatio({
-                ratio:
-                  this.props.mode === DesignerMode.Artist
-                    ? {
-                        width: img.width!,
-                        height: img.height!
-                      }
-                    : this.props.shape.imageData!.ratio!,
-                shapePosition: this.props.shapePosition
-              });
+                this.props.setImageCrop({
+                  shapePosition: this.props.shapePosition,
+                  cropData: {
+                    x: customerCrop.x,
+                    y: customerCrop.y,
+                    width: customerCrop.width!,
+                    height: customerCrop.height!
+                  },
+                  ratio: this.props.shape.imageData!.ratio!
+                });
+              }
             }
           }}
         />
@@ -241,8 +234,7 @@ const mapDispatchToProps: ImageControlsComponentDispatchProps = {
   updateShapeWidth,
   toggleAllowUserEdit,
   setImageCrop,
-  updateImageHref,
-  updateImageRatio
+  updateImageHref
 };
 
 export const ImageControls: React.ComponentType<ImageControlsProps> = combineContainers(ImageControlsComponent, [

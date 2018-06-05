@@ -27,9 +27,6 @@ import {
   UPDATE_IMAGE_HREF,
   UpdateImageHrefPayload,
   UpdateImageHrefArgs,
-  UpdateImageRatioArgs,
-  UPDATE_IMAGE_RATIO,
-  UpdateImageRatioPayload,
   SET_ACTIVE_PAGE,
   SORT_SHAPES
 } from './designer.action-types';
@@ -160,13 +157,6 @@ export function updateImageHref(args: UpdateImageHrefArgs) {
   return {
     type: UPDATE_IMAGE_HREF,
     payload: args as UpdateImageHrefPayload
-  };
-}
-
-export function updateImageRatio(args: UpdateImageRatioArgs) {
-  return {
-    type: UPDATE_IMAGE_RATIO,
-    payload: args as UpdateImageRatioPayload
   };
 }
 
