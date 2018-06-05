@@ -61,6 +61,6 @@ export class ImageRect extends React.Component<Props, State> {
   }
 
   calculateHeight(): number {
-    return this.props.width! * (this.props.ratio.height / this.props.ratio.width);
+    return this.props.width! / (this.props.ratio.width / this.props.ratio.height);
   }
 }

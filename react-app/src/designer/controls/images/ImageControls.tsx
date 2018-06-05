@@ -90,7 +90,7 @@ class ImageControlsComponent extends React.Component<Props, State> {
         <ReactCrop
           style={{ width: '100%' }}
           src={this.props.shape.imageData!.href}
-          onChange={crop => {
+          onChange={(crop, pixelCrop) => {
             this.props.setImageCrop({
               shapePosition: this.props.shapePosition,
               cropData: {
@@ -104,8 +104,8 @@ class ImageControlsComponent extends React.Component<Props, State> {
             });
             this.props.updateImageRatio({
               ratio: {
-                width: crop.width!,
-                height: crop.height!
+                width: pixelCrop.width!,
+                height: pixelCrop.height!
               },
               shapePosition: this.props.shapePosition
             });

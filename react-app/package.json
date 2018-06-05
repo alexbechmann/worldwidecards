@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^1.2.0",
     "@material-ui/icons": "^1.1.0",
+    "@material-ui/lab": "^1.0.0-alpha.4",
     "@wwc/core": "file:../core",
     "combine-containers": "0.0.3-alpha",
     "deep-freeze": "0.0.1",
