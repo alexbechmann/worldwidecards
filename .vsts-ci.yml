@@ -63,12 +63,14 @@ steps:
     customCommand: 'test'
 
 - task: Npm@1
+  condition: eq(variables['deploy'], 'true')
   inputs:
     command: custom
     verbose: false
     customCommand: 'install firebase-tools -g'
-
+  
 - task: CmdLine@1
+  condition: eq(variables['deploy'], 'true')
   inputs:
     filename: 'firebase'
     arguments: 'deploy --token $(FIREBASE_TOKEN)'
