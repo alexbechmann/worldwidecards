@@ -64,9 +64,9 @@ steps:
 
 - task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
   condition: eq(variables['deploy'], 'true')
-  displayName: Config transform - $(System.DefaultWorkingDirectory)\tmp\.firebaserc
+  displayName: Config transform - .firebaserc
   inputs:
-    sourcePath: '$(System.DefaultWorkingDirectory)\tmp\.firebaserc'
+    sourcePath: '.firebaserc'
     transformations: |
      {
        "projects/default": "$(REACT_APP_FIREBASE_CONFIG_PROJECT_ID)"
@@ -76,7 +76,6 @@ steps:
   condition: eq(variables['deploy'], 'true')
   displayName: Replace tokens in **/react-app/build/static/js/main.*.js
   inputs:
-    rootDirectory: '$(System.DefaultWorkingDirectory)\tmp\'
     targetFiles: '**/react-app/build/static/js/main.*.js'
 
 
