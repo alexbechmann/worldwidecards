@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Login } from '@app/auth/login/Login';
 import { LinearProgress } from '@material-ui/core';
-import { AppMenuBar } from '@app/menu/AppMenuBar';
+import AppMenuBar from '@app/menu/AppMenuBar';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { routes } from '@app/shared/router/routes';
-import { ArtistDesignsBrowser } from '@app/artist/ArtistDesignsBrowser';
-import { ArtistCardDesigner } from '@app/artist/ArtistCardDesigner';
-import { CustomerCardDesigner } from '@app/customer/CustomerCardDesigner';
-import { CustomerCardBrowser } from '@app/customer/CustomerCardBrowser';
+import ArtistDesignsBrowser from '@app/artist/ArtistDesignsBrowser';
+import ArtistCardDesigner from '@app/artist/ArtistCardDesigner';
+import CustomerCardDesigner from '@app/customer/CustomerCardDesigner';
+import CustomerCardBrowser from '@app/customer/CustomerCardBrowser';
 import { initAuth } from '@app/auth/state/auth.actions';
 import { AppState } from '@app/state/app.state';
 import { connect } from 'react-redux';

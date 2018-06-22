@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { saveCardDesign } from './state/artist.actions';
-import { CardDesigner, CardDesignerConnectProps, CardDesignerDispatchProps } from '@app/designer/CardDesigner';
+import CardDesigner, { CardDesignerConnectProps, CardDesignerDispatchProps } from '@app/designer/CardDesigner';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { AppState } from '@app/state/app.state';
 
@@ -13,4 +13,4 @@ function mapStateToProps(state: AppState): CardDesignerConnectProps {
   };
 }
 
-export const ArtistCardDesigner = connect(mapStateToProps, mapDispatchToProps)(CardDesigner);
+export default connect(mapStateToProps, mapDispatchToProps)(CardDesigner);

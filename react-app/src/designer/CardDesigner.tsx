@@ -15,7 +15,7 @@ import {
   Hidden
 } from '@material-ui/core';
 import { Card, constants, Shape } from '@wwc/core';
-import { CardPage } from '@app/cards/pages/CardPage';
+import CardPage from '@app/cards/pages/CardPage';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
@@ -405,7 +405,7 @@ const mapDispatchToProps: CardDesignerComponentDispatchProps = {
   setActivePage
 };
 
-export const CardDesigner: React.ComponentType<CardDesignerProps> = combineContainers(CardDesignerComponent, [
+export default combineContainers(CardDesignerComponent, [
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps, mapDispatchToProps)
-]);
+]) as React.ComponentType<CardDesignerProps>;

@@ -15,7 +15,7 @@ import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
 import { AppState } from '@app/state/app.state';
 
-type StyleClassNames = 'button';
+type ClassNames = 'button';
 
 const styles = (theme: Theme) => ({
   button: {
@@ -47,7 +47,7 @@ interface Props
     ConnectProps,
     RouterProps,
     RouteComponentProps<{ id: string }>,
-    WithStyles<StyleClassNames> {}
+    WithStyles<ClassNames> {}
 
 class CardDesignControlsComponent extends React.Component<Props, State> {
   constructor(props: Props) {

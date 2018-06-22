@@ -25,24 +25,24 @@ import { logout } from '@app/auth/state/auth.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
 
-interface AppMenuBarComponentProps {
+interface AppMenuBarProps {
   isLoggedIn: boolean;
   currentUser?: UserInfo;
 }
 
-interface AppMenuBarComponentDispatchProps {
+interface AppMenuBarDispatchProps {
   logout: () => any;
 }
 
-interface Props extends AppMenuBarComponentProps, AppMenuBarComponentDispatchProps, WithStyles<StyleClassNames> {}
+interface Props extends AppMenuBarProps, AppMenuBarDispatchProps, WithStyles<ClassNames> {}
 
 interface State {
   showDrawer: boolean;
 }
 
-type StyleClassNames = 'root' | 'flex' | 'avatar';
+type ClassNames = 'root' | 'flex' | 'avatar';
 
-const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
+const styles: StyleRulesCallback<ClassNames> = (theme: Theme) => ({
   root: {
     flexGrow: 1
   },
@@ -54,7 +54,7 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   }
 });
 
-class AppMenuBarComponent extends React.Component<Props, State> {
+class AppMenuBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -145,16 +145,16 @@ class AppMenuBarComponent extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: AppState): AppMenuBarComponentProps {
+function mapStateToProps(state: AppState): AppMenuBarProps {
   return {
     isLoggedIn: state.auth.currentUser != null,
     currentUser: state.auth.currentUser
   };
 }
 
-const mapDispatchToProps: AppMenuBarComponentDispatchProps = { logout };
+const mapDispatchToProps: AppMenuBarDispatchProps = { logout };
 
-export const AppMenuBar = combineContainers(AppMenuBarComponent, [
+export default combineContainers(AppMenuBar, [
   connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles, { withTheme: true })
-]);
+]) as React.ComponentType<{}>;

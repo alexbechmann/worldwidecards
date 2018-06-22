@@ -1,6 +1,6 @@
 import { AppState } from '@app/state/app.state';
 import { connect } from 'react-redux';
-import { CardBrowserProps, CardBrowser, CardBrowserDispatchProps } from '@app/cards/CardBrowser';
+import CardBrowser, { CardBrowserProps, CardBrowserDispatchProps } from '@app/cards/CardBrowser';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { startWatchingAllCardDesigns } from '@app/customer/state/customer.actions';
 
@@ -17,4 +17,4 @@ function mapStateToProps(state: AppState): CardBrowserProps {
 
 const mapDispatchToProps: CardBrowserDispatchProps = { startWatchingAllCardDesigns };
 
-export const ArtistDesignsBrowser = connect(mapStateToProps, mapDispatchToProps)(CardBrowser);
+export default connect(mapStateToProps, mapDispatchToProps)(CardBrowser);

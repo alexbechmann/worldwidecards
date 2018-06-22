@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card } from '@wwc/core';
-import { CardPage } from '@app/cards/pages/CardPage';
+import CardPage from '@app/cards/pages/CardPage';
 import {
   Grid,
   Typography,
@@ -27,9 +27,9 @@ export interface CardBrowserDispatchProps {
   startWatchingAllCardDesigns: () => any;
 }
 
-type StyleClassNames = 'root' | 'bottomMargin';
+type ClassNames = 'root' | 'bottomMargin';
 
-const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
+const styles: StyleRulesCallback<ClassNames> = (theme: Theme) => ({
   root: {
     margin: theme.spacing.unit * 2
   },
@@ -38,9 +38,9 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   }
 });
 
-interface Props extends CardBrowserProps, CardBrowserDispatchProps, WithStyles<StyleClassNames> {}
+interface Props extends CardBrowserProps, CardBrowserDispatchProps, WithStyles<ClassNames> {}
 
-class CardBrowserComponent extends React.Component<Props> {
+class CardBrowser extends React.Component<Props> {
   render() {
     return (
       <div className={this.props.classes.root}>
@@ -95,4 +95,4 @@ class CardBrowserComponent extends React.Component<Props> {
   }
 }
 
-export const CardBrowser = withStyles(styles)(CardBrowserComponent);
+export default withStyles(styles)(CardBrowser);

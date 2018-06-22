@@ -33,7 +33,7 @@ interface State {
 
 interface Props extends ConnectProps, DispatchProps, WithThemeProps {}
 
-class CardPageComponent extends React.Component<Props, State> {
+class CardPage extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -215,7 +215,7 @@ function mapStateToProps(state: AppState, ownProps: CardPageProps): ConnectProps
 
 const mapDispatchToProps: DispatchProps = { setEditingShape, updateShapePosition, sortShapes };
 
-export const CardPage: React.ComponentType<CardPageProps> = combineContainers(CardPageComponent, [
+export default combineContainers(CardPage, [
   withTheme(),
   connect(mapStateToProps, mapDispatchToProps)
-]);
+]) as React.ComponentType<CardPageProps>;
