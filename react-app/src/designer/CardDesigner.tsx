@@ -27,10 +27,10 @@ import { AppState } from '@app/state/app.state';
 import { setActiveCard, unSetActiveCard, setEditingShape, setActivePage } from '@app/designer/state/designer.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
-import { ImageControlsDialog } from '@app/designer/controls/images/ImageControlsDialog';
-import { TextControlsDialog } from '@app/designer/controls/text/TextControlsDialog';
-import { TextControls } from '@app/designer/controls/text/TextControls';
-import { ImageControls } from '@app/designer/controls/images/ImageControls';
+import ImageControlsDialog from '@app/designer/controls/images/ImageControlsDialog';
+import TextControlsDialog from '@app/designer/controls/text/TextControlsDialog';
+import TextControls from '@app/designer/controls/text/TextControls';
+import ImageControls from '@app/designer/controls/images/ImageControls';
 
 type StyleClassNames =
   | 'root'
