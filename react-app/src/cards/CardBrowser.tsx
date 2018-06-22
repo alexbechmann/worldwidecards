@@ -11,7 +11,7 @@ import {
   withStyles
 } from '@material-ui/core';
 import { routes } from '@app/shared/router/routes';
-import { RouteButton } from '@app/shared/ui';
+import RouteButton from '@app/shared/ui/RouteButton';
 import { DesignerMode } from '@app/designer/designer-mode';
 
 export interface CardBrowserProps {

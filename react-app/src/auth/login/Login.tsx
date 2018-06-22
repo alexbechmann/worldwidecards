@@ -21,4 +21,4 @@ class LoginComponent extends React.Component<Props> {
 
 const mapDispatchToProps: LoginLoginComponentDispatchProps = { loginWithFacebook };
 
-export const Login = connect(null, mapDispatchToProps)(LoginComponent);
+export default connect(null, mapDispatchToProps)(LoginComponent);

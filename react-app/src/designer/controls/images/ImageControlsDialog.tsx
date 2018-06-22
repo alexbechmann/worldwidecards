@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { DialogPopup } from '@app/shared/ui/DialogPopup';
+import DialogPopup from '@app/shared/ui/DialogPopup';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { Shape, Page } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { Grid, Theme } from '@material-ui/core';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
-import { CardPage } from '@app/cards/pages/CardPage';
+import CardPage from '@app/cards/pages/CardPage';
 import { AppState } from '@app/state/app.state';
 import { removeEditingShape } from '@app/designer/state/designer.actions';
 import { connect } from 'react-redux';

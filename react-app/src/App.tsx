@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Login } from '@app/auth/login/Login';
+import Login from '@app/auth/login/Login';
 import { LinearProgress } from '@material-ui/core';
 import AppMenuBar from '@app/menu/AppMenuBar';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -71,4 +71,4 @@ function mapStateToProps(state: AppState): AppComponentProps {
 
 const mapDispatchToProps: AppComponentDispatchProps = { initAuth };
 
-export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(AppComponent);

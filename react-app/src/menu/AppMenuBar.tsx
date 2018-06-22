@@ -16,10 +16,10 @@ import {
 } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { routes } from '@app/shared/router/routes';
-import { RouteButton } from '@app/shared/ui';
+import RouteButton from '@app/shared/ui/RouteButton';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { UserInfo } from 'firebase';
-import { RouteMenuItem } from '@app/shared/ui/RouteMenuItem';
+import RouteMenuItem from '@app/shared/ui/RouteMenuItem';
 import { AppState } from '@app/state/app.state';
 import { logout } from '@app/auth/state/auth.actions';
 import { combineContainers } from 'combine-containers';

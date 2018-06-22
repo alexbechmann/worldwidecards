@@ -19,7 +19,7 @@ import CardPage from '@app/cards/pages/CardPage';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
-import { TimeAgo } from '@app/shared/ui';
+import TimeAgo from '@app/shared/ui/TimeAgo';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { CardDesignControls } from '@app/designer/controls/CardDesignControls';
 import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';

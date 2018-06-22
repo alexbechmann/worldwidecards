@@ -19,7 +19,7 @@ interface Props extends DialogProps {
   extraDialogButtons?: React.ComponentType<ButtonProps>[];
 }
 
-class TextControlsComponent extends React.Component<Props> {
+class TextControls extends React.Component<Props> {
   render() {
     const { fullScreen } = this.props;
     return (
@@ -47,4 +47,4 @@ class TextControlsComponent extends React.Component<Props> {
   }
 }
 
-export const DialogPopup: React.ComponentType<Props> = withMobileDialog<Props>()(TextControlsComponent);
+export default withMobileDialog<Props>()(TextControls) as React.ComponentType<Props>;
