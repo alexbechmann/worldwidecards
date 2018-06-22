@@ -10,16 +10,16 @@ import { AppState } from '@app/state/app.state';
 import { removeEditingShape } from '@app/designer/state/designer.actions';
 import { connect } from 'react-redux';
 import { combineContainers } from 'combine-containers';
-import { ImageControls } from '@app/designer/controls/images/ImageControls';
+import ImageControls from '@app/designer/controls/images/ImageControls';
 
-export interface ImageControlsDialogComponentProps {
+export interface ImageControlsDialogProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
 }
 
-export interface ImageControlsDialogComponentDispatchProps {
+export interface ImageControlsDialogDispatchProps {
   removeEditingShape: (position: ShapePosition) => any;
 }
 
@@ -35,12 +35,9 @@ interface State {
   cropperImgLoading: boolean;
 }
 
-interface Props
-  extends ImageControlsDialogComponentProps,
-    ImageControlsDialogComponentDispatchProps,
-    WithStyles<ClassNames> {}
+interface Props extends ImageControlsDialogProps, ImageControlsDialogDispatchProps, WithStyles<ClassNames> {}
 
-class ImageControlsDialogComponent extends React.Component<Props, State> {
+class ImageControlsDialog extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -77,7 +74,7 @@ export interface ImageControlsDialogProps {
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): ImageControlsDialogComponentProps {
+function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): ImageControlsDialogProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
@@ -86,11 +83,11 @@ function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): I
   };
 }
 
-const mapDispatchToProps: ImageControlsDialogComponentDispatchProps = {
+const mapDispatchToProps: ImageControlsDialogDispatchProps = {
   removeEditingShape
 };
 
-export const ImageControlsDialog: React.ComponentType<ImageControlsDialogProps> = combineContainers(
-  ImageControlsDialogComponent,
-  [connect(mapStateToProps, mapDispatchToProps), withStyles(styles, { withTheme: true })]
-);
+export default combineContainers(ImageControlsDialog, [
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(styles, { withTheme: true })
+]) as React.ComponentType<ImageControlsDialogProps>;

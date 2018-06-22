@@ -26,14 +26,14 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export interface TextControlsComponentDispatchProps {
+export interface TextControlsDispatchProps {
   updateText: (args: UpdateTextArgs) => any;
   removeShape: (args: RemoveShapeArgs) => any;
   updateShapeWidth: (args: UpdateShapeWidthArgs) => any;
   toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
 }
 
-export interface TextControlsComponentProps {
+export interface TextControlsProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
@@ -41,9 +41,9 @@ export interface TextControlsComponentProps {
   active: boolean;
 }
 
-interface Props extends WithStyles<ClassNames>, TextControlsComponentProps, TextControlsComponentDispatchProps {}
+interface Props extends WithStyles<ClassNames>, TextControlsProps, TextControlsDispatchProps {}
 
-class TextControlsComponent extends React.Component<Props> {
+class TextControls extends React.Component<Props> {
   render() {
     const { classes } = this.props;
     return (
@@ -115,7 +115,7 @@ export interface TextControlsProps {
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: TextControlsProps): TextControlsComponentProps {
+function mapStateToProps(state: AppState, ownProps: TextControlsProps): TextControlsProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
@@ -127,14 +127,14 @@ function mapStateToProps(state: AppState, ownProps: TextControlsProps): TextCont
   };
 }
 
-const mapDispatchToProps: TextControlsComponentDispatchProps = {
+const mapDispatchToProps: TextControlsDispatchProps = {
   updateText,
   removeShape,
   updateShapeWidth,
   toggleAllowUserEdit
 };
 
-export const TextControls: React.ComponentType<TextControlsProps> = combineContainers(TextControlsComponent, [
+export default combineContainers(TextControls, [
   withStyles(styles),
   connect(mapStateToProps, mapDispatchToProps)
-]);
+]) as React.ComponentType<TextControlsProps>;

@@ -241,7 +241,7 @@ const mapDispatchToProps: ImageControlsComponentDispatchProps = {
   updateImageHref
 };
 
-export const ImageControls: React.ComponentType<ImageControlsProps> = combineContainers(ImageControlsComponent, [
+export default combineContainers(ImageControlsComponent, [
   connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles, { withTheme: true })
-]);
+]) as React.ComponentType<ImageControlsProps>;

@@ -11,7 +11,7 @@ import { removeShape, removeEditingShape } from '@app/designer/state/designer.ac
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
 import { RemoveShapeArgs } from '@app/designer/state/designer.action-types';
-import { TextControls } from '@app/designer/controls/text/TextControls';
+import TextControls from '@app/designer/controls/text/TextControls';
 
 type ClassNames = 'button' | 'formControl';
 
@@ -24,24 +24,21 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export interface TextControlsDialogComponentDispatchProps {
+export interface TextControlsDialogDispatchProps {
   removeShape: (args: RemoveShapeArgs) => any;
   removeEditingShape: (position: ShapePosition) => any;
 }
 
-export interface TextControlsDialogComponentProps {
+export interface TextControlsDialogProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
 }
 
-interface Props
-  extends WithStyles<ClassNames>,
-    TextControlsDialogComponentProps,
-    TextControlsDialogComponentDispatchProps {}
+interface Props extends WithStyles<ClassNames>, TextControlsDialogProps, TextControlsDialogDispatchProps {}
 
-class TextControlsDialogComponent extends React.Component<Props> {
+class TextControlsDialog extends React.Component<Props> {
   render() {
     return this.props.shape.type === constants.shapes.types.text ? (
       <DialogPopup
@@ -84,7 +81,7 @@ export interface TextControlsDialogProps {
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: TextControlsDialogProps): TextControlsDialogComponentProps {
+function mapStateToProps(state: AppState, ownProps: TextControlsDialogProps): TextControlsDialogProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
@@ -93,12 +90,12 @@ function mapStateToProps(state: AppState, ownProps: TextControlsDialogProps): Te
   };
 }
 
-const mapDispatchToProps: TextControlsDialogComponentDispatchProps = {
+const mapDispatchToProps: TextControlsDialogDispatchProps = {
   removeShape,
   removeEditingShape
 };
 
-export const TextControlsDialog: React.ComponentType<TextControlsDialogProps> = combineContainers(
-  TextControlsDialogComponent,
-  [withStyles(styles), connect(mapStateToProps, mapDispatchToProps)]
-);
+export default combineContainers(TextControlsDialog, [
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+]) as React.ComponentType<TextControlsDialogProps>;
