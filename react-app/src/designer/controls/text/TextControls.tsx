@@ -33,7 +33,7 @@ export interface TextControlsDispatchProps {
   toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
 }
 
-export interface TextControlsProps {
+export interface TextControlsConnectProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
@@ -41,7 +41,7 @@ export interface TextControlsProps {
   active: boolean;
 }
 
-interface Props extends WithStyles<ClassNames>, TextControlsProps, TextControlsDispatchProps {}
+interface Props extends WithStyles<ClassNames>, TextControlsConnectProps, TextControlsDispatchProps {}
 
 class TextControls extends React.Component<Props> {
   render() {
@@ -115,7 +115,7 @@ export interface TextControlsProps {
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: TextControlsProps): TextControlsProps {
+function mapStateToProps(state: AppState, ownProps: TextControlsProps): TextControlsConnectProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,

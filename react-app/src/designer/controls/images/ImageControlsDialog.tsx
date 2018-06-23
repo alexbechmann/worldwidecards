@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { combineContainers } from 'combine-containers';
 import ImageControls from '@app/designer/controls/images/ImageControls';
 
-export interface ImageControlsDialogProps {
+interface ImageControlsDialogConnectProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
@@ -35,7 +35,7 @@ interface State {
   cropperImgLoading: boolean;
 }
 
-interface Props extends ImageControlsDialogProps, ImageControlsDialogDispatchProps, WithStyles<ClassNames> {}
+interface Props extends ImageControlsDialogConnectProps, ImageControlsDialogDispatchProps, WithStyles<ClassNames> {}
 
 class ImageControlsDialog extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -74,7 +74,7 @@ export interface ImageControlsDialogProps {
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): ImageControlsDialogProps {
+function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): ImageControlsDialogConnectProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,

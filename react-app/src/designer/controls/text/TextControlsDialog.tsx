@@ -29,14 +29,14 @@ export interface TextControlsDialogDispatchProps {
   removeEditingShape: (position: ShapePosition) => any;
 }
 
-export interface TextControlsDialogProps {
+export interface TextControlsDialogConnectProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
 }
 
-interface Props extends WithStyles<ClassNames>, TextControlsDialogProps, TextControlsDialogDispatchProps {}
+interface Props extends WithStyles<ClassNames>, TextControlsDialogConnectProps, TextControlsDialogDispatchProps {}
 
 class TextControlsDialog extends React.Component<Props> {
   render() {
@@ -81,7 +81,7 @@ export interface TextControlsDialogProps {
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: TextControlsDialogProps): TextControlsDialogProps {
+function mapStateToProps(state: AppState, ownProps: TextControlsDialogProps): TextControlsDialogConnectProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
