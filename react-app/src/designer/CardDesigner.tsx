@@ -15,22 +15,22 @@ import {
   Hidden
 } from '@material-ui/core';
 import { Card, constants, Shape } from '@wwc/core';
-import { CardPage } from '@app/cards/pages/CardPage';
+import CardPage from '@app/cards/pages/CardPage';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { RouteComponentProps } from 'react-router';
 import { UserInfo } from 'firebase';
-import { TimeAgo } from '@app/shared/ui';
+import TimeAgo from '@app/shared/ui/TimeAgo';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { CardDesignControls } from '@app/designer/controls/CardDesignControls';
-import { SetActiveCardArgs } from '@app/designer/state/designer.action-types';
 import { AppState } from '@app/state/app.state';
 import { setActiveCard, unSetActiveCard, setEditingShape, setActivePage } from '@app/designer/state/designer.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
-import { ImageControlsDialog } from '@app/designer/controls/images/ImageControlsDialog';
-import { TextControlsDialog } from '@app/designer/controls/text/TextControlsDialog';
-import { TextControls } from '@app/designer/controls/text/TextControls';
-import { ImageControls } from '@app/designer/controls/images/ImageControls';
+import ImageControlsDialog from '@app/designer/controls/images/ImageControlsDialog';
+import TextControlsDialog from '@app/designer/controls/text/TextControlsDialog';
+import TextControls from '@app/designer/controls/text/TextControls';
+import ImageControls from '@app/designer/controls/images/ImageControls';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
 type StyleClassNames =
   | 'root'
@@ -72,7 +72,7 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   }
 });
 
-interface CardDesignerComponentProps {
+interface CardDesignerProps {
   card?: Card;
   editingShapePosition?: ShapePosition;
   currentUser?: UserInfo;
@@ -84,20 +84,13 @@ interface CardDesignerComponentProps {
   saveCardDesign: (user: UserInfo, card: Card) => any;
 }
 
-interface CardDesignerComponentDispatchProps {
-  setActiveCard: (args: SetActiveCardArgs) => any;
-  setEditingShape: (position: ShapePosition) => any;
-  unSetActiveCard: () => any;
-  setActivePage: (pageIndex: number) => any;
-}
-
 interface RouteParameters {
   id: string;
 }
 
 interface Props
-  extends CardDesignerComponentProps,
-    CardDesignerComponentDispatchProps,
+  extends CardDesignerProps,
+    ConnectedReduxProps,
     RouteComponentProps<RouteParameters>,
     WithStyles<StyleClassNames> {}
 
@@ -105,7 +98,7 @@ interface State {
   showMiniPreviewMobile: boolean;
 }
 
-class CardDesignerComponent extends React.Component<Props, State> {
+class CardDesigner extends React.Component<Props, State> {
   state: State = {
     showMiniPreviewMobile: false
   };
@@ -128,11 +121,13 @@ class CardDesignerComponent extends React.Component<Props, State> {
 
   componentDidMount() {
     if (!this.props.card || (this.props.card.id !== this.props.match.params.id && this.props.currentUser)) {
-      this.props.setActiveCard({
-        user: this.props.currentUser!,
-        cardId: this.props.match.params.id,
-        mode: this.props.mode
-      });
+      this.props.dispatch(
+        setActiveCard({
+          user: this.props.currentUser!,
+          cardId: this.props.match.params.id,
+          mode: this.props.mode
+        })
+      );
     }
     window.addEventListener('scroll', this.updateMiniPreviewState);
     window.addEventListener('resize', this.updateMiniPreviewState);
@@ -303,10 +298,12 @@ class CardDesignerComponent extends React.Component<Props, State> {
                 <Button
                   className={this.props.classes.button}
                   onClick={() =>
-                    this.props.setEditingShape({
-                      pageIndex: 0,
-                      shapeIndex: index
-                    })
+                    this.props.dispatch(
+                      setEditingShape({
+                        pageIndex: 0,
+                        shapeIndex: index
+                      })
+                    )
                   }
                 >
                   Edit {shape.type} {index}
@@ -356,7 +353,7 @@ class CardDesignerComponent extends React.Component<Props, State> {
         {steps.map((label, index) => {
           return (
             <Step key={label}>
-              <StepButton onClick={() => this.props.setActivePage(index)} completed={false}>
+              <StepButton onClick={() => this.props.dispatch(setActivePage({ pageIndex: index }))} completed={false}>
                 {label}
               </StepButton>
             </Step>
@@ -367,24 +364,19 @@ class CardDesignerComponent extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    this.props.unSetActiveCard();
+    this.props.dispatch(unSetActiveCard());
     window.removeEventListener('scroll', this.updateMiniPreviewState);
     window.removeEventListener('resize', this.updateMiniPreviewState);
   }
 }
 
-export interface CardDesignerConnectProps {
+export interface CardDesignerExtendedProps {
   mode: DesignerMode;
   deleting: boolean;
-}
-
-export interface CardDesignerDispatchProps {
   saveCardDesign: (user: UserInfo, card: Card) => any;
 }
 
-export interface CardDesignerProps extends CardDesignerConnectProps, CardDesignerDispatchProps {}
-
-function mapStateToProps(state: AppState, ownProps: CardDesignerProps): CardDesignerComponentProps {
+function mapStateToProps(state: AppState, ownProps: CardDesignerExtendedProps): CardDesignerProps {
   return {
     card: state.designer.activeCard,
     editingShapePosition: state.designer.editingShapePosition,
@@ -398,14 +390,7 @@ function mapStateToProps(state: AppState, ownProps: CardDesignerProps): CardDesi
   };
 }
 
-const mapDispatchToProps: CardDesignerComponentDispatchProps = {
-  setActiveCard,
-  unSetActiveCard,
-  setEditingShape,
-  setActivePage
-};
-
-export const CardDesigner: React.ComponentType<CardDesignerProps> = combineContainers(CardDesignerComponent, [
+export default combineContainers(CardDesigner, [
   withStyles(styles, { withTheme: true }),
-  connect(mapStateToProps, mapDispatchToProps)
-]);
+  connect(mapStateToProps)
+]) as React.ComponentType<CardDesignerProps>;

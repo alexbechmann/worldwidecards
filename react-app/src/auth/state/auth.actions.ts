@@ -1,20 +1,20 @@
-import { AnyAction } from 'redux';
 import { User, UserInfo } from 'firebase';
 import { store } from '@app/state/root.store';
 import * as firebase from 'firebase';
-import { UPDATE_CURRENT_USER, INIT_AUTH, LOGOUT } from './auth.action-types';
 import { startWatchingCardDesignsForUser } from '@app/artist/state/artist.actions';
+import { action } from 'typesafe-actions';
 
-export function loginWithFacebook(): AnyAction {
+export const UPDATE_CURRENT_USER = 'WWC/UPDATE_CURRENT_USER';
+export const INIT_AUTH = 'WWC/INIT_AUTH';
+export const LOGOUT = 'WWC/LOGOUT';
+
+export const loginWithFacebook = () => {
   const provider = new firebase.auth.FacebookAuthProvider();
-  return {
-    type: UPDATE_CURRENT_USER,
-    payload: firebase.auth().signInWithPopup(provider)
-  };
-}
+  return action(UPDATE_CURRENT_USER, (firebase.auth().signInWithPopup(provider) as any) as User);
+};
 
-export function initAuth(): AnyAction {
-  firebase.auth().onAuthStateChanged((user: User) => {
+export const initAuth = () => {
+  firebase.auth().onAuthStateChanged((user: User | null) => {
     const userInfo = user as UserInfo;
     store.dispatch({
       type: UPDATE_CURRENT_USER,
@@ -24,18 +24,15 @@ export function initAuth(): AnyAction {
       store.dispatch(startWatchingCardDesignsForUser(user));
     }
   });
-  return {
-    type: INIT_AUTH,
-    payload: new Promise((resolve, reject) => {
+  return action(
+    INIT_AUTH,
+    new Promise((resolve, reject) => {
       // To give the onAuthStateChanged a chance to emit currentUser.
       setTimeout(() => resolve(), 1500);
     })
-  };
-}
+  );
+};
 
-export function logout() {
-  return {
-    type: LOGOUT,
-    payload: firebase.auth().signOut()
-  };
-}
+export const logout = () => {
+  return action(LOGOUT, (firebase.auth().signOut() as any) as void);
+};

@@ -1,26 +1,23 @@
 import * as React from 'react';
-import { DialogPopup } from '@app/shared/ui/DialogPopup';
+import DialogPopup from '@app/shared/ui/DialogPopup';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { Shape, Page } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { Grid, Theme } from '@material-ui/core';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
-import { CardPage } from '@app/cards/pages/CardPage';
+import CardPage from '@app/cards/pages/CardPage';
 import { AppState } from '@app/state/app.state';
 import { removeEditingShape } from '@app/designer/state/designer.actions';
 import { connect } from 'react-redux';
 import { combineContainers } from 'combine-containers';
-import { ImageControls } from '@app/designer/controls/images/ImageControls';
+import ImageControls from '@app/designer/controls/images/ImageControls';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
-export interface ImageControlsDialogComponentProps {
+interface ImageControlsDialogProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
-}
-
-export interface ImageControlsDialogComponentDispatchProps {
-  removeEditingShape: (position: ShapePosition) => any;
 }
 
 type ClassNames = 'formControl';
@@ -35,12 +32,9 @@ interface State {
   cropperImgLoading: boolean;
 }
 
-interface Props
-  extends ImageControlsDialogComponentProps,
-    ImageControlsDialogComponentDispatchProps,
-    WithStyles<ClassNames> {}
+interface Props extends ImageControlsDialogProps, ConnectedReduxProps, WithStyles<ClassNames> {}
 
-class ImageControlsDialogComponent extends React.Component<Props, State> {
+class ImageControlsDialog extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -52,7 +46,7 @@ class ImageControlsDialogComponent extends React.Component<Props, State> {
     return (
       <DialogPopup
         open={true}
-        handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
+        handleClose={() => this.props.dispatch(removeEditingShape(this.props.shapePosition))}
         dialogTitle="Edit image"
         dialogDescription="Edit the properties of the image here. Click close and drag the image to move it's position."
       >
@@ -71,13 +65,13 @@ class ImageControlsDialogComponent extends React.Component<Props, State> {
   }
 }
 
-export interface ImageControlsDialogProps {
+export interface ImageControlsDialogExtendedProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): ImageControlsDialogComponentProps {
+function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): ImageControlsDialogProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
@@ -86,11 +80,7 @@ function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): I
   };
 }
 
-const mapDispatchToProps: ImageControlsDialogComponentDispatchProps = {
-  removeEditingShape
-};
-
-export const ImageControlsDialog: React.ComponentType<ImageControlsDialogProps> = combineContainers(
-  ImageControlsDialogComponent,
-  [connect(mapStateToProps, mapDispatchToProps), withStyles(styles, { withTheme: true })]
-);
+export default combineContainers(ImageControlsDialog, [
+  connect(mapStateToProps),
+  withStyles(styles, { withTheme: true })
+]) as React.ComponentType<ImageControlsDialogExtendedProps>;

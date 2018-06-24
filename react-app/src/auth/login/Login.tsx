@@ -2,23 +2,18 @@ import * as React from 'react';
 import { Button } from '@material-ui/core';
 import { loginWithFacebook } from '@app/auth/state/auth.actions';
 import { connect } from 'react-redux';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
-interface LoginLoginComponentDispatchProps {
-  loginWithFacebook: () => any;
-}
-
-interface Props extends LoginLoginComponentDispatchProps {}
+interface Props extends ConnectedReduxProps {}
 
 class LoginComponent extends React.Component<Props> {
   render() {
     return (
       <div>
-        <Button onClick={this.props.loginWithFacebook}>Login with Facebook</Button>
+        <Button onClick={() => this.props.dispatch(loginWithFacebook())}>Login with Facebook</Button>
       </div>
     );
   }
 }
 
-const mapDispatchToProps: LoginLoginComponentDispatchProps = { loginWithFacebook };
-
-export const Login = connect(null, mapDispatchToProps)(LoginComponent);
+export default connect()(LoginComponent);

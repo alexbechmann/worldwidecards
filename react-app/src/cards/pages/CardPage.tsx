@@ -6,20 +6,14 @@ import { ImageRect } from '../shapes/ImageRect';
 import Measure, { BoundingRect } from 'react-measure';
 import { WithThemeProps } from '@app/shared/styles/with-theme-props';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import { UpdateShapePositionArgs } from '@app/designer/state/designer.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { combineContainers } from 'combine-containers';
 import { setEditingShape, updateShapePosition, sortShapes } from '@app/designer/state/designer.actions';
 import { connect } from 'react-redux';
 import { AppState } from '@app/state/app.state';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
-export interface DispatchProps {
-  updateShapePosition: (args: UpdateShapePositionArgs) => any;
-  setEditingShape: (position: ShapePosition) => any;
-  sortShapes: (pageIndex: number) => any;
-}
-
-interface ConnectProps {
+interface CardPageProps {
   page: Page;
   pageIndex: number;
   editingShapePosition?: ShapePosition;
@@ -31,9 +25,9 @@ interface State {
   bounds: Partial<BoundingRect>;
 }
 
-interface Props extends ConnectProps, DispatchProps, WithThemeProps {}
+interface Props extends ConnectedReduxProps, CardPageProps, WithThemeProps {}
 
-class CardPageComponent extends React.Component<Props, State> {
+class CardPage extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -113,7 +107,7 @@ class CardPageComponent extends React.Component<Props, State> {
               onTap={() => this.setEditingShape(index)}
               draggable={draggable}
               onDragMove={e => this.handleDragEvent(e, index)}
-              onDragEnd={() => this.props.sortShapes(this.props.pageIndex)}
+              onDragEnd={() => this.props.dispatch(sortShapes({ pageIndex: this.props.pageIndex }))}
               cropData={shape.imageData!.crop}
               ratio={shape.imageData!.ratio}
               preventDefault={this.props.editable}
@@ -141,7 +135,7 @@ class CardPageComponent extends React.Component<Props, State> {
               onTap={() => this.setEditingShape(index)}
               onDragMove={e => this.handleDragEvent(e, index)}
               preventDefault={this.props.editable}
-              onDragEnd={() => this.props.sortShapes(this.props.pageIndex)}
+              onDragEnd={() => this.props.dispatch(sortShapes({ pageIndex: this.props.pageIndex }))}
             />
           );
         }
@@ -154,10 +148,12 @@ class CardPageComponent extends React.Component<Props, State> {
 
   setEditingShape(shapeIndex: number) {
     if (this.props.editable) {
-      this.props.setEditingShape({
-        pageIndex: this.props.pageIndex,
-        shapeIndex: shapeIndex
-      });
+      this.props.dispatch(
+        setEditingShape({
+          pageIndex: this.props.pageIndex,
+          shapeIndex: shapeIndex
+        })
+      );
     }
   }
 
@@ -187,22 +183,24 @@ class CardPageComponent extends React.Component<Props, State> {
 
   handleDragEvent = (e: any, index: number) => {
     const rect: any = e.target;
-    this.props.updateShapePosition({
-      pageIndex: this.props.pageIndex,
-      shapeIndex: index,
-      x: rect.attrs.x,
-      y: rect.attrs.y
-    });
+    this.props.dispatch(
+      updateShapePosition({
+        pageIndex: this.props.pageIndex,
+        shapeIndex: index,
+        x: rect.attrs.x,
+        y: rect.attrs.y
+      })
+    );
   };
 }
 
-interface CardPageProps {
+interface CardPageExtendedProps {
   page: Page;
   pageIndex: number;
   editable: boolean;
 }
 
-function mapStateToProps(state: AppState, ownProps: CardPageProps): ConnectProps {
+function mapStateToProps(state: AppState, ownProps: CardPageExtendedProps): CardPageProps {
   const { page, pageIndex, editable } = ownProps;
   return {
     page,
@@ -213,9 +211,6 @@ function mapStateToProps(state: AppState, ownProps: CardPageProps): ConnectProps
   };
 }
 
-const mapDispatchToProps: DispatchProps = { setEditingShape, updateShapePosition, sortShapes };
-
-export const CardPage: React.ComponentType<CardPageProps> = combineContainers(CardPageComponent, [
-  withTheme(),
-  connect(mapStateToProps, mapDispatchToProps)
-]);
+export default combineContainers(CardPage, [withTheme(), connect(mapStateToProps)]) as React.ComponentType<
+  CardPageExtendedProps
+>;

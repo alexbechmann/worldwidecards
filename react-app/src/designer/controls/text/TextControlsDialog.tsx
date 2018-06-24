@@ -4,14 +4,14 @@ import { Grid, Button } from '@material-ui/core';
 import { Shape, Page, constants } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { DialogPopup } from '@app/shared/ui/DialogPopup';
-import { CardPage } from '@app/cards/pages/CardPage';
+import DialogPopup from '@app/shared/ui/DialogPopup';
+import CardPage from '@app/cards/pages/CardPage';
 import { AppState } from '@app/state/app.state';
 import { removeShape, removeEditingShape } from '@app/designer/state/designer.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
-import { RemoveShapeArgs } from '@app/designer/state/designer.action-types';
-import { TextControls } from '@app/designer/controls/text/TextControls';
+import TextControls from '@app/designer/controls/text/TextControls';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
 type ClassNames = 'button' | 'formControl';
 
@@ -24,43 +24,25 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export interface TextControlsDialogComponentDispatchProps {
-  removeShape: (args: RemoveShapeArgs) => any;
-  removeEditingShape: (position: ShapePosition) => any;
-}
-
-export interface TextControlsDialogComponentProps {
+export interface TextControlsDialogProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
 }
 
-interface Props
-  extends WithStyles<ClassNames>,
-    TextControlsDialogComponentProps,
-    TextControlsDialogComponentDispatchProps {}
+interface Props extends WithStyles<ClassNames>, TextControlsDialogProps, ConnectedReduxProps {}
 
-class TextControlsDialogComponent extends React.Component<Props> {
+class TextControlsDialog extends React.Component<Props> {
   render() {
     return this.props.shape.type === constants.shapes.types.text ? (
       <DialogPopup
         open={true}
-        handleClose={() => this.props.removeEditingShape(this.props.shapePosition)}
+        handleClose={() => this.props.dispatch(removeEditingShape(this.props.shapePosition))}
         dialogTitle="Edit textbox"
         dialogDescription="Edit the properties of the text box here. Click close and drag the text to move it's position."
         extraDialogButtons={[
-          () => (
-            <Button
-              onClick={() =>
-                this.props.removeShape({
-                  position: this.props.shapePosition
-                })
-              }
-            >
-              Remove
-            </Button>
-          )
+          () => <Button onClick={() => this.props.dispatch(removeShape(this.props.shapePosition))}>Remove</Button>
         ]}
       >
         <Grid container={true} spacing={16}>
@@ -78,13 +60,13 @@ class TextControlsDialogComponent extends React.Component<Props> {
   }
 }
 
-export interface TextControlsDialogProps {
+export interface TextControlsDialogExtendedProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: TextControlsDialogProps): TextControlsDialogComponentProps {
+function mapStateToProps(state: AppState, ownProps: TextControlsDialogExtendedProps): TextControlsDialogProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
@@ -93,12 +75,7 @@ function mapStateToProps(state: AppState, ownProps: TextControlsDialogProps): Te
   };
 }
 
-const mapDispatchToProps: TextControlsDialogComponentDispatchProps = {
-  removeShape,
-  removeEditingShape
-};
-
-export const TextControlsDialog: React.ComponentType<TextControlsDialogProps> = combineContainers(
-  TextControlsDialogComponent,
-  [withStyles(styles), connect(mapStateToProps, mapDispatchToProps)]
-);
+export default combineContainers(TextControlsDialog, [
+  withStyles(styles),
+  connect(mapStateToProps)
+]) as React.ComponentType<TextControlsDialogExtendedProps>;

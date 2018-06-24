@@ -1,45 +1,27 @@
-import { Shape, constants, Card } from '@wwc/core';
-import { AnyAction } from 'redux';
-import {
-  ADD_TEXT_SHAPE,
-  SET_EDITING_SHAPE,
-  UPDATE_SHAPE_POSITION,
-  SET_ACTIVE_CARD,
-  UNSET_ACTIVE_CARD,
-  UPDATE_TEXT,
-  UpdateShapePositionArgs,
-  UpdateTextArgs,
-  AddTextShapeArgs,
-  AddTextShapePayload,
-  RemoveShapeArgs,
-  REMOVE_SHAPE,
-  UpdateShapeWidthArgs,
-  UPDATE_SHAPE_WIDTH,
-  UpdateShapeWidthPayload,
-  ToggleAllowUserEditArgs,
-  TOGGLE_ALLOW_USER_EDIT,
-  SetActiveCardArgs,
-  SetActiveCardPayload,
-  REMOVE_EDITING_SHAPE,
-  SET_IMAGE_CROP,
-  SetImageCropPayload,
-  SetImageCropArgs,
-  UPDATE_IMAGE_HREF,
-  UpdateImageHrefPayload,
-  UpdateImageHrefArgs,
-  SET_ACTIVE_PAGE,
-  SORT_SHAPES
-} from './designer.action-types';
+import { Shape, constants, Card, Page, CropData } from '@wwc/core';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
 import { cardService } from '@app/cards/services/card.service';
+import { action, createStandardAction, createAction } from 'typesafe-actions';
+import { UserInfo } from 'firebase';
+import { DesignerMode } from '@app/designer/designer-mode';
 
-export function removeEditingShape(position: ShapePosition): AnyAction {
-  return {
-    type: REMOVE_EDITING_SHAPE
-  };
-}
+export const ADD_TEXT_SHAPE = 'WWC/ADD_TEXT_SHAPE';
+export const UPDATE_SHAPE_WIDTH = 'WWC/UPDATE_SHAPE_WIDTH';
+export const REMOVE_SHAPE = '/WWC/REMOVE_SHAPE';
+export const UPDATE_TEXT = 'WWC/UPDATE_TEXT';
+export const SET_EDITING_SHAPE = 'WWC/SET_EDITING_SHAPE';
+export const REMOVE_EDITING_SHAPE = 'WWC/REMOVE_EDITING_SHAPE';
+export const UPDATE_SHAPE_POSITION = 'WWC/UPDATE_PAGE_SHAPE_POSITION';
+export const SET_ACTIVE_CARD = 'WWC/SET_ACTIVE_CARD';
+export const UNSET_ACTIVE_CARD = 'WWC/UNSET_ACTIVE_CARD';
+export const TOGGLE_ALLOW_USER_EDIT = 'TOGGLE_ALLOW_USER_EDIT';
+export const SET_IMAGE_CROP = 'WWC/SET_IMAGE_CROP';
+export const UPDATE_IMAGE_HREF = 'WWC/UPDATE_IMAGE_HREF';
+export const SET_ACTIVE_PAGE = 'WWC/SET_ACTIVE_PAGE';
+export const SORT_SHAPES = 'WWC/SORT_SHAPES';
+export const removeEditingShape = createStandardAction(REMOVE_EDITING_SHAPE)<ShapePosition>();
 
-export function addTextShape(args: AddTextShapeArgs): AnyAction {
+export const addTextShape = (args: { pageIndex: number; text?: string; page: Page }) => {
   const textShape: Shape = {
     type: constants.shapes.types.text,
     textData: {
@@ -52,124 +34,82 @@ export function addTextShape(args: AddTextShapeArgs): AnyAction {
     y: 0,
     width: args.page.width
   };
-  const payload: AddTextShapePayload = {
+  const payload = {
     pageIndex: args.pageIndex,
     textShape
   };
-  return {
-    type: ADD_TEXT_SHAPE,
-    payload: payload
-  };
-}
+  return action(ADD_TEXT_SHAPE, payload);
+};
 
-export function removeShape(args: RemoveShapeArgs): AnyAction {
-  return {
-    type: REMOVE_SHAPE,
-    payload: args
-  };
-}
+export const removeShape = createStandardAction(REMOVE_SHAPE)<ShapePosition>();
 
-export function setEditingShape(position: ShapePosition): AnyAction {
-  return {
-    type: SET_EDITING_SHAPE,
-    payload: {
-      ...position
-    }
-  };
-}
+export const setEditingShape = createStandardAction(SET_EDITING_SHAPE)<ShapePosition>();
 
-export function updateShapePosition(args: UpdateShapePositionArgs): AnyAction {
-  return {
-    type: UPDATE_SHAPE_POSITION,
-    payload: args
-  };
-}
+export const updateShapePosition = createStandardAction(UPDATE_SHAPE_POSITION)<{
+  pageIndex: number;
+  shapeIndex: number;
+  x: number;
+  y: number;
+}>();
 
-export function setActiveCard(args: SetActiveCardArgs) {
-  var actionPayload: any;
-  if (args.cardId) {
-    actionPayload = new Promise(async (resolve, reject) => {
-      const card: Card = await cardService.getCardDesignById(args.cardId!);
-      const payload: SetActiveCardPayload = {
+export const setActiveCard = createAction(SET_ACTIVE_CARD, resolveAction => {
+  return (args: { user: UserInfo; cardId?: string; mode: DesignerMode }) => {
+    type SetActiveCardPayload = { user: UserInfo; card?: Card; mode: DesignerMode };
+    let actionPayload: SetActiveCardPayload | Promise<SetActiveCardPayload>;
+    if (args.cardId) {
+      actionPayload = new Promise(async (resolve, reject) => {
+        const card: Card = await cardService.getCardDesignById(args.cardId!);
+        const payload = {
+          user: args.user,
+          mode: args.mode,
+          card: card
+        };
+        resolve(payload);
+      });
+    } else {
+      const p = {
         user: args.user,
         mode: args.mode,
-        card: card
+        card: undefined
       };
-      resolve(payload);
-    });
-  } else {
-    const p: SetActiveCardPayload = {
-      user: args.user,
-      mode: args.mode,
-      card: undefined
+      actionPayload = p;
+    }
+
+    return resolveAction(actionPayload as SetActiveCardPayload);
+  };
+});
+
+export const unSetActiveCard = () => action(UNSET_ACTIVE_CARD);
+
+export const updateText = createStandardAction(UPDATE_TEXT)<{ pageIndex: number; shapeIndex: number; text: string }>();
+
+export const updateShapeWidth = createAction(
+  UPDATE_SHAPE_WIDTH,
+  resolve => (args: { position: ShapePosition; newWidth: number; shape: Shape; page: Page }) => {
+    const maxWidth = args.page.width - args.shape.x!;
+    var width = args.newWidth > maxWidth ? maxWidth : args.newWidth;
+    width = !width || width < 20 ? 20 : width;
+    const payload = {
+      newWidth: width,
+      position: args.position
     };
-    actionPayload = p;
+    return resolve(payload);
   }
+);
 
-  return {
-    type: SET_ACTIVE_CARD,
-    payload: actionPayload
-  };
-}
+export const toggleAllowUserEdit = createStandardAction(TOGGLE_ALLOW_USER_EDIT)<{
+  pageIndex: number;
+  shapeIndex: number;
+}>();
 
-export function unSetActiveCard() {
-  return {
-    type: UNSET_ACTIVE_CARD
-  };
-}
+export const setImageCrop = createStandardAction(SET_IMAGE_CROP)<{
+  cropData: CropData;
+  shapePosition: ShapePosition;
+  ratio: { width: number; height: number };
+}>();
 
-export function updateText(args: UpdateTextArgs): AnyAction {
-  return {
-    type: UPDATE_TEXT,
-    payload: args
-  };
-}
+export const updateImageHref = createStandardAction(UPDATE_IMAGE_HREF)<{ shapePosition: ShapePosition; url: string }>();
 
-export function updateShapeWidth(args: UpdateShapeWidthArgs): AnyAction {
-  const maxWidth = args.page.width - args.shape.x!;
-  var width = args.newWidth > maxWidth ? maxWidth : args.newWidth;
-  width = !width || width < 20 ? 20 : width;
-  const payload: UpdateShapeWidthPayload = {
-    newWidth: width,
-    position: args.position
-  };
-  return {
-    type: UPDATE_SHAPE_WIDTH,
-    payload: payload
-  };
-}
+export const setActivePage = createStandardAction(SET_ACTIVE_PAGE)<{ pageIndex: number }>();
 
-export function toggleAllowUserEdit(args: ToggleAllowUserEditArgs) {
-  return {
-    type: TOGGLE_ALLOW_USER_EDIT,
-    payload: args
-  };
-}
-
-export function setImageCrop(args: SetImageCropArgs) {
-  return {
-    type: SET_IMAGE_CROP,
-    payload: args as SetImageCropPayload
-  };
-}
-
-export function updateImageHref(args: UpdateImageHrefArgs) {
-  return {
-    type: UPDATE_IMAGE_HREF,
-    payload: args as UpdateImageHrefPayload
-  };
-}
-
-export function setActivePage(pageIndex: number) {
-  return {
-    type: SET_ACTIVE_PAGE,
-    pageIndex
-  };
-}
-
-export function sortShapes(pageIndex: number) {
-  return {
-    type: SORT_SHAPES,
-    pageIndex
-  };
-}
+export const sortShapes = createStandardAction(SORT_SHAPES)<{ pageIndex: number }>();
