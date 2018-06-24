@@ -20,7 +20,7 @@
     "paths": {
       "@app/*": ["./src/*"]
     },
-    "strict": false
+    "strict": true
   },
   "exclude": [
     "node_modules",

@@ -15,6 +15,8 @@ import RouteButton from '@app/shared/ui/RouteButton';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 import { startWatchingAllCardDesigns } from '@app/customer/state/customer.actions';
+import { combineContainers } from 'combine-containers';
+import { connect } from 'react-redux';
 
 export interface CardBrowserProps {
   designs: Card[];
@@ -93,4 +95,4 @@ class CardBrowser extends React.Component<Props> {
   }
 }
 
-export default withStyles(styles)(CardBrowser) as React.ComponentType<CardBrowserProps>;
+export default combineContainers(CardBrowser, [withStyles(styles), connect()]) as React.ComponentType<CardBrowserProps>;
