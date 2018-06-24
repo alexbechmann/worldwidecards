@@ -13,6 +13,8 @@ import {
 import { routes } from '@app/shared/router/routes';
 import RouteButton from '@app/shared/ui/RouteButton';
 import { DesignerMode } from '@app/designer/designer-mode';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
+import { startWatchingAllCardDesigns } from '@app/customer/state/customer.actions';
 
 export interface CardBrowserProps {
   designs: Card[];
@@ -21,10 +23,6 @@ export interface CardBrowserProps {
   mode: DesignerMode;
   cardSelectText: string;
   isSubscribedToCardChanges: boolean;
-}
-
-export interface CardBrowserDispatchProps {
-  startWatchingAllCardDesigns: () => any;
 }
 
 type ClassNames = 'root' | 'bottomMargin';
@@ -38,7 +36,7 @@ const styles: StyleRulesCallback<ClassNames> = (theme: Theme) => ({
   }
 });
 
-interface Props extends CardBrowserProps, CardBrowserDispatchProps, WithStyles<ClassNames> {}
+interface Props extends CardBrowserProps, ConnectedReduxProps, WithStyles<ClassNames> {}
 
 class CardBrowser extends React.Component<Props> {
   render() {
@@ -73,7 +71,7 @@ class CardBrowser extends React.Component<Props> {
 
   componentDidMount() {
     if (this.props.mode === DesignerMode.Customer && !this.props.isSubscribedToCardChanges) {
-      this.props.startWatchingAllCardDesigns();
+      this.props.dispatch(startWatchingAllCardDesigns());
     }
   }
 
@@ -95,4 +93,4 @@ class CardBrowser extends React.Component<Props> {
   }
 }
 
-export default withStyles(styles)(CardBrowser);
+export default withStyles(styles)(CardBrowser) as React.ComponentType<CardBrowserProps>;

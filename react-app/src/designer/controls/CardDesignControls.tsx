@@ -89,13 +89,13 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
               disabled={this.props.saving}
               onClick={() => {
                 if (this.props.card && this.props.card.id && window.confirm('Are you sure?')) {
-                  this.props.dispatch(
-                    deleteCardDesign({
-                      id: this.props.card.id
-                    }).then(() => {
-                      this.props.history.push(routes.myDesigns.build());
-                    })
-                  );
+                  const action = deleteCardDesign({
+                    id: this.props.card.id
+                  });
+                  ((action as any) as Promise<any>).then(() => {
+                    this.props.history.push(routes.myDesigns.build());
+                  });
+                  this.props.dispatch(action);
                 }
               }}
             >

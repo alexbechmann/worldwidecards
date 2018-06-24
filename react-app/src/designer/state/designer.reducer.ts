@@ -18,14 +18,14 @@ import {
 } from './designer.actions';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { DesignerMode } from '@app/designer/designer-mode';
-import { Action } from '@app/state/actions';
+import { AppAction } from '@app/state/app-action';
 
 const defaultState: DesignerState = {
   activePageIndex: 0,
   activeCardDesignMode: DesignerMode.Customer
 };
 
-export function designerReducer(state: DesignerState = defaultState, action: Action): DesignerState {
+export function designerReducer(state: DesignerState = defaultState, action: AppAction): DesignerState {
   switch (action.type) {
     case ADD_TEXT_SHAPE: {
       return createNewState(state, newState => {

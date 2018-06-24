@@ -31,7 +31,7 @@
     "clean:core": "remove-node-modules ./core/node_modules/",
     "start:core": "cd ./core && npm start",
     "build:core": "cd ./core && npm run build",
-    "start": "npm run build:core && npm-run-all -p start:core start:react-app start:functions start:react-app-test-watch",
+    "start": "npm run build:core && npm-run-all -p start:core start:react-app start:functions",
     "clean": "npm-run-all -p clean:core clean:react-app clean:functions"
   },
   "author": "",
