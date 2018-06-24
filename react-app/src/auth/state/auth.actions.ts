@@ -10,7 +10,7 @@ export const LOGOUT = 'WWC/LOGOUT';
 
 export const loginWithFacebook = () => {
   const provider = new firebase.auth.FacebookAuthProvider();
-  return action(UPDATE_CURRENT_USER, firebase.auth().signInWithPopup(provider));
+  return action(UPDATE_CURRENT_USER, (firebase.auth().signInWithPopup(provider) as any) as User);
 };
 
 export const initAuth = () => {
@@ -34,5 +34,5 @@ export const initAuth = () => {
 };
 
 export const logout = () => {
-  return action(LOGOUT, firebase.auth().signOut());
+  return action(LOGOUT, (firebase.auth().signOut() as any) as void);
 };

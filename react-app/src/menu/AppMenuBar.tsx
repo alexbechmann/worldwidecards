@@ -24,17 +24,14 @@ import { AppState } from '@app/state/app.state';
 import { logout } from '@app/auth/state/auth.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
 interface AppMenuBarProps {
   isLoggedIn: boolean;
   currentUser?: UserInfo;
 }
 
-interface AppMenuBarDispatchProps {
-  logout: () => any;
-}
-
-interface Props extends AppMenuBarProps, AppMenuBarDispatchProps, WithStyles<ClassNames> {}
+interface Props extends AppMenuBarProps, ConnectedReduxProps, WithStyles<ClassNames> {}
 
 interface State {
   showDrawer: boolean;
@@ -140,7 +137,7 @@ class AppMenuBar extends React.Component<Props, State> {
   }
 
   logout() {
-    this.props.logout();
+    this.props.dispatch(logout());
     this.toggleMenu();
   }
 }
@@ -152,9 +149,7 @@ function mapStateToProps(state: AppState): AppMenuBarProps {
   };
 }
 
-const mapDispatchToProps: AppMenuBarDispatchProps = { logout };
-
 export default combineContainers(AppMenuBar, [
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps),
   withStyles(styles, { withTheme: true })
-]) as React.ComponentType<{}>;
+]) as React.ComponentType;
