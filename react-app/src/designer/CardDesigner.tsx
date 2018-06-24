@@ -393,4 +393,4 @@ function mapStateToProps(state: AppState, ownProps: CardDesignerExtendedProps): 
 export default combineContainers(CardDesigner, [
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)
-]) as React.ComponentType<CardDesignerProps>;
+]) as React.ComponentType<CardDesignerExtendedProps>;
