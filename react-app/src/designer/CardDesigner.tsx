@@ -72,7 +72,7 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   }
 });
 
-interface CardDesignerComponentProps {
+interface CardDesignerProps {
   card?: Card;
   editingShapePosition?: ShapePosition;
   currentUser?: UserInfo;
@@ -89,7 +89,7 @@ interface RouteParameters {
 }
 
 interface Props
-  extends CardDesignerComponentProps,
+  extends CardDesignerProps,
     ConnectedReduxProps,
     RouteComponentProps<RouteParameters>,
     WithStyles<StyleClassNames> {}
@@ -98,7 +98,7 @@ interface State {
   showMiniPreviewMobile: boolean;
 }
 
-class CardDesignerComponent extends React.Component<Props, State> {
+class CardDesigner extends React.Component<Props, State> {
   state: State = {
     showMiniPreviewMobile: false
   };
@@ -370,18 +370,13 @@ class CardDesignerComponent extends React.Component<Props, State> {
   }
 }
 
-export interface CardDesignerConnectProps {
+export interface CardDesignerExtendedProps {
   mode: DesignerMode;
   deleting: boolean;
-}
-
-export interface CardDesignerDispatchProps {
   saveCardDesign: (user: UserInfo, card: Card) => any;
 }
 
-export interface CardDesignerProps extends CardDesignerConnectProps, CardDesignerDispatchProps {}
-
-function mapStateToProps(state: AppState, ownProps: CardDesignerProps): CardDesignerComponentProps {
+function mapStateToProps(state: AppState, ownProps: CardDesignerExtendedProps): CardDesignerProps {
   return {
     card: state.designer.activeCard,
     editingShapePosition: state.designer.editingShapePosition,
@@ -395,7 +390,7 @@ function mapStateToProps(state: AppState, ownProps: CardDesignerProps): CardDesi
   };
 }
 
-export default combineContainers(CardDesignerComponent, [
+export default combineContainers(CardDesigner, [
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)
 ]) as React.ComponentType<CardDesignerProps>;

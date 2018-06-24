@@ -1,19 +1,11 @@
 import * as React from 'react';
 import { ShapePosition } from '@app/cards/shapes/shape-position';
-import {
-  RemoveShapeArgs,
-  UpdateShapeWidthArgs,
-  ToggleAllowUserEditArgs,
-  SetImageCropArgs,
-  UpdateImageHrefArgs
-} from '@app/designer/state/designer.action-types';
 import { Shape, Page } from '@wwc/core';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { Theme, TextField, FormControl, MenuItem, FormLabel, Switch } from '@material-ui/core';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { AppState } from '@app/state/app.state';
 import {
-  removeShape,
   updateShapeWidth,
   toggleAllowUserEdit,
   setImageCrop,
@@ -23,21 +15,14 @@ import { connect } from 'react-redux';
 import { combineContainers } from 'combine-containers';
 import * as ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
-export interface ImageControlsComponentProps {
+export interface ImageControlsProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
   mode: DesignerMode;
   active: boolean;
-}
-
-export interface ImageControlsComponentDispatchProps {
-  removeShape: (args: RemoveShapeArgs) => any;
-  updateShapeWidth: (args: UpdateShapeWidthArgs) => any;
-  toggleAllowUserEdit: (args: ToggleAllowUserEditArgs) => any;
-  setImageCrop: (args: SetImageCropArgs) => any;
-  updateImageHref: (args: UpdateImageHrefArgs) => any;
 }
 
 type ClassNames = 'formControl';
@@ -52,9 +37,9 @@ interface State {
   image?: HTMLImageElement;
 }
 
-interface Props extends ImageControlsComponentProps, ImageControlsComponentDispatchProps, WithStyles<ClassNames> {}
+interface Props extends ImageControlsProps, ConnectedReduxProps, WithStyles<ClassNames> {}
 
-class ImageControlsComponent extends React.Component<Props, State> {
+class ImageControls extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {};
@@ -86,10 +71,12 @@ class ImageControlsComponent extends React.Component<Props, State> {
             this.setState({
               image: undefined
             });
-            this.props.updateImageHref({
-              url: e.target.value,
-              shapePosition: this.props.shapePosition
-            });
+            this.props.dispatch(
+              updateImageHref({
+                url: e.target.value,
+                shapePosition: this.props.shapePosition
+              })
+            );
           }}
         />
         {this.renderArtistOnlyControls()}
@@ -97,22 +84,24 @@ class ImageControlsComponent extends React.Component<Props, State> {
           style={{ width: '100%' }}
           src={this.props.shape.imageData!.href}
           onChange={(crop, pixelCrop) => {
-            this.props.setImageCrop({
-              shapePosition: this.props.shapePosition,
-              cropData: {
-                x: crop.x!,
-                y: crop.y!,
-                width: crop.width!,
-                height: crop.height!
-              },
-              ratio:
-                this.props.mode === DesignerMode.Artist
-                  ? {
-                      width: pixelCrop.width!,
-                      height: pixelCrop.height!
-                    }
-                  : this.props.shape.imageData!.ratio
-            });
+            this.props.dispatch(
+              setImageCrop({
+                shapePosition: this.props.shapePosition,
+                cropData: {
+                  x: crop.x!,
+                  y: crop.y!,
+                  width: crop.width!,
+                  height: crop.height!
+                },
+                ratio:
+                  this.props.mode === DesignerMode.Artist
+                    ? {
+                        width: pixelCrop.width!,
+                        height: pixelCrop.height!
+                      }
+                    : this.props.shape.imageData!.ratio
+              })
+            );
           }}
           crop={imageCrop}
           disabled={!this.state.image}
@@ -122,19 +111,21 @@ class ImageControlsComponent extends React.Component<Props, State> {
             });
             if (!this.props.shape.imageData!.crop) {
               if (this.props.mode === DesignerMode.Artist) {
-                this.props.setImageCrop({
-                  shapePosition: this.props.shapePosition,
-                  cropData: {
-                    x: 0,
-                    y: 0,
-                    width: 100,
-                    height: 100
-                  },
-                  ratio: {
-                    width: img.width!,
-                    height: img.height!
-                  }
-                });
+                this.props.dispatch(
+                  setImageCrop({
+                    shapePosition: this.props.shapePosition,
+                    cropData: {
+                      x: 0,
+                      y: 0,
+                      width: 100,
+                      height: 100
+                    },
+                    ratio: {
+                      width: img.width!,
+                      height: img.height!
+                    }
+                  })
+                );
               } else if (this.props.mode === DesignerMode.Customer) {
                 const customerCrop = ReactCrop.makeAspectCrop(
                   {
@@ -146,16 +137,18 @@ class ImageControlsComponent extends React.Component<Props, State> {
                   img.width / img.height
                 );
 
-                this.props.setImageCrop({
-                  shapePosition: this.props.shapePosition,
-                  cropData: {
-                    x: customerCrop.x,
-                    y: customerCrop.y,
-                    width: customerCrop.width!,
-                    height: customerCrop.height!
-                  },
-                  ratio: this.props.shape.imageData!.ratio!
-                });
+                this.props.dispatch(
+                  setImageCrop({
+                    shapePosition: this.props.shapePosition,
+                    cropData: {
+                      x: customerCrop.x,
+                      y: customerCrop.y,
+                      width: customerCrop.width!,
+                      height: customerCrop.height!
+                    },
+                    ratio: this.props.shape.imageData!.ratio!
+                  })
+                );
               }
             }
           }}
@@ -173,10 +166,12 @@ class ImageControlsComponent extends React.Component<Props, State> {
           <Switch
             checked={this.props.shape.allowUserEdit}
             onChange={e => {
-              this.props.toggleAllowUserEdit({
-                shapeIndex: this.props.shapePosition.shapeIndex,
-                pageIndex: this.props.shapePosition.pageIndex
-              });
+              this.props.dispatch(
+                toggleAllowUserEdit({
+                  shapeIndex: this.props.shapePosition.shapeIndex,
+                  pageIndex: this.props.shapePosition.pageIndex
+                })
+              );
             }}
           />
         </FormControl>
@@ -186,15 +181,17 @@ class ImageControlsComponent extends React.Component<Props, State> {
           fullWidth={true}
           value={this.props.shape.width}
           onChange={e =>
-            this.props.updateShapeWidth({
-              position: {
-                pageIndex: this.props.shapePosition.pageIndex,
-                shapeIndex: this.props.shapePosition.shapeIndex
-              },
-              newWidth: parseInt(e.target.value, 10),
-              shape: this.props.shape,
-              page: this.props.page
-            })
+            this.props.dispatch(
+              updateShapeWidth({
+                position: {
+                  pageIndex: this.props.shapePosition.pageIndex,
+                  shapeIndex: this.props.shapePosition.shapeIndex
+                },
+                newWidth: parseInt(e.target.value, 10),
+                shape: this.props.shape,
+                page: this.props.page
+              })
+            )
           }
         />
       </div>
@@ -215,13 +212,13 @@ class ImageControlsComponent extends React.Component<Props, State> {
   }
 }
 
-export interface ImageControlsProps {
+export interface ImageControlsExtendedProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: ImageControlsProps): ImageControlsComponentProps {
+function mapStateToProps(state: AppState, ownProps: ImageControlsExtendedProps): ImageControlsProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
@@ -233,15 +230,7 @@ function mapStateToProps(state: AppState, ownProps: ImageControlsProps): ImageCo
   };
 }
 
-const mapDispatchToProps: ImageControlsComponentDispatchProps = {
-  removeShape,
-  updateShapeWidth,
-  toggleAllowUserEdit,
-  setImageCrop,
-  updateImageHref
-};
-
-export default combineContainers(ImageControlsComponent, [
-  connect(mapStateToProps, mapDispatchToProps),
+export default combineContainers(ImageControls, [
+  connect(mapStateToProps),
   withStyles(styles, { withTheme: true })
-]) as React.ComponentType<ImageControlsProps>;
+]) as React.ComponentType<ImageControlsExtendedProps>;

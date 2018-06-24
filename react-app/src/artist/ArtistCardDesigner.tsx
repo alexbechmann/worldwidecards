@@ -1,16 +1,15 @@
 import { connect } from 'react-redux';
 import { saveCardDesign } from './state/artist.actions';
-import CardDesigner, { CardDesignerConnectProps, CardDesignerDispatchProps } from '@app/designer/CardDesigner';
+import CardDesigner, { CardDesignerExtendedProps } from '@app/designer/CardDesigner';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { AppState } from '@app/state/app.state';
 
-const mapDispatchToProps: CardDesignerDispatchProps = { saveCardDesign };
-
-function mapStateToProps(state: AppState): CardDesignerConnectProps {
+function mapStateToProps(state: AppState): CardDesignerExtendedProps {
   return {
     mode: DesignerMode.Artist,
-    deleting: state.artist.deletingActiveCardDesign
+    deleting: state.artist.deletingActiveCardDesign,
+    saveCardDesign
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardDesigner);
+export default connect(mapStateToProps)(CardDesigner);

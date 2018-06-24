@@ -12,6 +12,7 @@ import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
 import { AppState } from '@app/state/app.state';
 import { ConnectedReduxProps } from '@app/state/connected-redux-props';
+import { addTextShape } from '@app/designer/state/designer.actions';
 
 type ClassNames = 'button';
 
@@ -21,7 +22,7 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export interface ConnectProps {
+export interface CardDesignerControlsProps {
   currentUser?: UserInfo;
   card?: Card;
   saving: boolean;
@@ -37,7 +38,7 @@ interface State {
 
 interface Props
   extends ConnectedReduxProps,
-    ConnectProps,
+    CardDesignerControlsProps,
     RouterProps,
     RouteComponentProps<{ id: string }>,
     WithStyles<ClassNames> {}
@@ -124,10 +125,12 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
         >
           <MenuItem
             onClick={(e: React.MouseEvent<HTMLElement>) => {
-              this.props.addTextShape({
-                pageIndex: this.props.activePageIndex,
-                page: this.props.card!.pages[this.props.activePageIndex]
-              });
+              this.props.dispatch(
+                addTextShape({
+                  pageIndex: this.props.activePageIndex,
+                  page: this.props.card!.pages[this.props.activePageIndex]
+                })
+              );
               this.toggleDrawer();
             }}
           >
@@ -141,11 +144,11 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
   }
 }
 
-interface CardDesignControlsProps {
+interface CardDesignControlsExtendedProps {
   saveCardDesign: (user: UserInfo, card: Card) => any;
 }
 
-function mapStateToProps(state: AppState, ownProps: Props): ConnectProps {
+function mapStateToProps(state: AppState, ownProps: CardDesignControlsExtendedProps): CardDesignerControlsProps {
   return {
     card: state.designer.activeCard,
     saving: state.artist.savingActiveCard || state.artist.deletingActiveCardDesign,
@@ -156,7 +159,7 @@ function mapStateToProps(state: AppState, ownProps: Props): ConnectProps {
   };
 }
 
-export const CardDesignControls: React.ComponentType<CardDesignControlsProps> = combineContainers(
+export const CardDesignControls: React.ComponentType<CardDesignControlsExtendedProps> = combineContainers(
   CardDesignControlsComponent,
   [connect(mapStateToProps), withStyles(styles), withRouter]
 );

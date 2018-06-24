@@ -38,7 +38,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Act
     }
     case SET_EDITING_SHAPE: {
       return createNewState(state, newState => {
-        newState.editingShapePosition = action.payload.position;
+        newState.editingShapePosition = action.payload;
       });
     }
     case REMOVE_EDITING_SHAPE: {
@@ -87,7 +87,7 @@ export function designerReducer(state: DesignerState = defaultState, action: Act
     case REMOVE_SHAPE: {
       const payload = action.payload;
       return createNewState(state, newState => {
-        newState.activeCard!.pages[payload.position.pageIndex].shapes.splice(payload.position.shapeIndex, 1);
+        newState.activeCard!.pages[payload.pageIndex].shapes.splice(payload.shapeIndex, 1);
         newState.editingShapePosition = undefined;
       });
     }
