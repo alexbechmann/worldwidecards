@@ -19,7 +19,8 @@
     "baseUrl": "./",
     "paths": {
       "@app/*": ["./src/*"]
-    }
+    },
+    "strict": false
   },
   "exclude": [
     "node_modules",

@@ -14,7 +14,7 @@ export const loginWithFacebook = () => {
 };
 
 export const initAuth = () => {
-  firebase.auth().onAuthStateChanged((user: User) => {
+  firebase.auth().onAuthStateChanged((user: User | null) => {
     const userInfo = user as UserInfo;
     store.dispatch({
       type: UPDATE_CURRENT_USER,
