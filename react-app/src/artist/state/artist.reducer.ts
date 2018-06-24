@@ -10,8 +10,8 @@ import {
 } from './artist.action-types';
 import { createNewState } from '@app/shared/helpers/create-new-state';
 import { LOGOUT } from '@app/auth/state/auth.action-types';
-import { UNSET_ACTIVE_CARD } from '@app/designer/state/designer.action-types';
 import { Card } from '@wwc/core';
+import { UNSET_ACTIVE_CARD } from '@app/designer/state/designer.actions';
 
 const defaultState: ArtistState = {
   loadingMyDesigns: true,

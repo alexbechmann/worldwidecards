@@ -2,7 +2,9 @@
   "name": "@wwc/dev",
   "version": "1.0.0",
   "description": "",
-  "dependencies": {},
+  "dependencies": {
+    "typesafe-actions": "^2.0.4"
+  },
   "devDependencies": {
     "firebase-tools": "^3.17.7",
     "npm-run-all": "^4.1.2",

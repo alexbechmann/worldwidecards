@@ -3,17 +3,15 @@ import { withStyles, Theme, WithStyles } from '@material-ui/core/styles';
 import { Tooltip, IconButton, MenuItem, Menu } from '@material-ui/core';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
-import { AddTextShapeArgs } from '@app/designer/state/designer.action-types';
-import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { RouterProps, RouteComponentProps, withRouter } from 'react-router';
 import { routes } from '@app/shared/router/routes';
 import * as Icons from '@material-ui/icons';
-import { addTextShape } from '@app/designer/state/designer.actions';
 import { deleteCardDesign } from '@app/artist/state/artist.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
 import { AppState } from '@app/state/app.state';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
 type ClassNames = 'button';
 
@@ -22,11 +20,6 @@ const styles = (theme: Theme) => ({
     margin: theme.spacing.unit
   }
 });
-
-export interface DispatchProps {
-  addTextShape: (args: AddTextShapeArgs) => any;
-  deleteCardDesign: (args: DeleteCardDesignArgs) => any;
-}
 
 export interface ConnectProps {
   currentUser?: UserInfo;
@@ -43,7 +36,7 @@ interface State {
 }
 
 interface Props
-  extends DispatchProps,
+  extends ConnectedReduxProps,
     ConnectProps,
     RouterProps,
     RouteComponentProps<{ id: string }>,
@@ -95,13 +88,13 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
               disabled={this.props.saving}
               onClick={() => {
                 if (this.props.card && this.props.card.id && window.confirm('Are you sure?')) {
-                  this.props
-                    .deleteCardDesign({
+                  this.props.dispatch(
+                    deleteCardDesign({
                       id: this.props.card.id
-                    })
-                    .then(() => {
+                    }).then(() => {
                       this.props.history.push(routes.myDesigns.build());
-                    });
+                    })
+                  );
                 }
               }}
             >
@@ -163,9 +156,7 @@ function mapStateToProps(state: AppState, ownProps: Props): ConnectProps {
   };
 }
 
-const mapDispatchToProps: DispatchProps = { addTextShape, deleteCardDesign };
-
 export const CardDesignControls: React.ComponentType<CardDesignControlsProps> = combineContainers(
   CardDesignControlsComponent,
-  [connect(mapStateToProps, mapDispatchToProps), withStyles(styles), withRouter]
+  [connect(mapStateToProps), withStyles(styles), withRouter]
 );
