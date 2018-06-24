@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { AppState } from '@app/state/app.state';
 import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
-interface ConnectProps {
+interface CardPageProps {
   page: Page;
   pageIndex: number;
   editingShapePosition?: ShapePosition;
@@ -25,7 +25,7 @@ interface State {
   bounds: Partial<BoundingRect>;
 }
 
-interface Props extends ConnectedReduxProps, ConnectProps, WithThemeProps {}
+interface Props extends ConnectedReduxProps, CardPageProps, WithThemeProps {}
 
 class CardPage extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -200,7 +200,7 @@ interface CardPageExtendedProps {
   editable: boolean;
 }
 
-function mapStateToProps(state: AppState, ownProps: CardPageExtendedProps): ConnectProps {
+function mapStateToProps(state: AppState, ownProps: CardPageExtendedProps): CardPageProps {
   const { page, pageIndex, editable } = ownProps;
   return {
     page,

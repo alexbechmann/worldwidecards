@@ -13,7 +13,7 @@ import { combineContainers } from 'combine-containers';
 import ImageControls from '@app/designer/controls/images/ImageControls';
 import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
-interface ImageControlsDialogConnectProps {
+interface ImageControlsDialogProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
@@ -32,7 +32,7 @@ interface State {
   cropperImgLoading: boolean;
 }
 
-interface Props extends ImageControlsDialogConnectProps, ConnectedReduxProps, WithStyles<ClassNames> {}
+interface Props extends ImageControlsDialogProps, ConnectedReduxProps, WithStyles<ClassNames> {}
 
 class ImageControlsDialog extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -65,13 +65,13 @@ class ImageControlsDialog extends React.Component<Props, State> {
   }
 }
 
-export interface ImageControlsDialogProps {
+export interface ImageControlsDialogExtendedProps {
   shape: Shape;
   shapePosition: ShapePosition;
   page: Page;
 }
 
-function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): ImageControlsDialogConnectProps {
+function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): ImageControlsDialogProps {
   return {
     shape: ownProps.shape,
     shapePosition: ownProps.shapePosition,
@@ -83,4 +83,4 @@ function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): I
 export default combineContainers(ImageControlsDialog, [
   connect(mapStateToProps),
   withStyles(styles, { withTheme: true })
-]) as React.ComponentType<ImageControlsDialogProps>;
+]) as React.ComponentType<ImageControlsDialogExtendedProps>;
