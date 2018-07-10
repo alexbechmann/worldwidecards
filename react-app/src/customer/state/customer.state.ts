@@ -5,4 +5,5 @@ export interface CustomerState {
   isSubscribedToCardChanges: boolean;
   loadingCards: boolean;
   firestoreUnsubscribeMethods: Function[];
+  basket: Card[];
 }

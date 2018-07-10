@@ -1,5 +1,4 @@
 import { ArtistState } from './artist.state';
-import { AnyAction } from 'redux';
 import {
   START_WATCHING_CARD_DESIGNS_FOR_USER,
   SAVING_CARD_DESIGN,
@@ -7,11 +6,12 @@ import {
   SET_MY_CARD_DESIGNS_LIST,
   DELETE_CARD_DESIGN,
   DELETING_CARD_DESIGN
-} from './artist.action-types';
+} from './artist.actions';
 import { createNewState } from '@app/shared/helpers/create-new-state';
-import { LOGOUT } from '@app/auth/state/auth.action-types';
-import { UNSET_ACTIVE_CARD } from '@app/designer/state/designer.action-types';
 import { Card } from '@wwc/core';
+import { UNSET_ACTIVE_CARD } from '@app/designer/state/designer.actions';
+import { AppAction } from '@app/state/app-action';
+import { LOGOUT } from '@app/auth/state/auth.actions';
 
 const defaultState: ArtistState = {
   loadingMyDesigns: true,
@@ -21,11 +21,11 @@ const defaultState: ArtistState = {
   deletingActiveCardDesign: false
 };
 
-export function artistReducer(state: ArtistState = defaultState, action: AnyAction): ArtistState {
+export function artistReducer(state: ArtistState = defaultState, action: AppAction): ArtistState {
   switch (action.type) {
     case START_WATCHING_CARD_DESIGNS_FOR_USER: {
       return createNewState(state, newState => {
-        newState.firestoreUnsubscribeMethods.push(action.payload as Function);
+        newState.firestoreUnsubscribeMethods.push(action.payload);
       });
     }
     case LOGOUT: {

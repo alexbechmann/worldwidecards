@@ -7,7 +7,7 @@ interface Props extends ButtonProps {
   to: string;
 }
 
-export const RouteButton = (props: Props) => {
+export default (props: Props) => {
   const RouteLink = (p: any) => <Link {...p} />;
   return (
     <Button {...props} component={RouteLink}>

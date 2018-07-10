@@ -1,3 +1,0 @@
-export const UPDATE_CURRENT_USER = 'WWC/UPDATE_CURRENT_USER';
-export const INIT_AUTH = 'WWC/INIT_AUTH';
-export const LOGOUT = 'WWC/LOGOUT';

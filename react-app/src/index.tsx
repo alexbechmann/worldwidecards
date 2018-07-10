@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import 'src/shared/styles/index.css';
 import * as firebase from 'firebase';
-import { App } from './App';
+import App from './App';
 import { Provider } from 'react-redux';
 import { store } from '@app/state/root.store';
 import 'typeface-roboto';

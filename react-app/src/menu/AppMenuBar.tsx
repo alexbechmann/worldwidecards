@@ -12,37 +12,36 @@ import {
   ListItemIcon,
   ListItemText,
   Theme,
-  StyleRulesCallback
+  StyleRulesCallback,
+  Badge
 } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { routes } from '@app/shared/router/routes';
-import { RouteButton } from '@app/shared/ui';
+import RouteButton from '@app/shared/ui/RouteButton';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { UserInfo } from 'firebase';
-import { RouteMenuItem } from '@app/shared/ui/RouteMenuItem';
+import RouteMenuItem from '@app/shared/ui/RouteMenuItem';
 import { AppState } from '@app/state/app.state';
 import { logout } from '@app/auth/state/auth.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 
-interface AppMenuBarComponentProps {
+interface AppMenuBarProps {
   isLoggedIn: boolean;
   currentUser?: UserInfo;
+  basketCount: number;
 }
 
-interface AppMenuBarComponentDispatchProps {
-  logout: () => any;
-}
-
-interface Props extends AppMenuBarComponentProps, AppMenuBarComponentDispatchProps, WithStyles<StyleClassNames> {}
+interface Props extends AppMenuBarProps, ConnectedReduxProps, WithStyles<ClassNames> {}
 
 interface State {
   showDrawer: boolean;
 }
 
-type StyleClassNames = 'root' | 'flex' | 'avatar';
+type ClassNames = 'root' | 'flex' | 'avatar';
 
-const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
+const styles: StyleRulesCallback<ClassNames> = (theme: Theme) => ({
   root: {
     flexGrow: 1
   },
@@ -54,7 +53,7 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   }
 });
 
-class AppMenuBarComponent extends React.Component<Props, State> {
+class AppMenuBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -85,6 +84,11 @@ class AppMenuBarComponent extends React.Component<Props, State> {
               <RouteButton color="inherit" to={routes.customerDesigner.build()}>
                 New Card
               </RouteButton>
+              <IconButton>
+                <Badge badgeContent={this.props.basketCount} color="secondary">
+                  <Icons.ShoppingBasket />
+                </Badge>
+              </IconButton>
             </Hidden>
             {this.renderAvatar()}
           </Toolbar>
@@ -140,21 +144,17 @@ class AppMenuBarComponent extends React.Component<Props, State> {
   }
 
   logout() {
-    this.props.logout();
+    this.props.dispatch(logout());
     this.toggleMenu();
   }
 }
 
-function mapStateToProps(state: AppState): AppMenuBarComponentProps {
+function mapStateToProps(state: AppState): AppMenuBarProps {
   return {
     isLoggedIn: state.auth.currentUser != null,
-    currentUser: state.auth.currentUser
+    currentUser: state.auth.currentUser,
+    basketCount: state.customer.basket.length
   };
 }
 
-const mapDispatchToProps: AppMenuBarComponentDispatchProps = { logout };
-
-export const AppMenuBar = combineContainers(AppMenuBarComponent, [
-  connect(mapStateToProps, mapDispatchToProps),
-  withStyles(styles, { withTheme: true })
-]);
+export default combineContainers(connect(mapStateToProps), withStyles(styles))(AppMenuBar) as React.ComponentType;

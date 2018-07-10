@@ -5,4 +5,4 @@ interface Props {
   date: Date;
 }
 
-export const TimeAgo = (props: Props) => <TA date={props.date} />;
+export default (props: Props) => <TA date={props.date} />;

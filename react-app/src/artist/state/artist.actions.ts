@@ -1,49 +1,34 @@
 import { store } from '@app/state/root.store';
 import { cardService } from '@app/cards/services/card.service';
 import { UserInfo } from 'firebase';
-import {
-  SAVING_CARD_DESIGN,
-  SAVE_CARD_DESIGN,
-  SET_MY_CARD_DESIGNS_LIST,
-  START_WATCHING_CARD_DESIGNS_FOR_USER,
-  DeleteCardDesignArgs,
-  DELETE_CARD_DESIGN,
-  DELETING_CARD_DESIGN
-} from './artist.action-types';
 import { Card } from '@wwc/core';
-import { AnyAction } from 'redux';
+import { action, createStandardAction } from 'typesafe-actions';
 
-export function saveCardDesign(user: UserInfo, card: Card): AnyAction {
-  store.dispatch({
-    type: SAVING_CARD_DESIGN
-  });
-  return {
-    type: SAVE_CARD_DESIGN,
-    payload: cardService.saveCardDesign(user, card)
-  };
-}
+export const START_WATCHING_CARD_DESIGNS_FOR_USER = 'WWC/START_WATCHING_CARD_DESIGNS_FOR_USER';
+export const SET_MY_CARD_DESIGNS_LIST = 'WWC/SET_MY_CARD_DESIGNS_LIST';
+export const SAVING_CARD_DESIGN = 'WWC/SAVING_CARD_DESIGN';
+export const SAVE_CARD_DESIGN = 'WWC/SAVE_CARD_DESIGN';
+export const DELETING_CARD_DESIGN = 'WWC/DELETING_CARD_DESIGN';
+export const DELETE_CARD_DESIGN = 'WWC/DELETE_CARD_DESIGN';
 
-export function setMyCardDesignsList(cards: Card[]): AnyAction {
-  return {
-    type: SET_MY_CARD_DESIGNS_LIST,
-    payload: cards
-  };
-}
+export const savingCardDesign = () => action(SAVING_CARD_DESIGN);
 
-export function startWatchingCardDesignsForUser(user: UserInfo): AnyAction {
+export const saveCardDesign = (args: { user: UserInfo; card: Card }) => {
+  const { user, card } = args;
+  store.dispatch(savingCardDesign());
+  return action(SAVE_CARD_DESIGN, cardService.saveCardDesign(user, card));
+};
+
+export const setMyCardDesignsList = createStandardAction(SET_MY_CARD_DESIGNS_LIST)<Card[]>();
+
+export const startWatchingCardDesignsForUser = (user: UserInfo) => {
   const unsubscribe: Function = cardService.subscribeAndDispatchCardDesigns(user.uid);
-  return {
-    type: START_WATCHING_CARD_DESIGNS_FOR_USER,
-    payload: unsubscribe
-  };
-}
+  return action(START_WATCHING_CARD_DESIGNS_FOR_USER, unsubscribe);
+};
 
-export function deleteCardDesign(args: DeleteCardDesignArgs): AnyAction {
-  store.dispatch({
-    type: DELETING_CARD_DESIGN
-  });
-  return {
-    type: DELETE_CARD_DESIGN,
-    payload: cardService.deleteCardDesignById(args.id)
-  };
-}
+export const deletingCardDesign = () => action(DELETING_CARD_DESIGN);
+
+export const deleteCardDesign = (args: { id: string }) => {
+  store.dispatch(deletingCardDesign());
+  return action(DELETE_CARD_DESIGN, cardService.deleteCardDesignById(args.id));
+};

@@ -7,7 +7,7 @@ interface Props extends MenuItemProps {
   to: string;
 }
 
-export const RouteMenuItem = (props: Props) => {
+export default (props: Props) => {
   const RouteLink = (p: any) => <Link {...p} />;
   return (
     <MenuItem {...props} component={RouteLink} button={true}>

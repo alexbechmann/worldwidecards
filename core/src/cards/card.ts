@@ -2,7 +2,7 @@ import { Page } from '..';
 import { Entity } from '../shared/entity';
 import { UserInfo } from 'firebase';
 
-export class Card implements Entity {
+export interface Card extends Entity {
   id?: string;
   pages: Page[];
   userId: string;
