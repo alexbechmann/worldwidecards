@@ -7,7 +7,7 @@
     "@material-ui/icons": "^1.1.0",
     "@material-ui/lab": "^1.0.0-alpha.4",
     "@wwc/core": "file:../core",
-    "combine-containers": "0.0.3-alpha",
+    "combine-containers": "^0.1.3-alpha",
     "deep-freeze": "0.0.1",
     "firebase": "^4.13.1",
     "konva": "^2.0.3",

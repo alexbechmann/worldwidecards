@@ -27,7 +27,7 @@ export interface CardDesignerControlsProps {
   card?: Card;
   saving: boolean;
   activePageIndex: number;
-  saveCardDesign: (user: UserInfo, card: Card) => any;
+  saveCardDesign: (args: { user: UserInfo; card: Card }) => any;
   mode: DesignerMode;
 }
 
@@ -68,13 +68,18 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
             aria-label="Save"
             color="secondary"
             onClick={() =>
-              this.props.saveCardDesign(this.props.currentUser!, this.props.card!).then((c: any) => {
-                if (this.props.mode === DesignerMode.Artist) {
-                  this.props.history.push(routes.myDesigns.build());
-                } else if (this.props.mode === DesignerMode.Customer) {
-                  // redirect to basket
-                }
-              })
+              this.props
+                .saveCardDesign({
+                  user: this.props.currentUser!,
+                  card: this.props.card!
+                })
+                .then(() => {
+                  if (this.props.mode === DesignerMode.Artist) {
+                    this.props.history.push(routes.myDesigns.build());
+                  } else if (this.props.mode === DesignerMode.Customer) {
+                    // redirect to basket
+                  }
+                })
             }
           >
             <Icons.Save />
@@ -145,7 +150,7 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
 }
 
 interface CardDesignControlsExtendedProps {
-  saveCardDesign: (user: UserInfo, card: Card) => any;
+  saveCardDesign: (args: { user: UserInfo; card: Card }) => any;
 }
 
 function mapStateToProps(state: AppState, ownProps: CardDesignControlsExtendedProps): CardDesignerControlsProps {
@@ -160,6 +165,7 @@ function mapStateToProps(state: AppState, ownProps: CardDesignControlsExtendedPr
 }
 
 export const CardDesignControls: React.ComponentType<CardDesignControlsExtendedProps> = combineContainers(
-  CardDesignControlsComponent,
-  [connect(mapStateToProps), withStyles(styles), withRouter]
-);
+  connect(mapStateToProps),
+  withStyles(styles),
+  withRouter
+)(CardDesignControlsComponent);

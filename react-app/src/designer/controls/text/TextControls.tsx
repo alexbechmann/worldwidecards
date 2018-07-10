@@ -121,6 +121,6 @@ function mapStateToProps(state: AppState, ownProps: TextControlsExtendedProps): 
   };
 }
 
-export default combineContainers(TextControls, [withStyles(styles), connect(mapStateToProps)]) as React.ComponentType<
+export default combineContainers(withStyles(styles), connect(mapStateToProps))(TextControls) as React.ComponentType<
   TextControlsExtendedProps
 >;

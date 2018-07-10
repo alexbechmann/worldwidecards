@@ -230,7 +230,6 @@ function mapStateToProps(state: AppState, ownProps: ImageControlsExtendedProps):
   };
 }
 
-export default combineContainers(ImageControls, [
-  connect(mapStateToProps),
-  withStyles(styles, { withTheme: true })
-]) as React.ComponentType<ImageControlsExtendedProps>;
+export default combineContainers(connect(mapStateToProps), withStyles(styles, { withTheme: true }))(
+  ImageControls
+) as React.ComponentType<ImageControlsExtendedProps>;

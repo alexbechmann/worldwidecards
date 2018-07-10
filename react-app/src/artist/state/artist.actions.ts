@@ -13,7 +13,8 @@ export const DELETE_CARD_DESIGN = 'WWC/DELETE_CARD_DESIGN';
 
 export const savingCardDesign = () => action(SAVING_CARD_DESIGN);
 
-export const saveCardDesign = (user: UserInfo, card: Card) => {
+export const saveCardDesign = (args: { user: UserInfo; card: Card }) => {
+  const { user, card } = args;
   store.dispatch(savingCardDesign());
   return action(SAVE_CARD_DESIGN, cardService.saveCardDesign(user, card));
 };

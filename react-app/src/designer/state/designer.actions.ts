@@ -67,12 +67,11 @@ export const setActiveCard = createAction(SET_ACTIVE_CARD, resolveAction => {
         resolve(payload);
       });
     } else {
-      const p = {
+      actionPayload = {
         user: args.user,
         mode: args.mode,
         card: undefined
       };
-      actionPayload = p;
     }
 
     return resolveAction(actionPayload as SetActiveCardPayload);

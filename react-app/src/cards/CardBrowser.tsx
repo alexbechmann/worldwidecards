@@ -95,4 +95,4 @@ class CardBrowser extends React.Component<Props> {
   }
 }
 
-export default combineContainers(CardBrowser, [withStyles(styles), connect()]) as React.ComponentType<CardBrowserProps>;
+export default combineContainers(withStyles(styles), connect())(CardBrowser) as React.ComponentType<CardBrowserProps>;

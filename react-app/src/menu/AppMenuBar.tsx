@@ -12,7 +12,8 @@ import {
   ListItemIcon,
   ListItemText,
   Theme,
-  StyleRulesCallback
+  StyleRulesCallback,
+  Badge
 } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { routes } from '@app/shared/router/routes';
@@ -29,6 +30,7 @@ import { ConnectedReduxProps } from '@app/state/connected-redux-props';
 interface AppMenuBarProps {
   isLoggedIn: boolean;
   currentUser?: UserInfo;
+  basketCount: number;
 }
 
 interface Props extends AppMenuBarProps, ConnectedReduxProps, WithStyles<ClassNames> {}
@@ -82,6 +84,11 @@ class AppMenuBar extends React.Component<Props, State> {
               <RouteButton color="inherit" to={routes.customerDesigner.build()}>
                 New Card
               </RouteButton>
+              <IconButton>
+                <Badge badgeContent={this.props.basketCount} color="secondary">
+                  <Icons.ShoppingBasket />
+                </Badge>
+              </IconButton>
             </Hidden>
             {this.renderAvatar()}
           </Toolbar>
@@ -145,11 +152,9 @@ class AppMenuBar extends React.Component<Props, State> {
 function mapStateToProps(state: AppState): AppMenuBarProps {
   return {
     isLoggedIn: state.auth.currentUser != null,
-    currentUser: state.auth.currentUser
+    currentUser: state.auth.currentUser,
+    basketCount: state.customer.basket.length
   };
 }
 
-export default combineContainers(AppMenuBar, [
-  connect(mapStateToProps),
-  withStyles(styles, { withTheme: true })
-]) as React.ComponentType;
+export default combineContainers(connect(mapStateToProps), withStyles(styles))(AppMenuBar) as React.ComponentType;

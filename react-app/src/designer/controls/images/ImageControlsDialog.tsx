@@ -80,7 +80,6 @@ function mapStateToProps(state: AppState, ownProps: ImageControlsDialogProps): I
   };
 }
 
-export default combineContainers(ImageControlsDialog, [
-  connect(mapStateToProps),
-  withStyles(styles, { withTheme: true })
-]) as React.ComponentType<ImageControlsDialogExtendedProps>;
+export default combineContainers(connect(mapStateToProps), withStyles(styles, { withTheme: true }))(
+  ImageControlsDialog
+) as React.ComponentType<ImageControlsDialogExtendedProps>;

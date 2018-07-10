@@ -75,7 +75,6 @@ function mapStateToProps(state: AppState, ownProps: TextControlsDialogExtendedPr
   };
 }
 
-export default combineContainers(TextControlsDialog, [
-  withStyles(styles),
-  connect(mapStateToProps)
-]) as React.ComponentType<TextControlsDialogExtendedProps>;
+export default combineContainers(withStyles(styles), connect(mapStateToProps))(
+  TextControlsDialog
+) as React.ComponentType<TextControlsDialogExtendedProps>;

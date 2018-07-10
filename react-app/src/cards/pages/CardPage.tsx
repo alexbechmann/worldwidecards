@@ -211,6 +211,6 @@ function mapStateToProps(state: AppState, ownProps: CardPageExtendedProps): Card
   };
 }
 
-export default combineContainers(CardPage, [withTheme(), connect(mapStateToProps)]) as React.ComponentType<
+export default combineContainers(withTheme(), connect(mapStateToProps))(CardPage) as React.ComponentType<
   CardPageExtendedProps
 >;

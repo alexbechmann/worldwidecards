@@ -81,7 +81,7 @@ interface CardDesignerProps {
   deleting: boolean;
   mode: DesignerMode;
   activePageIndex: number;
-  saveCardDesign: (user: UserInfo, card: Card) => any;
+  saveCardDesign: (args: { user: UserInfo; card: Card }) => any;
 }
 
 interface RouteParameters {
@@ -373,7 +373,7 @@ class CardDesigner extends React.Component<Props, State> {
 export interface CardDesignerExtendedProps {
   mode: DesignerMode;
   deleting: boolean;
-  saveCardDesign: (user: UserInfo, card: Card) => any;
+  saveCardDesign: (args: { user: UserInfo; card: Card }) => any;
 }
 
 function mapStateToProps(state: AppState, ownProps: CardDesignerExtendedProps): CardDesignerProps {
@@ -390,7 +390,6 @@ function mapStateToProps(state: AppState, ownProps: CardDesignerExtendedProps): 
   };
 }
 
-export default combineContainers(CardDesigner, [
-  withStyles(styles, { withTheme: true }),
-  connect(mapStateToProps)
-]) as React.ComponentType<CardDesignerExtendedProps>;
+export default combineContainers(withStyles(styles, { withTheme: true }), connect(mapStateToProps))(
+  CardDesigner
+) as React.ComponentType<CardDesignerExtendedProps>;
