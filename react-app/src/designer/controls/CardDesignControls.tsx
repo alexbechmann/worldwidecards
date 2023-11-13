@@ -3,19 +3,18 @@ import { withStyles, Theme, WithStyles } from '@material-ui/core/styles';
 import { Tooltip, IconButton, MenuItem, Menu } from '@material-ui/core';
 import { Card } from '@wwc/core';
 import { UserInfo } from 'firebase';
-import { AddTextShapeArgs } from '@app/designer/state/designer.action-types';
-import { DeleteCardDesignArgs } from '@app/artist/state/artist.action-types';
 import { DesignerMode } from '@app/designer/designer-mode';
 import { RouterProps, RouteComponentProps, withRouter } from 'react-router';
 import { routes } from '@app/shared/router/routes';
 import * as Icons from '@material-ui/icons';
-import { addTextShape } from '@app/designer/state/designer.actions';
 import { deleteCardDesign } from '@app/artist/state/artist.actions';
 import { combineContainers } from 'combine-containers';
 import { connect } from 'react-redux';
 import { AppState } from '@app/state/app.state';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
+import { addTextShape } from '@app/designer/state/designer.actions';
 
-type StyleClassNames = 'button';
+type ClassNames = 'button';
 
 const styles = (theme: Theme) => ({
   button: {
@@ -23,17 +22,12 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export interface DispatchProps {
-  addTextShape: (args: AddTextShapeArgs) => any;
-  deleteCardDesign: (args: DeleteCardDesignArgs) => any;
-}
-
-export interface ConnectProps {
+export interface CardDesignerControlsProps {
   currentUser?: UserInfo;
   card?: Card;
   saving: boolean;
   activePageIndex: number;
-  saveCardDesign: (user: UserInfo, card: Card) => any;
+  saveCardDesign: (args: { user: UserInfo; card: Card }) => any;
   mode: DesignerMode;
 }
 
@@ -43,11 +37,11 @@ interface State {
 }
 
 interface Props
-  extends DispatchProps,
-    ConnectProps,
+  extends ConnectedReduxProps,
+    CardDesignerControlsProps,
     RouterProps,
     RouteComponentProps<{ id: string }>,
-    WithStyles<StyleClassNames> {}
+    WithStyles<ClassNames> {}
 
 class CardDesignControlsComponent extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -74,13 +68,18 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
             aria-label="Save"
             color="secondary"
             onClick={() =>
-              this.props.saveCardDesign(this.props.currentUser!, this.props.card!).then((c: any) => {
-                if (this.props.mode === DesignerMode.Artist) {
-                  this.props.history.push(routes.myDesigns.build());
-                } else if (this.props.mode === DesignerMode.Customer) {
-                  // redirect to basket
-                }
-              })
+              this.props
+                .saveCardDesign({
+                  user: this.props.currentUser!,
+                  card: this.props.card!
+                })
+                .then(() => {
+                  if (this.props.mode === DesignerMode.Artist) {
+                    this.props.history.push(routes.myDesigns.build());
+                  } else if (this.props.mode === DesignerMode.Customer) {
+                    // redirect to basket
+                  }
+                })
             }
           >
             <Icons.Save />
@@ -95,13 +94,13 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
               disabled={this.props.saving}
               onClick={() => {
                 if (this.props.card && this.props.card.id && window.confirm('Are you sure?')) {
-                  this.props
-                    .deleteCardDesign({
-                      id: this.props.card.id
-                    })
-                    .then(() => {
-                      this.props.history.push(routes.myDesigns.build());
-                    });
+                  const action = deleteCardDesign({
+                    id: this.props.card.id
+                  });
+                  ((action as any) as Promise<any>).then(() => {
+                    this.props.history.push(routes.myDesigns.build());
+                  });
+                  this.props.dispatch(action);
                 }
               }}
             >
@@ -131,10 +130,12 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
         >
           <MenuItem
             onClick={(e: React.MouseEvent<HTMLElement>) => {
-              this.props.addTextShape({
-                pageIndex: this.props.activePageIndex,
-                page: this.props.card!.pages[this.props.activePageIndex]
-              });
+              this.props.dispatch(
+                addTextShape({
+                  pageIndex: this.props.activePageIndex,
+                  page: this.props.card!.pages[this.props.activePageIndex]
+                })
+              );
               this.toggleDrawer();
             }}
           >
@@ -148,11 +149,11 @@ class CardDesignControlsComponent extends React.Component<Props, State> {
   }
 }
 
-interface CardDesignControlsProps {
-  saveCardDesign: (user: UserInfo, card: Card) => any;
+interface CardDesignControlsExtendedProps {
+  saveCardDesign: (args: { user: UserInfo; card: Card }) => any;
 }
 
-function mapStateToProps(state: AppState, ownProps: Props): ConnectProps {
+function mapStateToProps(state: AppState, ownProps: CardDesignControlsExtendedProps): CardDesignerControlsProps {
   return {
     card: state.designer.activeCard,
     saving: state.artist.savingActiveCard || state.artist.deletingActiveCardDesign,
@@ -163,9 +164,8 @@ function mapStateToProps(state: AppState, ownProps: Props): ConnectProps {
   };
 }
 
-const mapDispatchToProps: DispatchProps = { addTextShape, deleteCardDesign };
-
-export const CardDesignControls: React.ComponentType<CardDesignControlsProps> = combineContainers(
-  CardDesignControlsComponent,
-  [connect(mapStateToProps, mapDispatchToProps), withStyles(styles), withRouter]
-);
+export const CardDesignControls: React.ComponentType<CardDesignControlsExtendedProps> = combineContainers(
+  connect(mapStateToProps),
+  withStyles(styles),
+  withRouter
+)(CardDesignControlsComponent);

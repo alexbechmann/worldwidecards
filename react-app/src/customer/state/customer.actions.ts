@@ -1,25 +1,18 @@
 import { UserInfo } from 'firebase';
 import { Card } from '@wwc/core';
-import { CUSTOMER_ADD_CARD_TO_BASKET, START_WATCHING_ALL_CARD_DESIGNS, SET_CARDS_LIST } from './customer.action-types';
 import { cardService } from '@app/cards/services/card.service';
-import { AnyAction } from 'redux';
+import { action, createStandardAction } from 'typesafe-actions';
 
-export const saveCardDesign = (user: UserInfo, card: Card) => ({
-  type: CUSTOMER_ADD_CARD_TO_BASKET,
-  payload: Promise.resolve(console.log(`Adding fake card to basket`, card))
-});
+export const CUSTOMER_ADD_CARD_TO_BASKET = 'WWC/CUSTOMER_ADD_CARD_TO_BASKET';
+export const START_WATCHING_ALL_CARD_DESIGNS = 'WWC/START_WATCHING_ALL_CARD_DESIGNS';
+export const SET_CARDS_LIST = 'WWC/SET_CARDS_LIST';
 
-export function startWatchingAllCardDesigns(): AnyAction {
+export const saveCardDesign = (args: { user: UserInfo; card: Card }) =>
+  action(CUSTOMER_ADD_CARD_TO_BASKET, (Promise.resolve(args) as any) as { user: UserInfo; card: Card });
+
+export const startWatchingAllCardDesigns = () => {
   const unsubscribe: Function = cardService.subscribeAndDispatchAllCardDesigns();
-  return {
-    type: START_WATCHING_ALL_CARD_DESIGNS,
-    payload: unsubscribe
-  };
-}
+  return action(START_WATCHING_ALL_CARD_DESIGNS, unsubscribe);
+};
 
-export function setCardsList(cards: Card[]): AnyAction {
-  return {
-    type: SET_CARDS_LIST,
-    payload: cards
-  };
-}
+export const setCardsList = createStandardAction(SET_CARDS_LIST)<Card[]>();

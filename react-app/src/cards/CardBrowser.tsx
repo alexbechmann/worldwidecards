@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card } from '@wwc/core';
-import { CardPage } from '@app/cards/pages/CardPage';
+import CardPage from '@app/cards/pages/CardPage';
 import {
   Grid,
   Typography,
@@ -11,8 +11,12 @@ import {
   withStyles
 } from '@material-ui/core';
 import { routes } from '@app/shared/router/routes';
-import { RouteButton } from '@app/shared/ui';
+import RouteButton from '@app/shared/ui/RouteButton';
 import { DesignerMode } from '@app/designer/designer-mode';
+import { ConnectedReduxProps } from '@app/state/connected-redux-props';
+import { startWatchingAllCardDesigns } from '@app/customer/state/customer.actions';
+import { combineContainers } from 'combine-containers';
+import { connect } from 'react-redux';
 
 export interface CardBrowserProps {
   designs: Card[];
@@ -23,13 +27,9 @@ export interface CardBrowserProps {
   isSubscribedToCardChanges: boolean;
 }
 
-export interface CardBrowserDispatchProps {
-  startWatchingAllCardDesigns: () => any;
-}
+type ClassNames = 'root' | 'bottomMargin';
 
-type StyleClassNames = 'root' | 'bottomMargin';
-
-const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
+const styles: StyleRulesCallback<ClassNames> = (theme: Theme) => ({
   root: {
     margin: theme.spacing.unit * 2
   },
@@ -38,9 +38,9 @@ const styles: StyleRulesCallback<StyleClassNames> = (theme: Theme) => ({
   }
 });
 
-interface Props extends CardBrowserProps, CardBrowserDispatchProps, WithStyles<StyleClassNames> {}
+interface Props extends CardBrowserProps, ConnectedReduxProps, WithStyles<ClassNames> {}
 
-class CardBrowserComponent extends React.Component<Props> {
+class CardBrowser extends React.Component<Props> {
   render() {
     return (
       <div className={this.props.classes.root}>
@@ -73,7 +73,7 @@ class CardBrowserComponent extends React.Component<Props> {
 
   componentDidMount() {
     if (this.props.mode === DesignerMode.Customer && !this.props.isSubscribedToCardChanges) {
-      this.props.startWatchingAllCardDesigns();
+      this.props.dispatch(startWatchingAllCardDesigns());
     }
   }
 
@@ -95,4 +95,4 @@ class CardBrowserComponent extends React.Component<Props> {
   }
 }
 
-export const CardBrowser = withStyles(styles)(CardBrowserComponent);
+export default combineContainers(withStyles(styles), connect())(CardBrowser) as React.ComponentType<CardBrowserProps>;

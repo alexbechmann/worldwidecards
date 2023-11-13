@@ -5,9 +5,10 @@ queue:
 steps:
 - task: Npm@1
   inputs:
-    command: 'install'
+    command: 'custom'
     workingDir: ''
     verbose: 'false'
+    customCommand: 'install --ignore-scripts'
 
 - task: Npm@1
   inputs:
